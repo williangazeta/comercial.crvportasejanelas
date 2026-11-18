@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Planner Comercial & Rotina CRV (Nov/2026 – Jun/2027)</title>
+  <title>Planner Comercial & Rotina — CRV Portas e Janelas</title>
+  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -30,17 +32,18 @@
     .drag-over-zone {
       outline: 2px dashed #2563eb !important;
       background-color: #eff6ff !important;
-      transform: scale(1.005);
     }
     .drag-over-showroom {
       outline: 2px dashed #ea580c !important;
       background-color: #fff7ed !important;
-      transform: scale(1.005);
     }
     .drag-over-fabrica {
       outline: 2px dashed #0d9488 !important;
       background-color: #f0fdfa !important;
-      transform: scale(1.005);
+    }
+    .drag-over-day {
+      outline: 2px dashed #0284c7 !important;
+      background-color: #e0f2fe !important;
     }
     .dragging-card {
       opacity: 0.45;
@@ -50,20 +53,27 @@
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
-  <!-- Toast Container -->
+  <!-- Toast Notification Container -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Confirm Modal -->
-  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200">
-      <div class="flex items-center gap-3 mb-3">
-        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-lg">!</div>
-        <h3 id="confirm-title" class="text-lg font-bold text-slate-900">Confirmar Ação</h3>
+  <!-- GitHub Pages Quick Guide Modal -->
+  <div id="github-help-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 border border-slate-200">
+      <div class="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">Publicação Fixa</span>
+          <h3 class="text-lg font-extrabold text-slate-900 mt-2">Como manter seu link no GitHub Pages sem erro 404</h3>
+        </div>
+        <button onclick="closeGithubHelpModal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition">✕</button>
       </div>
-      <p id="confirm-message" class="text-sm text-slate-600 mb-6 leading-relaxed">Tem certeza que deseja continuar?</p>
-      <div class="flex justify-end gap-3">
-        <button id="confirm-cancel-btn" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">Cancelar</button>
-        <button id="confirm-ok-btn" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 shadow-sm transition">Confirmar</button>
+      <ol class="space-y-3 text-xs sm:text-sm text-slate-600 list-decimal pl-5 leading-relaxed">
+        <li>Baixe este arquivo e garanta que o nome seja <strong>exatamente <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-900 font-bold">index.html</code></strong> (todo em minúsculo, sem <code>(1)</code> no nome).</li>
+        <li>No seu repositório <strong>comercial-crvportasejanelas</strong> no GitHub, clique em <strong>Add file → Upload files</strong> e envie o <code>index.html</code> diretamente na <strong>raiz</strong> (não dentro de pasta).</li>
+        <li>Clique em <strong>Commit changes</strong> e aguarde ~40 segundos (bolinha verde na aba <strong>Actions</strong>).</li>
+        <li>Suas edições ficam salvas automaticamente no navegador (<code class="bg-slate-100 px-1 py-0.5 rounded">localStorage</code>) no endereço fixo do GitHub Pages.</li>
+      </ol>
+      <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
+        <button onclick="closeGithubHelpModal()" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 transition">Entendi</button>
       </div>
     </div>
   </div>
@@ -97,21 +107,21 @@
             <label class="cursor-pointer">
               <input type="radio" name="schedule-front" value="gerente" class="peer sr-only" checked />
               <div class="p-3 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50/70 transition h-full">
-                <div class="font-bold text-xs sm:text-sm text-blue-900"><span class="text-base">✈</span> Viagem Gerente</div>
+                <div class="font-bold text-xs sm:text-sm text-blue-900">✈ Viagem Gerente</div>
                 <div class="text-[11px] text-slate-500 mt-0.5">Roda com rep + treino em lojas</div>
               </div>
             </label>
             <label class="cursor-pointer">
               <input type="radio" name="schedule-front" value="showroom" class="peer sr-only" />
               <div class="p-3 rounded-xl border-2 border-slate-200 peer-checked:border-orange-600 peer-checked:bg-orange-50/70 transition h-full">
-                <div class="font-bold text-xs sm:text-sm text-orange-900"><span class="text-base">🚐</span> Carro Showroom</div>
+                <div class="font-bold text-xs sm:text-sm text-orange-900">🚐 Carro Showroom</div>
                 <div class="text-[11px] text-slate-500 mt-0.5">Operação indep. ou conjunta</div>
               </div>
             </label>
             <label class="cursor-pointer">
               <input type="radio" name="schedule-front" value="fabrica" class="peer sr-only" />
               <div class="p-3 rounded-xl border-2 border-slate-200 peer-checked:border-teal-600 peer-checked:bg-teal-50/70 transition h-full">
-                <div class="font-bold text-xs sm:text-sm text-teal-900"><span class="text-base">🏭</span> Visita à Fábrica</div>
+                <div class="font-bold text-xs sm:text-sm text-teal-900">🏭 Visita à Fábrica</div>
                 <div class="text-[11px] text-slate-500 mt-0.5">Imersão CRV / lojistas / rep</div>
               </div>
             </label>
@@ -130,7 +140,7 @@
     </div>
   </div>
 
-  <!-- Day Customizer Modal -->
+  <!-- Day Customizer Modal (Click any calendar day to customize, clear or restore) -->
   <div id="day-editor-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 border border-slate-200">
       <div class="flex items-start justify-between gap-4 mb-4">
@@ -147,7 +157,7 @@
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">1. Tipo / Status deste Dia</label>
+          <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">1. Categoria / Status deste Dia</label>
           <select id="day-editor-type" onchange="onDayEditorTypeChange()" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm font-bold text-slate-800 focus:border-blue-500 focus:bg-white focus:outline-none">
             <option value="DEFAULT">🔄 Seguir Padrão da Semana (Automático)</option>
             <option value="GERENTE">✈ Viagem Gerente</option>
@@ -155,8 +165,8 @@
             <option value="FABRICA">🏭 Visita à Fábrica</option>
             <option value="BASE">🏢 Base / Escritório</option>
             <option value="FERIADO">🎉 Feriado / Folga</option>
-            <option value="CANCELADO">✕ Dia Cancelado / Livre</option>
             <option value="CUSTOM">📌 Personalizado (Livre)</option>
+            <option value="EMPTY">⬜ Excluir Dia (Deixar em Branco)</option>
           </select>
         </div>
 
@@ -182,38 +192,61 @@
 
       <div class="flex flex-wrap items-center justify-between gap-2 mt-6 pt-4 border-t border-slate-100">
         <div class="flex flex-wrap items-center gap-1.5">
-          <button onclick="cancelDayDirectly(editingDayISO)" class="px-3 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition">
-            ✕ Cancelar este Dia
+          <button onclick="clearDayFromModal()" class="px-3 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition">
+            ✕ Excluir Dia (Deixar Vazio)
           </button>
           <button onclick="resetDayOverride()" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition">
             ↺ Restaurar Padrão
           </button>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="closeDayEditorModal()" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">Fechar</button>
+          <button onclick="closeDayEditorModal()" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">Cancelar</button>
           <button onclick="saveDayOverride()" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 shadow-sm transition">Salvar Dia</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Top Navigation Header -->
+  <!-- Top Navigation Header (Clean layout with large official CRV logo) -->
   <header class="sticky top-0 z-40 bg-slate-900 text-white shadow-lg border-b border-slate-800">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-3.5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
-      <div class="flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center font-extrabold text-white shadow-md text-sm tracking-tight">
-            CRV
-          </div>
-          <div>
-            <h1 class="text-base sm:text-lg font-bold tracking-tight text-white leading-tight">
-              Planner Comercial & Rotina — CRV Portas e Janelas <span class="text-blue-400 font-semibold">(Nov/2026 – Jun/2027)</span>
-            </h1>
-            <p class="text-xs text-slate-400">Gestão de Viagens (Seg–Sex), Carro Showroom, Visita à Fábrica, Treinamentos & Carteira Varejo</p>
-          </div>
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3.5">
+        <div class="w-16 h-16 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-md shrink-0 border border-slate-200/40" title="CRV Portas e Janelas">
+          <!-- High-definition Vector Emblem faithful to CRV Portas & Janelas brand -->
+          <svg viewBox="0 0 120 128" class="w-full h-full" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CRV Portas e Janelas">
+            <defs>
+              <linearGradient id="crvBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0284c7" />
+                <stop offset="100%" stop-color="#00529b" />
+              </linearGradient>
+              <linearGradient id="crvSilver" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#94a3b8" />
+                <stop offset="50%" stop-color="#475569" />
+                <stop offset="100%" stop-color="#64748b" />
+              </linearGradient>
+            </defs>
+            <!-- Outer and inner concentric portal rings -->
+            <path d="M 33 78 A 34 34 0 1 1 87 78 L 82 73 A 27 27 0 1 0 38 73 Z" fill="url(#crvBlue)" />
+            <path d="M 39 71 A 23 23 0 1 1 81 71 L 76 67 A 17 17 0 1 0 44 67 Z" fill="url(#crvBlue)" />
+            <!-- White cutout mask for architectural portal -->
+            <rect x="36" y="25" width="48" height="58" fill="#ffffff" />
+            <!-- Architectural nested portal frames -->
+            <path d="M 39 81 V 28 H 81 V 81 H 75 V 34 H 45 V 81 Z" fill="url(#crvBlue)" />
+            <path d="M 48 81 V 37 H 72 V 81 H 66 V 43 H 54 V 81 Z" fill="url(#crvBlue)" />
+            <!-- CRV Typography -->
+            <text x="60" y="106" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="900" font-size="27" letter-spacing="1.5" fill="url(#crvSilver)">CRV</text>
+            <text x="60" y="119" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="7.4" letter-spacing="1.1" fill="#0f172a">PORTAS &amp; JANELAS</text>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-extrabold tracking-tight text-white leading-snug">
+            Planner Comercial & Rotina — CRV Portas e Janelas
+          </h1>
         </div>
       </div>
 
+      <!-- Main Navigation Tabs -->
       <nav class="flex flex-wrap items-center gap-1.5 bg-slate-800/90 p-1 rounded-xl border border-slate-700/80">
         <button id="tab-btn-mensal" onclick="switchTab('mensal')" class="tab-btn px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 bg-blue-600 text-white shadow-xs">
           <span>🗓️ Planner Mensal</span>
@@ -229,74 +262,27 @@
         </button>
       </nav>
 
+      <!-- Global Actions & Auto-Save Indicator -->
       <div class="flex flex-wrap items-center gap-2">
-        <span id="save-indicator" class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-300 bg-emerald-950/70 border border-emerald-800/80 px-2.5 py-1.5 rounded-lg">
+        <span id="save-indicator" class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-300 bg-emerald-950/70 border border-emerald-800/80 px-3 py-1.5 rounded-lg">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           Salvo automaticamente
         </span>
-        <button onclick="exportCSV()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
+        <button onclick="exportCSV()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5" title="Exportar planejamento completo para CSV">
           <span>📥 Exportar CSV</span>
         </button>
-        <button onclick="promptResetDefault()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-950/70 hover:bg-rose-900/90 text-rose-200 border border-rose-800/80 transition">
-          ↺ Restaurar Padrão Original
+        <button onclick="openGithubHelpModal()" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" title="Instruções rápidas do link fixo no GitHub Pages">
+          ? GitHub
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Workspace -->
-  <main class="max-w-[1600px] mx-auto px-4 sm:px-6 py-5 space-y-5">
-
-    <!-- Global Real-Time KPIs Bar -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-      <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-xs flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Viagem Gerente</p>
-          <p id="kpi-gerente-weeks" class="text-2xl font-extrabold text-blue-700 mt-0.5">0</p>
-          <p class="text-[11px] text-slate-400">semanas (Seg–Sex)</p>
-        </div>
-        <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl">✈</div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-xs flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Carro Showroom</p>
-          <p id="kpi-showroom-weeks" class="text-2xl font-extrabold text-orange-600 mt-0.5">0</p>
-          <p class="text-[11px] text-slate-400">semanas operação</p>
-        </div>
-        <div class="w-11 h-11 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-2xl">🚐</div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-xs flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Visita à Fábrica</p>
-          <p id="kpi-fabrica-weeks" class="text-2xl font-extrabold text-teal-700 mt-0.5">0</p>
-          <p id="kpi-fabrica-days" class="text-[11px] text-slate-400">0 sem. / 0 dias avulsos</p>
-        </div>
-        <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl">🏭</div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-xs flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Base / Disponível</p>
-          <p id="kpi-base-weeks" class="text-2xl font-extrabold text-slate-700 mt-0.5">0</p>
-          <p class="text-[11px] text-slate-400">escritório & D-7</p>
-        </div>
-        <div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-2xl">🏢</div>
-      </div>
-
-      <div class="col-span-2 sm:col-span-1 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-3.5 shadow-xs flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-slate-300 uppercase tracking-wider">Fat. 2026 Coberto</p>
-          <p id="kpi-covered-revenue" class="text-lg sm:text-xl font-extrabold text-emerald-400 mt-0.5">R$ 0</p>
-          <p id="kpi-covered-pct" class="text-[11px] text-slate-400">0% da carteira</p>
-        </div>
-        <div class="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-2xl">💰</div>
-      </div>
-    </div>
+  <main class="max-w-[1600px] mx-auto px-4 sm:px-6 py-5">
 
     <!-- ===================================================================== -->
-    <!-- TAB 1: PLANNER MENSAL VERTICAL (COLUNA ÚNICA: NOV/2026 – JUN/2027)    -->
+    <!-- TAB 0: PLANNER MENSAL VERTICAL (COLUNA ÚNICA: NOV/2026 – JUN/2027)    -->
     <!-- ===================================================================== -->
     <section id="view-mensal" class="space-y-5">
 
@@ -306,7 +292,7 @@
           <div class="flex flex-wrap items-center gap-2.5">
             <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Visualizar Mês:</span>
             <select id="mensal-month-select" onchange="renderMonthlyPlanner()" class="rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2 text-xs sm:text-sm font-bold text-slate-800 focus:border-blue-500 focus:bg-white focus:outline-none">
-              <option value="ALL">Todos os 8 Meses (Vertical)</option>
+              <option value="ALL">Todos os 8 Meses (Sequência Vertical Nov/2026 – Jun/2027)</option>
               <option value="2026-11">Novembro / 2026</option>
               <option value="2026-12">Dezembro / 2026</option>
               <option value="2027-01">Janeiro / 2027</option>
@@ -316,51 +302,46 @@
               <option value="2027-05">Maio / 2027</option>
               <option value="2027-06">Junho / 2027</option>
             </select>
-            <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/70">
-              ⬇️ Exibição Vertical (1 mês abaixo do outro)
-            </span>
           </div>
 
+          <!-- Dynamic Period Summary Pills -->
           <div id="mensal-summary-pills" class="flex flex-wrap items-center gap-2 text-xs"></div>
         </div>
 
-        <!-- Legend Bar with Larger Icons -->
-        <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100 text-xs font-semibold">
+        <!-- Legend Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100 text-[11px] font-semibold">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-900 border border-blue-200">
-              <span class="text-base leading-none">✈</span> Viagem Gerente (Seg–Sex)
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">
+              <span class="text-sm">✈</span> Viagem Gerente (Seg–Sex)
             </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-50 text-orange-900 border border-orange-200">
-              <span class="text-base leading-none">🚐</span> Carro Showroom (Independente)
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-50 text-orange-800 border border-orange-200">
+              <span class="text-sm">🚐</span> Carro Showroom (Independente)
             </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-teal-50 text-teal-900 border border-teal-200">
-              <span class="text-base leading-none">🏭</span> Visita à Fábrica
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-teal-50 text-teal-800 border border-teal-200">
+              <span class="text-sm">🏭</span> Visita à Fábrica
             </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-50 text-purple-900 border border-purple-200">
-              <span class="text-base leading-none">🟣</span> Múltiplas Frentes na Semana
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-50 text-purple-800 border border-purple-200">
+              <span class="text-sm">🟣</span> 2+ Frentes na Semana
             </span>
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">
-              <span class="text-base leading-none">🏢</span> Base / Disponível
+              <span class="text-sm">🏢</span> Base / Disponível
             </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-200">
-              <span class="text-base leading-none">🎉</span> Feriado Nacional
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-50 text-rose-800 border border-rose-200">
-              <span class="font-extrabold">✕</span> Dia Cancelado
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200">
+              <span class="text-sm">🎉</span> Feriado Nacional
             </span>
           </div>
-          <span class="text-slate-500 text-[11px] font-medium">💡 Clique no <strong>✕</strong> do dia para cancelar só aquele dia ou clique no dia para editar</span>
+          <span class="text-slate-500 font-medium">💡 <strong>Arraste blocos</strong> entre dias, clique no <strong>✕</strong> para deixar o dia em branco ou clique no dia para editar</span>
         </div>
       </div>
 
-      <!-- Two-Column Layout: Left Sidebar (310px) + Right Single-Column Vertical Monthly Calendars -->
-      <div class="flex flex-col lg:flex-row gap-5 items-start">
+      <!-- Two-Column Layout: Draggable Reps Sidebar + Single-Column Vertical Monthly Calendars -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
 
-        <!-- Left Sidebar: Draggable Reps (62) -->
-        <aside class="w-full lg:w-[310px] shrink-0 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)]">
+        <!-- Left Sidebar: Compact Draggable Reps for Monthly Planner -->
+        <aside class="lg:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)]">
           <div class="p-3.5 border-b border-slate-100 space-y-2.5">
             <div class="flex items-center justify-between">
-              <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">👥 Arrastar Representante (62)</h2>
+              <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">👥 Arrastar Representante</h2>
               <span id="mensal-sidebar-count" class="text-[11px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">62</span>
             </div>
             <div class="relative">
@@ -368,39 +349,98 @@
               <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs">🔍</span>
             </div>
             <select id="mensal-rep-pilar" onchange="renderMonthlySidebar()" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none">
-              <option value="ALL">Todos os Pilares Estratégicos</option>
-              <option value="1. Crítico / Avaliar Continuidade">1. Crítico / Avaliar Continuidade</option>
+              <option value="ALL">Todos os Pilares</option>
+              <option value="1. Crítico / Avaliar Continuidade">1. Crítico</option>
               <option value="2. Intervenção em Campo">2. Intervenção em Campo</option>
-              <option value="3. Expansão / Novos & Tração">3. Expansão / Novos & Tração</option>
-              <option value="4. Manutenção / Carteira Estável">4. Manutenção / Carteira Estável</option>
-              <option value="5. Inativo / Encerrado">5. Inativo / Encerrado</option>
+              <option value="3. Expansão / Novos & Tração">3. Expansão</option>
+              <option value="4. Manutenção / Carteira Estável">4. Manutenção</option>
             </select>
           </div>
           <div id="mensal-sidebar-list" class="p-2.5 space-y-2 overflow-y-auto flex-1 max-h-[380px] lg:max-h-none"></div>
         </aside>
 
-        <!-- Right Area: 8 Months Stacked Vertically (100% Width, Single Column Only) -->
-        <div id="mensal-calendars-container" class="flex-1 min-w-0 w-full flex flex-col gap-6"></div>
+        <!-- Right Area: 8 Months Stacked Vertically (Single Column Only) -->
+        <div id="mensal-calendars-container" class="lg:col-span-9 flex flex-col gap-6"></div>
 
       </div>
     </section>
 
     <!-- ===================================================================== -->
-    <!-- TAB 2: PLANNER SEMANAL (DRAG & DROP)                                  -->
+    <!-- TAB 1: PLANNER SEMANAL (DRAG & DROP)                                  -->
     <!-- ===================================================================== -->
     <section id="view-planner" class="hidden space-y-5">
 
+      <!-- Dynamic KPI Top Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Viagem Gerente</p>
+            <p id="kpi-gerente-weeks" class="text-2xl font-extrabold text-blue-700 mt-1">0</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">semanas (Seg–Sex)</p>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">✈</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Carro Showroom</p>
+            <p id="kpi-showroom-weeks" class="text-2xl font-extrabold text-orange-600 mt-1">0</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">semanas operação</p>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl">🚐</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Visita à Fábrica</p>
+            <p id="kpi-fabrica-weeks" class="text-2xl font-extrabold text-teal-700 mt-1">0</p>
+            <p id="kpi-fabrica-days" class="text-[11px] text-slate-400 mt-0.5">semanas / 0 dias avulsos</p>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl">🏭</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Base / Disponível</p>
+            <p id="kpi-base-weeks" class="text-2xl font-extrabold text-slate-700 mt-1">0</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">escritório & D-7</p>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl">🏢</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Reps em Campo</p>
+            <p id="kpi-covered-reps" class="text-2xl font-extrabold text-indigo-700 mt-1">0</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">de 62 representantes</p>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">🎯</div>
+        </div>
+
+        <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-4 shadow-xs flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Fat. 2026 Coberto</p>
+            <p id="kpi-covered-revenue" class="text-lg sm:text-xl font-extrabold text-emerald-400 mt-1">R$ 0</p>
+            <p id="kpi-covered-pct" class="text-[11px] text-slate-400 mt-0.5">0% da carteira</p>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xl">💰</div>
+        </div>
+      </div>
+
+      <!-- Two-Column Workspace: Left Reps Sidebar + Right 33-Weeks Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
 
         <!-- LEFT COLUMN: 62 Representatives Draggable List -->
-        <aside class="lg:col-span-4 xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)]">
+        <aside class="lg:col-span-4 xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)]">
           <div class="p-4 border-b border-slate-100 space-y-3">
             <div class="flex items-center justify-between">
-              <h2 class="text-sm font-bold text-slate-900">👥 Carteira (62 Reps)</h2>
+              <h2 class="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                <span>👥 Carteira (62 Reps)</span>
+              </h2>
               <span id="sidebar-reps-count" class="text-xs font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">62</span>
             </div>
             <p class="text-[11px] text-slate-500 leading-snug">
-              Arraste um representante para qualquer semana ao lado ou use os botões rápidos <strong>+ Gerente</strong> / <strong>+ Showroom</strong> / <strong>+ Fábrica</strong>.
+              Arraste um representante para qualquer semana ao lado ou use os botões rápidos <strong>+ Gerente</strong>, <strong>+ Showroom</strong> ou <strong>+ Fábrica</strong>.
             </p>
 
             <div class="relative">
@@ -430,6 +470,7 @@
         <!-- RIGHT MAIN AREA: 33 Weeks Planner Grid -->
         <div class="lg:col-span-8 xl:col-span-9 space-y-4">
 
+          <!-- Weeks Filter Toolbar -->
           <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-2">
               <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1">Mês:</span>
@@ -471,10 +512,11 @@
     </section>
 
     <!-- ===================================================================== -->
-    <!-- TAB 3: MINHA ROTINA & CHECKLIST OPERACIONAL                           -->
+    <!-- TAB 2: MINHA ROTINA & CHECKLIST OPERACIONAL                           -->
     <!-- ===================================================================== -->
     <section id="view-rotina" class="hidden space-y-5">
 
+      <!-- Active Week Selector & Context Banner -->
       <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div class="space-y-1.5">
           <div class="flex flex-wrap items-center gap-2.5">
@@ -535,70 +577,72 @@
         </form>
       </div>
 
-      <!-- Main Routine Area: Kanban Days + Right 5 Protocols Panel -->
+      <!-- Main Routine Area: Kanban Days + Right Protocols Panel -->
       <div class="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
 
+        <!-- Kanban / Daily Columns -->
         <div id="routine-kanban-grid" class="xl:col-span-9 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 
-        <aside class="xl:col-span-3 bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
+        <!-- Operational Protocols Sidebar -->
+        <aside class="xl:col-span-3 bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3.5">
           <div>
             <h3 class="text-sm font-bold text-slate-900">📋 Protocolos Operacionais CRV</h3>
             <p class="text-[11px] text-slate-500 mt-0.5">Aplique checklists padrão diretamente na semana selecionada.</p>
           </div>
 
-          <div class="space-y-2.5">
+          <div class="space-y-3" id="protocols-list">
             <div class="p-3 rounded-xl border border-blue-200 bg-blue-50/50 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-blue-900">✈ Protocolo Viagem Gerente (Seg–Sex)</span>
+                <span class="text-xs font-bold text-blue-900">1. Viagem do Gerente (Seg–Sex)</span>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">5 tarefas</span>
               </div>
               <p class="text-[11px] text-slate-600 leading-snug">Saída segunda, roda com rep, treinamentos de balcão (15–20 min) e balanço na sexta.</p>
               <button onclick="applyProtocol('viagem')" class="w-full py-1.5 px-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition">
-                + Aplicar na semana
+                + Aplicar checklist na semana
               </button>
             </div>
 
             <div class="p-3 rounded-xl border border-indigo-200 bg-indigo-50/50 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-indigo-900">📋 Pré-Viagem D-7 (Semana Anterior)</span>
+                <span class="text-xs font-bold text-indigo-900">2. Preparação Pré-Viagem (D-7)</span>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">4 tarefas</span>
               </div>
               <p class="text-[11px] text-slate-600 leading-snug">Validar roteiro de 8–12 lojas, levantar curva ABC, checar pendências e enviar kits.</p>
               <button onclick="applyProtocol('d7')" class="w-full py-1.5 px-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition">
-                + Aplicar na semana
+                + Aplicar checklist na semana
               </button>
             </div>
 
             <div class="p-3 rounded-xl border border-orange-200 bg-orange-50/50 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-orange-900">🚐 Protocolo Carro Showroom</span>
+                <span class="text-xs font-bold text-orange-900">3. Carro Showroom Independente</span>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">4 tarefas</span>
               </div>
               <p class="text-[11px] text-slate-600 leading-snug">Confirmar agenda diária do veículo, expositores, lançamentos e report de fechamento.</p>
               <button onclick="applyProtocol('showroom')" class="w-full py-1.5 px-2.5 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold transition">
-                + Aplicar na semana
+                + Aplicar checklist na semana
               </button>
             </div>
 
             <div class="p-3 rounded-xl border border-teal-200 bg-teal-50/60 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-teal-900">🏭 Protocolo Visita à Fábrica CRV</span>
+                <span class="text-xs font-bold text-teal-900">4. Visita à Fábrica CRV</span>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800">5 tarefas</span>
               </div>
               <p class="text-[11px] text-slate-600 leading-snug">Recepção na fábrica, tour linha produtiva, treino técnico de especificações e reunião de metas.</p>
               <button onclick="applyProtocol('fabrica')" class="w-full py-1.5 px-2.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold transition">
-                + Aplicar na semana
+                + Aplicar checklist Visita à Fábrica
               </button>
             </div>
 
             <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-900">🏢 Protocolo Semana Base / Remoto</span>
+                <span class="text-xs font-bold text-slate-900">5. Semana Base / Disponível</span>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-700">4 tarefas</span>
               </div>
               <p class="text-[11px] text-slate-600 leading-snug">Follow-up D+15 de orçamentos, reuniões remotas de carteira crítica e análise de KPIs.</p>
               <button onclick="applyProtocol('base')" class="w-full py-1.5 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold transition">
-                + Aplicar na semana
+                + Aplicar checklist na semana
               </button>
             </div>
           </div>
@@ -608,10 +652,11 @@
     </section>
 
     <!-- ===================================================================== -->
-    <!-- TAB 4: CARTEIRA & DIAGNÓSTICO (62 REPS)                               -->
+    <!-- TAB 3: CARTEIRA & DIAGNÓSTICO (62 REPS)                               -->
     <!-- ===================================================================== -->
     <section id="view-carteira" class="hidden space-y-4">
 
+      <!-- Comprehensive Filters & Sorting Controls -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5">
           <div class="relative lg:col-span-4">
@@ -664,7 +709,7 @@
           <div class="lg:col-span-3">
             <select id="table-agenda-filter" onchange="renderCarteiraTable()" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none">
               <option value="ALL">Agenda no Planner: Todas</option>
-              <option value="ANY_SCHEDULED">🎯 Com Agenda no Planner</option>
+              <option value="ANY_SCHEDULED">🎯 Com Ação Agendada no Planner</option>
               <option value="GERENTE">✈ Com Viagem Gerente</option>
               <option value="SHOWROOM">🚐 Com Carro Showroom</option>
               <option value="FABRICA">🏭 Com Visita à Fábrica</option>
@@ -678,7 +723,7 @@
               <option value="DROP">📉 Em Queda (&lt; 0%)</option>
               <option value="SEVERE_DROP">🚨 Queda Forte (&lt; -15%)</option>
               <option value="GROWTH">📈 Em Crescimento (&gt; 0%)</option>
-              <option value="NEW">🆕 Novos 2026</option>
+              <option value="NEW">🆕 Novos / Sem Base 2025</option>
             </select>
           </div>
 
@@ -694,15 +739,17 @@
               <option value="pilar_asc">Ordenar: Pilar Estratégico</option>
               <option value="status_asc">Ordenar: Status Execução</option>
             </select>
-            <button onclick="resetCarteiraFilters()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold whitespace-nowrap transition">
-              ✕ Limpar Filtros
+            <button onclick="resetCarteiraFilters()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold whitespace-nowrap transition" title="Limpar todos os filtros da tabela">
+              ✕ Limpar
             </button>
           </div>
         </div>
       </div>
 
+      <!-- Summary Strip -->
       <div id="table-summary-bar" class="flex flex-wrap items-center justify-between gap-2 px-2 text-xs text-slate-600"></div>
 
+      <!-- Responsive Table Container -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
@@ -744,106 +791,107 @@
 
   <script>
     // =========================================================================
-    // 1. INITIAL DATA (ALL 33 WEEKS + ALL 62 REPRESENTATIVES + S47 TASKS)
+    // 1. INITIAL DATA (33 WEEKS + 62 REPRESENTATIVES + S47 ROUTINE TASKS)
     // =========================================================================
     const INITIAL_WEEKS = [
-      {"id":"S47","mes":"Nov/2026","periodo":"16/11 a 20/11/2026","gerente":[],"showroom":["(1773) MINAS SUL REP COMERCIAL LTDA"],"fabrica":[],"detalhe":"Carro Showroom + catálogo em campo com Minas Sul (Nov/26); envio kit catálogo/amostras para (1798) G Dornelas."},
-      {"id":"S48","mes":"Nov/2026","periodo":"23/11 a 27/11/2026","gerente":[],"showroom":["(1773) MINAS SUL REP COMERCIAL LTDA"],"fabrica":[],"detalhe":"2ª semana seguida do Carro Showroom com Minas Sul; confirmar agenda D-7 da viagem Zoccal."},
-      {"id":"S49","mes":"Nov/Dez 26","periodo":"30/11 a 04/12/2026","gerente":["(719) ZOCCAL REPRESENTACOES LTDA"],"showroom":[],"fabrica":[],"detalhe":"Visita agendada com o novo rep Wesley na região reduzida da Zoccal para consolidar foco na CRV."},
-      {"id":"S50","mes":"Dez/2026","periodo":"07/12 a 11/12/2026","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Alinhamentos remotos de fim de ano (Edson Diehl, T&C, E P dos Santos, Ederson, Mavan)."},{"id":"S51","mes":"Dez/2026","periodo":"14/12 a 18/12/2026","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Fechamento comercial de Dezembro e preparação da agenda de Janeiro/2027."},
-      {"id":"S52","mes":"Dez/2026","periodo":"21/12 a 25/12/2026","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Semana de Natal; formalizar liberação linha Unicca para (1779) Cobra Rep. no 1º Sem/27."},
-      {"id":"S53","mes":"Dez/Jan 27","periodo":"28/12 a 01/01/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Semana de Ano Novo; confirmar logística dos 4 Carros Showroom de Janeiro/2027."},
-      {"id":"S01","mes":"Jan/2027","periodo":"04/01 a 08/01/2027","gerente":[],"showroom":["(65) JOSE CARLOS ROMERO"],"fabrica":[],"detalhe":"Carro Showroom agendado Jan/27 com José Carlos Romero (R$ 3,37M); Gerente em Base / Disponível."},
-      {"id":"S02","mes":"Jan/2027","periodo":"11/01 a 15/01/2027","gerente":["(1430) TOTTENE - REPRES. COMERCIAL LT"],"showroom":["(1181) ROMERO REPRESENTACAO DE MAT CO"],"fabrica":[],"detalhe":"Duas frentes simultâneas em regiões distintas: Visita postergada na Tottene (Jan/27) + Carro Showroom na Romero Rep. (1181)."},
-      {"id":"S03","mes":"Jan/2027","periodo":"18/01 a 22/01/2027","gerente":[],"showroom":["(1397) RAFAEL ROMERO"],"fabrica":[],"detalhe":"Carro Showroom Jan/27 com Rafael Romero (combate JC Esquadrias e vácuo falências C&B/Engeal); Gerente em Base / Disponível."},
-      {"id":"S04","mes":"Jan/2027","periodo":"25/01 a 29/01/2027","gerente":[],"showroom":["(1240) CABRAL & PIROLLA REP COM LTDA"],"fabrica":[],"detalhe":"Carro Showroom Jan/27 com Cabral & Pirolla (expositores e negociações flexíveis); Gerente em Base / Disponível."},
-      {"id":"S05","mes":"Fev/2027","periodo":"01/02 a 05/02/2027","gerente":[],"showroom":["(1420) MARCELO  C. ANTONIO & CIA LTDA"],"fabrica":[],"detalhe":"Carro Showroom Fev/27 para fortalecer marca na região do Marcelo C. Antonio; Gerente em Base / Disponível."},
-      {"id":"S06","mes":"Fev/2027","periodo":"08/02 a 12/02/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Semana de Carnaval; preparação técnica da grade para visita Luista Rep."},
-      {"id":"S07","mes":"Fev/2027","periodo":"15/02 a 19/02/2027","gerente":["(1701) LUISTA REPRESENTACOES COM LTDA"],"showroom":["(1701) LUISTA REPRESENTACOES COM LTDA"],"fabrica":[],"detalhe":"Visita Fev/27 + Carro Showroom Fev/27 na Luista Rep.: demonstrar diferenciais da grade nas lojas."},
-      {"id":"S08","mes":"Fev/2027","periodo":"22/02 a 26/02/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Follow-up orçamentos Fev/27 e preparação Visita Mar/27 (Matias e RPM)."},
-      {"id":"S09","mes":"Mar/2027","periodo":"01/03 a 05/03/2027","gerente":["(351) G DE O MATIAS","(1757) RPM REPRESENTACOES LTDA"],"showroom":[],"fabrica":[],"detalhe":"Visita Mar/27: trabalhar atualização de tabela/mescla de linhas com G de O Matias e tabela Pablo/G10 na RPM."},
-      {"id":"S10","mes":"Mar/2027","periodo":"08/03 a 12/03/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Intervalo entre viagens; follow-up tabela Matias/RPM e preparação Visita Dellabeta."},
-      {"id":"S11","mes":"Mar/2027","periodo":"15/03 a 19/03/2027","gerente":["(1433) S L DELLABETA & CIA LTDA - ME"],"showroom":[],"fabrica":[],"detalhe":"Visita Mar/27 na S L Dellabeta: trabalhar flexibilidade linha Unicca (modelo Guarapuava) para abrir mercado."},
-      {"id":"S12","mes":"Mar/2027","periodo":"22/03 a 26/03/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Semana com Sexta-feira Santa; preparar rota do Carro Showroom Mar/Abr (Dellabeta)."},
-      {"id":"S13","mes":"Mar/Abr 27","periodo":"29/03 a 02/04/2027","gerente":[],"showroom":["(1433) S L DELLABETA & CIA LTDA - ME"],"fabrica":[],"detalhe":"Carro Showroom agendado Mar/Abr na S L Dellabeta; Gerente em Base / Disponível."},
-      {"id":"S14","mes":"Abr/2027","periodo":"05/04 a 09/04/2027","gerente":["(1576) COMERCIO E REPRESEN HPS LTDA","(1583) HENRIQUE ANDRADE CARVALHO"],"showroom":["(1757) RPM REPRESENTACOES LTDA"],"fabrica":[],"detalhe":"Duas frentes simultâneas em regiões distintas: Visita Edson (HPS + Henrique Andrade) + Carro Showroom Abr/27 na RPM."},
-      {"id":"S15","mes":"Abr/2027","periodo":"12/04 a 16/04/2027","gerente":[],"showroom":["(1784) CJ MARTINS REPRESENTACAO COMER"],"fabrica":[],"detalhe":"Carro Showroom Abr/27 na CJ Martins (penetração pequeno varejo capital); Gerente em Base / Disponível."},
-      {"id":"S16","mes":"Abr/2027","periodo":"19/04 a 23/04/2027","gerente":["(1673) YAN CUNHA COMERCIO E REP LTDA","(1714) ROCHA REPRESENTACOES LTDA"],"showroom":[],"fabrica":[],"detalhe":"Visita Edson: expandir mix com catálogo no Yan Cunha e apoiar retomada da Rocha Rep. pós-afastamento saúde (Feriado 21/04)."},
-      {"id":"S17","mes":"Abr/2027","periodo":"26/04 a 30/04/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Intervalo entre viagens; fechamento de Abril e preparação Visita José Sales + Arruda."},
-      {"id":"S18","mes":"Mai/2027","periodo":"03/05 a 07/05/2027","gerente":["(1642) JOSE SALES FERREIRA SILVA","(1722) COMERCIAL ARRUDA LTDA"],"showroom":[],"fabrica":[],"detalhe":"Visita José Sales (penetração médios/grandes lojistas Goiânia Capital) + Visita Edson Comercial Arruda."},
-      {"id":"S19","mes":"Mai/2027","periodo":"10/05 a 14/05/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Intervalo entre viagens; preparação da visita técnica Baravelli (material acabado)."},
-      {"id":"S20","mes":"Mai/2027","periodo":"17/05 a 21/05/2027","gerente":["(1775) BARAVELLI REPRE COMERC LTDA"],"showroom":[],"fabrica":[],"detalhe":"Visita prevista até Maio na Baravelli Rep.: consolidar migração para material acabado sem perda de faturamento."},
-      {"id":"S21","mes":"Mai/2027","periodo":"24/05 a 28/05/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Semana com feriado de Corpus Christi (27/05)."},
-      {"id":"S22","mes":"Mai/Jun 27","periodo":"31/05 a 04/06/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Acompanhamento remoto de carteira (sem viagens previstas no planejamento)."},
-      {"id":"S23","mes":"Jun/2027","periodo":"07/06 a 11/06/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Acompanhamento semestral (Henrique & Barbosa e Tottene conforme planejamento)."},
-      {"id":"S24","mes":"Jun/2027","periodo":"14/06 a 18/06/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Acompanhamento remoto de indicadores e carteira."},
-      {"id":"S25","mes":"Jun/2027","periodo":"21/06 a 25/06/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Fechamento de metas do 1º Semestre 2027."},
-      {"id":"S26","mes":"Jun/Jul 27","periodo":"28/06 a 02/07/2027","gerente":[],"showroom":[],"fabrica":[],"detalhe":"Base / Disponível — Encerramento do 1º Semestre 2027 e agenda 2º Semestre."}
+      {"id": "S47", "mes": "Nov/2026", "periodo": "16/11 a 20/11/2026", "gerenteReps": [], "showroomReps": ["(1773) MINAS SUL REP COMERCIAL LTDA"], "fabricaReps": [], "detalhe": "Carro Showroom + catálogo em campo com Minas Sul (Nov/26); envio kit catálogo/amostras para (1798) G Dornelas."},
+      {"id": "S48", "mes": "Nov/2026", "periodo": "23/11 a 27/11/2026", "gerenteReps": [], "showroomReps": ["(1773) MINAS SUL REP COMERCIAL LTDA"], "fabricaReps": [], "detalhe": "2ª semana seguida do Carro Showroom com Minas Sul; confirmar agenda D-7 da viagem Zoccal."},
+      {"id": "S49", "mes": "Nov/Dez 26", "periodo": "30/11 a 04/12/2026", "gerenteReps": ["(719) ZOCCAL REPRESENTACOES LTDA"], "showroomReps": [], "fabricaReps": [], "detalhe": "Visita agendada com o novo rep Wesley na região reduzida da Zoccal para consolidar foco na CRV."},
+      {"id": "S50", "mes": "Dez/2026", "periodo": "07/12 a 11/12/2026", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Alinhamentos remotos de fim de ano (Edson Diehl, T&C, E P dos Santos, Ederson, Mavan)."},
+      {"id": "S51", "mes": "Dez/2026", "periodo": "14/12 a 18/12/2026", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Fechamento comercial de Dezembro e preparação da agenda de Janeiro/2027."},
+      {"id": "S52", "mes": "Dez/2026", "periodo": "21/12 a 25/12/2026", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Semana de Natal (25/12); formalizar liberação linha Unicca para (1779) Cobra Rep. no 1º Sem/27."},
+      {"id": "S53", "mes": "Dez/Jan 27", "periodo": "28/12 a 01/01/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Semana de Ano Novo (01/01); confirmar logística dos 4 Carros Showroom de Janeiro/2027."},
+      {"id": "S01", "mes": "Jan/2027", "periodo": "04/01 a 08/01/2027", "gerenteReps": [], "showroomReps": ["(65) JOSE CARLOS ROMERO"], "fabricaReps": [], "detalhe": "Carro Showroom agendado Jan/27 com José Carlos Romero (R$ 3,37M); Gerente em Base / Disponível."},
+      {"id": "S02", "mes": "Jan/2027", "periodo": "11/01 a 15/01/2027", "gerenteReps": ["(1430) TOTTENE - REPRES. COMERCIAL LT"], "showroomReps": ["(1181) ROMERO REPRESENTACAO DE MAT CO"], "fabricaReps": [], "detalhe": "Duas frentes simultâneas em regiões distintas: Visita postergada na Tottene (Jan/27) + Carro Showroom na Romero Rep. (1181)."},
+      {"id": "S03", "mes": "Jan/2027", "periodo": "18/01 a 22/01/2027", "gerenteReps": [], "showroomReps": ["(1397) RAFAEL ROMERO"], "fabricaReps": [], "detalhe": "Carro Showroom Jan/27 com Rafael Romero (combate JC Esquadrias e vácuo falências C&B/Engeal); Gerente em Base / Disponível."},
+      {"id": "S04", "mes": "Jan/2027", "periodo": "25/01 a 29/01/2027", "gerenteReps": [], "showroomReps": ["(1240) CABRAL & PIROLLA REP COM LTDA"], "fabricaReps": [], "detalhe": "Carro Showroom Jan/27 com Cabral & Pirolla (expositores e negociações flexíveis); Gerente em Base / Disponível."},
+      {"id": "S05", "mes": "Fev/2027", "periodo": "01/02 a 05/02/2027", "gerenteReps": [], "showroomReps": ["(1420) MARCELO  C. ANTONIO & CIA LTDA"], "fabricaReps": [], "detalhe": "Carro Showroom Fev/27 para fortalecer marca na região do Marcelo C. Antonio; Gerente em Base / Disponível."},
+      {"id": "S06", "mes": "Fev/2027", "periodo": "08/02 a 12/02/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Semana de Carnaval (08–09/02); preparação técnica da grade para visita Luista Rep."},
+      {"id": "S07", "mes": "Fev/2027", "periodo": "15/02 a 19/02/2027", "gerenteReps": ["(1701) LUISTA REPRESENTACOES COM LTDA"], "showroomReps": ["(1701) LUISTA REPRESENTACOES COM LTDA"], "fabricaReps": [], "detalhe": "Visita Fev/27 + Carro Showroom Fev/27 na Luista Rep.: demonstrar diferenciais da grade nas lojas."},
+      {"id": "S08", "mes": "Fev/2027", "periodo": "22/02 a 26/02/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Follow-up orçamentos Fev/27 e preparação Visita Mar/27 (Matias e RPM)."},
+      {"id": "S09", "mes": "Mar/2027", "periodo": "01/03 a 05/03/2027", "gerenteReps": ["(351) G DE O MATIAS", "(1757) RPM REPRESENTACOES LTDA"], "showroomReps": [], "fabricaReps": [], "detalhe": "Visita Mar/27: trabalhar atualização de tabela/mescla de linhas com G de O Matias e tabela Pablo/G10 na RPM."},
+      {"id": "S10", "mes": "Mar/2027", "periodo": "08/03 a 12/03/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Intervalo entre viagens; follow-up tabela Matias/RPM e preparação Visita Dellabeta."},
+      {"id": "S11", "mes": "Mar/2027", "periodo": "15/03 a 19/03/2027", "gerenteReps": ["(1433) S L DELLABETA & CIA LTDA - ME"], "showroomReps": [], "fabricaReps": [], "detalhe": "Visita Mar/27 na S L Dellabeta: trabalhar flexibilidade linha Unicca (modelo Guarapuava) para abrir mercado."},
+      {"id": "S12", "mes": "Mar/2027", "periodo": "22/03 a 26/03/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Semana com Sexta-feira Santa (26/03); preparar rota do Carro Showroom Mar/Abr (Dellabeta)."},
+      {"id": "S13", "mes": "Mar/Abr 27", "periodo": "29/03 a 02/04/2027", "gerenteReps": [], "showroomReps": ["(1433) S L DELLABETA & CIA LTDA - ME"], "fabricaReps": [], "detalhe": "Carro Showroom agendado Mar/Abr na S L Dellabeta; Gerente em Base / Disponível."},
+      {"id": "S14", "mes": "Abr/2027", "periodo": "05/04 a 09/04/2027", "gerenteReps": ["(1576) COMERCIO E REPRESEN HPS LTDA", "(1583) HENRIQUE ANDRADE CARVALHO"], "showroomReps": ["(1757) RPM REPRESENTACOES LTDA"], "fabricaReps": [], "detalhe": "Duas frentes simultâneas em regiões distintas: Visita Edson (HPS + Henrique Andrade) + Carro Showroom Abr/27 na RPM."},
+      {"id": "S15", "mes": "Abr/2027", "periodo": "12/04 a 16/04/2027", "gerenteReps": [], "showroomReps": ["(1784) CJ MARTINS REPRESENTACAO COMER"], "fabricaReps": [], "detalhe": "Carro Showroom Abr/27 na CJ Martins (penetração pequeno varejo capital); Gerente em Base / Disponível."},
+      {"id": "S16", "mes": "Abr/2027", "periodo": "19/04 a 23/04/2027", "gerenteReps": ["(1673) YAN CUNHA COMERCIO E REP LTDA", "(1714) ROCHA REPRESENTACOES LTDA"], "showroomReps": [], "fabricaReps": [], "detalhe": "Visita Edson: expandir mix com catálogo no Yan Cunha e apoiar retomada da Rocha Rep. pós-afastamento saúde (Feriado 21/04)."},
+      {"id": "S17", "mes": "Abr/2027", "periodo": "26/04 a 30/04/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Intervalo entre viagens; fechamento de Abril e preparação Visita José Sales + Arruda."},
+      {"id": "S18", "mes": "Mai/2027", "periodo": "03/05 a 07/05/2027", "gerenteReps": ["(1642) JOSE SALES FERREIRA SILVA", "(1722) COMERCIAL ARRUDA LTDA"], "showroomReps": [], "fabricaReps": [], "detalhe": "Visita José Sales (penetração médios/grandes lojistas Goiânia Capital) + Visita Edson Comercial Arruda."},
+      {"id": "S19", "mes": "Mai/2027", "periodo": "10/05 a 14/05/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Intervalo entre viagens; preparação da visita técnica Baravelli (material acabado)."},
+      {"id": "S20", "mes": "Mai/2027", "periodo": "17/05 a 21/05/2027", "gerenteReps": ["(1775) BARAVELLI REPRE COMERC LTDA"], "showroomReps": [], "fabricaReps": [], "detalhe": "Visita prevista até Maio na Baravelli Rep.: consolidar migração para material acabado sem perda de faturamento."},
+      {"id": "S21", "mes": "Mai/2027", "periodo": "24/05 a 28/05/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Semana com feriado de Corpus Christi (27/05)."},
+      {"id": "S22", "mes": "Mai/Jun 27", "periodo": "31/05 a 04/06/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Acompanhamento remoto de carteira (sem viagens previstas no planejamento)."},
+      {"id": "S23", "mes": "Jun/2027", "periodo": "07/06 a 11/06/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Acompanhamento semestral (Henrique & Barbosa e Tottene conforme planejamento)."},
+      {"id": "S24", "mes": "Jun/2027", "periodo": "14/06 a 18/06/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Acompanhamento remoto de indicadores e carteira."},
+      {"id": "S25", "mes": "Jun/2027", "periodo": "21/06 a 25/06/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Fechamento de metas do 1º Semestre 2027."},
+      {"id": "S26", "mes": "Jun/Jul 27", "periodo": "28/06 a 02/07/2027", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "detalhe": "Base / Disponível — Encerramento do 1º Semestre 2027 e agenda 2º Semestre."}
     ];
 
     const INITIAL_REPS = [
-      {"nome":"(1473) TATIELY DE FREITAS SOUZA REPRE","fat25":3600264.68,"fat26":3576349.28,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (-0,7%)","modalidade":"Acompanhar","acao":"Acompanhar carteira estável (R$ 3,58M).","status":"Em Andamento"},
-      {"nome":"(65) JOSE CARLOS ROMERO","fat25":3274304.29,"fat26":3369849.56,"pilar":"2. Intervenção em Campo","diag":"Aceleração de Mix","modalidade":"Carro Showroom (Jan/2027)","acao":"Carro Showroom agendado para Jan/2027.","status":"Agendado"},
-      {"nome":"(719) ZOCCAL REPRESENTACOES LTDA","fat25":3874498.23,"fat26":3325887.35,"pilar":"2. Intervenção em Campo","diag":"Reestruturação de Território","modalidade":"Viagem Gerente (Wesley)","acao":"Visita agendada com novo rep Wesley na região reduzida para foco na CRV.","status":"Agendado"},
-      {"nome":"(1420) MARCELO  C. ANTONIO & CIA LTDA","fat25":3583427.19,"fat26":3280969.89,"pilar":"2. Intervenção em Campo","diag":"Fortalecimento de Marca","modalidade":"Carro Showroom (Fev/2027)","acao":"Carro Showroom Fev/2027 para fortalecer marca na região.","status":"Agendado"},
-      {"nome":"(1576) COMERCIO E REPRESEN HPS LTDA","fat25":3365855.76,"fat26":2993322.12,"pilar":"2. Intervenção em Campo","diag":"Retração Regional MatCon","modalidade":"Visita Edson","acao":"Visita Edson para avaliar retração do consumo varejo MatCon na região.","status":"Agendado"},
-      {"nome":"(1574) BELARDINUSCI REPRES DE MAT CON","fat25":3093627.0,"fat26":2931331.36,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (-5,2%)","modalidade":"Acompanhar","acao":"Acompanhar carteira estável (R$ 2,93M).","status":"Em Andamento"},
-      {"nome":"(1181) ROMERO REPRESENTACAO DE MAT CO","fat25":2646838.64,"fat26":2664981.33,"pilar":"2. Intervenção em Campo","diag":"Aceleração de Mix","modalidade":"Carro Showroom (Jan/2027)","acao":"Carro Showroom agendado para Jan/2027 (paralelo à viagem do gerente em Tottene).","status":"Agendado"},
-      {"nome":"(1583) HENRIQUE ANDRADE CARVALHO","fat25":2603819.64,"fat26":2320306.77,"pilar":"2. Intervenção em Campo","diag":"Retomada de Foco","modalidade":"Visita Edson","acao":"Visita Edson para consolidar retomada de foco após negócios paralelos.","status":"Agendado"},
-      {"nome":"(1575) CUNHA GESTAO CONSULT EM VENDAS","fat25":2040961.87,"fat26":2122548.88,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (+4,0%)","modalidade":"Acompanhar","acao":"Acompanhar evolução (+4,0%).","status":"Em Andamento"},
-      {"nome":"(1397) RAFAEL ROMERO","fat25":2308945.93,"fat26":2018340.08,"pilar":"2. Intervenção em Campo","diag":"Concorrência / Preço","modalidade":"Carro Showroom (Jan/2027)","acao":"Carro Showroom Jan/2027 para combater JC Esquadrias e ocupar vácuo C&B/Engeal.","status":"Agendado"},
-      {"nome":"(1624) DENIS REBOLLO GUERRERO 7727465","fat25":1932806.67,"fat26":1786278.79,"pilar":"4. Manutenção / Carteira Estável","diag":"Expansão de Mix via Catálogo","modalidade":"Acompanhar + Catálogo","acao":"Acompanhar trabalho e expandir mix com o novo catálogo.","status":"Em Andamento"},
-      {"nome":"(1673) YAN CUNHA COMERCIO E REP LTDA","fat25":1722398.65,"fat26":1505498.07,"pilar":"2. Intervenção em Campo","diag":"Expansão de Mix via Catálogo","modalidade":"Visita Edson","acao":"Visita Edson para expandir mix com o novo catálogo e reverter queda.","status":"Agendado"},
-      {"nome":"(1406) F&R GAVA REPRESENTACOES LTDA","fat25":1645315.7,"fat26":1505017.18,"pilar":"4. Manutenção / Carteira Estável","diag":"Expansão de Mix via Catálogo","modalidade":"Acompanhar + Catálogo","acao":"Acompanhar trabalho e expandir mix com o novo catálogo.","status":"Em Andamento"},
-      {"nome":"(32) HELDER HUGO DA SILVA FABBRI","fat25":1413400.23,"fat26":1380703.27,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (-2,3%)","modalidade":"Acompanhar","acao":"Acompanhar trabalho (R$ 1,38M).","status":"Em Andamento"},
-      {"nome":"(11) RBG REPRESENTAÇÕES COMERCIAIS","fat25":1482135.43,"fat26":1370378.28,"pilar":"4. Manutenção / Carteira Estável","diag":"Divisão de Foco (Campeão)","modalidade":"Acompanhar + Cobrar Varejo","acao":"Acompanhar e cobrar resultado no varejo (foco desviado para Campeão).","status":"Em Andamento"},
-      {"nome":"(1250) E P DOS SANTOS COMERCIO REPRE","fat25":1541640.83,"fat26":1326984.1,"pilar":"1. Crítico / Avaliar Continuidade","diag":"Perda de Foco / Conflito","modalidade":"Analisar Continuidade","acao":"Discutir continuidade do rep (montou loja própria; Guilherme faz 90% do resultado).","status":"Pendente"},
-      {"nome":"(1442) CAPONI & OLIVEIRA MKT E REP","fat25":919965.3,"fat26":1302592.96,"pilar":"3. Expansão / Novos & Tração","diag":"Ganho de Foco (Saída Tigre)","modalidade":"Acompanhar Região","acao":"Acompanhar trabalho em Itumbiara e Caldas Novas (+41,6%).","status":"Em Andamento"},
-      {"nome":"(1773) MINAS SUL REP COMERCIAL LTDA","fat25":1517494.25,"fat26":1297433.31,"pilar":"2. Intervenção em Campo","diag":"Retomada Comercial","modalidade":"Carro Showroom (Nov/26)","acao":"Andar com Carro Showroom e catálogo em Nov/26; possível visita após avanço negociações.","status":"Em Andamento"},
-      {"nome":"(1240) CABRAL & PIROLLA REP COM LTDA","fat25":1012440.39,"fat26":1212078.27,"pilar":"3. Expansão / Novos & Tração","diag":"Expansão com Expositores","modalidade":"Carro Showroom (Jan/2027)","acao":"Carro Showroom Jan/2027 reforçando expositores e flexibilidade em negociações.","status":"Agendado"},
-      {"nome":"(1433) S L DELLABETA & CIA LTDA - ME","fat25":1237744.61,"fat26":1108411.85,"pilar":"2. Intervenção em Campo","diag":"Concorrência / Clima","modalidade":"Visita Mar/27 + Showroom Mar/Abr","acao":"Visita Mar/27 + Carro Showroom Mar/Abr com flexibilidade na linha Unicca.","status":"Agendado"},
-      {"nome":"(1775) BARAVELLI REPRE COMERC LTDA","fat25":957377.57,"fat26":1090644.5,"pilar":"2. Intervenção em Campo","diag":"Migração para Material Acabado","modalidade":"Visita Gerente (até Mai/27)","acao":"Acompanhar migração para material acabado; visita prevista até Maio.","status":"Agendado"},
-      {"nome":"(1484) EDERSON WAGNER MENEZES","fat25":1287269.41,"fat26":1083768.25,"pilar":"2. Intervenção em Campo","diag":"Queda Relevante (-15,8%)","modalidade":"Alinhamento (\"Discutir\")","acao":"Discutir queda de R$ 203k e plano de retomada.","status":"Pendente"},
-      {"nome":"(1483) VIVO REPRESENTACOES LTDA","fat25":977887.4,"fat26":965093.08,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (-1,3%)","modalidade":"Acompanhar","acao":"Acompanhar carteira estável (R$ 965k).","status":"Em Andamento"},
-      {"nome":"(351) G DE O MATIAS","fat25":1406889.39,"fat26":963768.64,"pilar":"2. Intervenção em Campo","diag":"Resistência à Tabela / Mix","modalidade":"Visita Gerente (Mar/27)","acao":"Visita Mar/27: trabalhar atualização da tabela e mescla de linhas.","status":"Agendado"},
-      {"nome":"(1757) RPM REPRESENTACOES LTDA","fat25":1301523.57,"fat26":939288.43,"pilar":"2. Intervenção em Campo","diag":"Concorrência / Preço","modalidade":"Visita Mar/27 + Showroom Abr/27","acao":"Visita Mar/27 (tabela Pablo / G10) + Carro Showroom Abr/2027 contra JP Esquadrias.","status":"Agendado"},
-      {"nome":"(1733) EDSON LUIS DIEHL","fat25":797695.46,"fat26":913377.11,"pilar":"1. Crítico / Avaliar Continuidade","diag":"Perda de Foco / Varejo Zero","modalidade":"Avaliação Fim de Ano","acao":"Nova avaliação no final do ano sobre falta de atuação no varejo.","status":"Pendente"},
-      {"nome":"(1505) AC DOS SANTOS DE BARREIRAS ME","fat25":708769.68,"fat26":903659.51,"pilar":"3. Expansão / Novos & Tração","diag":"Foco Territorial (Sul PI)","modalidade":"Acompanhar Região","acao":"Acompanhar atuação do Guilherme no Sul do PI (+27,5%).","status":"Em Andamento"},
-      {"nome":"(1762) F G REPRESENTACOES","fat25":124597.99,"fat26":857473.74,"pilar":"3. Expansão / Novos & Tração","diag":"Abertura de Mercado (Antiga Zé Netto)","modalidade":"Acompanhar + Catálogo","acao":"Acompanhar abertura de mercado com apoio do catálogo.","status":"Em Andamento"},
-      {"nome":"(1782) PANIS REPRESENTACOES LTDA","fat25":58536.83,"fat26":800484.26,"pilar":"3. Expansão / Novos & Tração","diag":"Abertura de Mercado (Antiga Daniel SC)","modalidade":"Acompanhar + Catálogo","acao":"Acompanhar abertura de mercado com apoio do catálogo.","status":"Em Andamento"},
-      {"nome":"(1714) ROCHA REPRESENTACOES LTDA","fat25":1067475.78,"fat26":779722.48,"pilar":"2. Intervenção em Campo","diag":"Afastamento Saúde / Retomada","modalidade":"Visita Edson","acao":"Visita Edson para retomada após 4 meses afastado por saúde.","status":"Agendado"},
-      {"nome":"(1701) LUISTA REPRESENTACOES COM LTDA","fat25":867152.45,"fat26":761444.67,"pilar":"2. Intervenção em Campo","diag":"Objeção Técnica / Clima","modalidade":"Visita + Showroom (Fev/27)","acao":"Visita Fev/27 + Carro Showroom Fev/2027 para demonstrar diferenciais da grade.","status":"Agendado"},
-      {"nome":"(1428) 95400628 CLADISMAR ALESSIO ME","fat25":693865.04,"fat26":734880.49,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (+5,9%)","modalidade":"Acompanhar","acao":"Acompanhar evolução (+5,9%).","status":"Em Andamento"},
-      {"nome":"(1727) 54.832.667 PEDRO LUCAS MARMORA","fat25":802265.79,"fat26":720163.73,"pilar":"2. Intervenção em Campo","diag":"Concentração / Mix Restrito","modalidade":"Alinhamento (\"Discutir\")","acao":"Discutir abertura de novos clientes e ampliação de mix além de gabinetes/piso.","status":"Pendente"},
-      {"nome":"(1776) WILSON  EVARISTO  DA  SILVA","fat25":732530.08,"fat26":719399.45,"pilar":"4. Manutenção / Carteira Estável","diag":"Cobertura Territorial Incompleta","modalidade":"Acompanhar + Cobrar Cobertura","acao":"Acompanhar trabalho e cobrar visitas em toda a região.","status":"Em Andamento"},
-      {"nome":"(1123) FRANCISCO ANTONIO DE ALENCAR","fat25":753403.9,"fat26":658710.95,"pilar":"2. Intervenção em Campo","diag":"Fator Climático / Acesso","modalidade":"Acompanhar","acao":"Acompanhar retomada após chuvas e difícil acesso.","status":"Em Andamento"},
-      {"nome":"(1642) JOSE SALES FERREIRA SILVA","fat25":751920.86,"fat26":647410.26,"pilar":"2. Intervenção em Campo","diag":"Baixa Penetração na Capital","modalidade":"Visita Gerente","acao":"Visita para penetração nos médios e grandes lojistas de Goiânia Capital.","status":"Agendado"},
-      {"nome":"(1571) LOPES E GOMES REPR COMERCIAIS","fat25":666884.45,"fat26":645393.27,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (-3,2%)","modalidade":"Acompanhar","acao":"Acompanhar carteira (R$ 645k).","status":"Em Andamento"},
-      {"nome":"(1430) TOTTENE - REPRES. COMERCIAL LT","fat25":839205.55,"fat26":567779.35,"pilar":"2. Intervenção em Campo","diag":"Queda Relevante (-32,3%)","modalidade":"Visita Gerente (Jan/2027)","acao":"Visita postergada será realizada em Jan/2027; precisa retomar até fim do 1º semestre.","status":"Agendado"},
-      {"nome":"(1578) BRENO A P MACIEL REPRES. - EPP","fat25":551353.96,"fat26":523039.59,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (-5,1%)","modalidade":"Acompanhar","acao":"Acompanhar carteira estável (R$ 523k).","status":"Em Andamento"},
-      {"nome":"(1732) PORTELA E CARVALHO LTDA","fat25":534328.59,"fat26":431956.04,"pilar":"2. Intervenção em Campo","diag":"Base Comparativa / Logística MT","modalidade":"Acompanhar Logística","acao":"Acompanhar melhora de logística e impacto da unificação acima de Nova Mutum/MT.","status":"Em Andamento"},
-      {"nome":"(1786) AIRTON ALVES CARDOSO","fat25":0.0,"fat26":401987.37,"pilar":"3. Expansão / Novos & Tração","diag":"Abertura de Região (Sul RS)","modalidade":"Acompanhar Região","acao":"Acompanhar abertura da área nova no Sul do RS.","status":"Em Andamento"},
-      {"nome":"(1774) ALIANÇA REPRESENTAÇÕES LTDA","fat25":0.0,"fat26":324979.54,"pilar":"3. Expansão / Novos & Tração","diag":"Abertura de Mercado / Catálogo","modalidade":"Acompanhar + Catálogo","acao":"Acompanhar destravamento de negociações com a chegada do catálogo.","status":"Em Andamento"},
-      {"nome":"(1779) COBRA REPRESENTACOES COMERCIAL","fat25":221444.36,"fat26":314516.35,"pilar":"3. Expansão / Novos & Tração","diag":"Oportunidade de Ganho de Share","modalidade":"Liberação Linha Unicca","acao":"Estratégia sugerida: liberar linha Unicca no 1º Sem/27 sem trava para abrir mercado.","status":"Pendente"},
-      {"nome":"(1691) E MARIANO DA SILVA","fat25":315939.37,"fat26":309684.74,"pilar":"4. Manutenção / Carteira Estável","diag":"Carteira Estável (-2,0%)","modalidade":"Acompanhar","acao":"Acompanhar carteira estável (R$ 310k).","status":"Em Andamento"},
-      {"nome":"(1756) T & C COMERCIO E REP LTDA","fat25":163281.87,"fat26":265589.11,"pilar":"1. Crítico / Avaliar Continuidade","diag":"Baixo Giro / Desinteresse Rep","modalidade":"Avaliação Fim de Ano","acao":"Conversar no final do ano sobre continuidade (solicitação do rep).","status":"Pendente"},
-      {"nome":"(1772) 50.149.105 DOUGLAS ADRIANO ZAN","fat25":100564.1,"fat26":255951.61,"pilar":"3. Expansão / Novos & Tração","diag":"Região Ampliada (+154,5%)","modalidade":"Acompanhar Região","acao":"Acompanhar evolução na região ampliada.","status":"Em Andamento"},
-      {"nome":"(1432) M.MAXIMO REPRESENTAÇOES LTDA","fat25":233402.57,"fat26":206929.23,"pilar":"2. Intervenção em Campo","diag":"Transição de Carteira Varejo","modalidade":"Acompanhar Transição","acao":"Varejo encaminhado ao rep CJ Martins.","status":"Em Andamento"},
-      {"nome":"(1722) COMERCIAL ARRUDA LTDA","fat25":317403.67,"fat26":198087.72,"pilar":"1. Crítico / Avaliar Continuidade","diag":"Pendência Financeira / Desfoco","modalidade":"Visita Edson","acao":"Visita Edson: rep desfocou após dever para CRV e não receber comissão líquida.","status":"Agendado"},
-      {"nome":"(1563) ATHENAS COMER. E REPRES. LTDA","fat25":250031.58,"fat26":175637.43,"pilar":"2. Intervenção em Campo","diag":"Concentração Grandes Players","modalidade":"Acompanhar Negociação","acao":"Acompanhar negociação com a loja Virtual de Alvorada.","status":"Em Andamento"},
-      {"nome":"(1689) BNA REPRESENTACOES COM LTDA","fat25":128162.31,"fat26":102290.0,"pilar":"2. Intervenção em Campo","diag":"Foco em Grandes Contas (GC)","modalidade":"Acompanhar","acao":"Acompanhar atendimento a clientes maiores enquadrados em GC.","status":"Em Andamento"},
-      {"nome":"(1792) MAVAN COM. REPRESENTACOES LTDA","fat25":116559.26,"fat26":90012.98,"pilar":"1. Crítico / Avaliar Continuidade","diag":"Baixa Performance Pós-Contratação","modalidade":"Acompanhamento de Trabalho","acao":"Contratado pós-FEICON; acompanhar desenvolvimento e cobrar entregas reais.","status":"Pendente"},
-      {"nome":"(1744) MILTON SALVADOR MOREIRA & CIA","fat25":32290.72,"fat26":83511.93,"pilar":"3. Expansão / Novos & Tração","diag":"Concorrência Informal / ST 28%", "modalidade":"Acompanhar","acao":"Acompanhar concorrência de alumínio BA e primer sem NF (ST 28%).","status":"Em Andamento"},
-      {"nome":"(1798) G DORNELAS NASCIMENTO REP.LTDA","fat25":317865.7,"fat26":73077.0,"pilar":"2. Intervenção em Campo","diag":"Falta de Material de Apoio","modalidade":"Envio Catálogo/Amostras","acao":"Providenciar envio urgente de catálogo e amostras.","status":"Em Andamento"},
-      {"nome":"(1743) J. A. HOTT REPRESENTACOES LTDA","fat25":14364.58,"fat26":47847.77,"pilar":"3. Expansão / Novos & Tração","diag":"Crescimento Acelerado (+233%)","modalidade":"Acompanhar Trabalho","acao":"Acompanhar evolução do trabalho (+233,1%).","status":"Em Andamento"},
-      {"nome":"(1760) DGO REPRESENTACOES LTDA","fat25":76930.07,"fat26":38971.08,"pilar":"2. Intervenção em Campo","diag":"Concorrência / Preço (BH)","modalidade":"Acompanhar","acao":"Acompanhar região de BH voltada somente a preço.","status":"Em Andamento"},
-      {"nome":"(1652) HENRIQUE & BARBOSA REPRESENTAC","fat25":75560.14,"fat26":33746.49,"pilar":"1. Crítico / Avaliar Continuidade","diag":"Queda Crítica (-55,3%)","modalidade":"Acompanhar até Jun/2027","acao":"Retomada de trabalho com a Unicca — última chance no 1º semestre (acompanhar até Jun/27).","status":"Em Andamento"},
-      {"nome":"(1788) FERDI REPRESENTACOES LTDA","fat25":0.0,"fat26":14117.08,"pilar":"3. Expansão / Novos & Tração","diag":"Abertura de Região (Sul RO)","modalidade":"Acompanhar Região","acao":"Acompanhar abertura de região no Sul de RO.","status":"Em Andamento"},
-      {"nome":"(1797) FARIAS RIBEIRO REPRE. COM LTDA","fat25":21208.8,"fat26":11418.18,"pilar":"2. Intervenção em Campo","diag":"Concorrência / Preço","modalidade":"Acompanhamento + Amostras","acao":"Amostras chegaram há 15 dias; acompanhar quebra de paradigma de preço.","status":"Em Andamento"},
-      {"nome":"(1784) CJ MARTINS REPRESENTACAO COMER","fat25":0.0,"fat26":7055.35,"pilar":"2. Intervenção em Campo","diag":"Penetração Pequeno Varejo Capital","modalidade":"Carro Showroom (Abr/2027)","acao":"Carro Showroom Abr/2027 para maior penetração no pequeno varejo da capital.","status":"Agendado"},
-      {"nome":"(1794) DANTAS REPRESENTANÇÕES LTDA","fat25":0.0,"fat26":368.3,"pilar":"3. Expansão / Novos & Tração","diag":"Abertura de Região (AC)","modalidade":"Acompanhar Região","acao":"Acompanhar abertura do estado AC em parceria com rep RO.","status":"Em Andamento"},
-      {"nome":"(1796) RIBEIRO FERNANDES & REPRESENT","fat25":0.0,"fat26":368.3,"pilar":"3. Expansão / Novos & Tração","diag":"Abertura de Região (Norte RO)","modalidade":"Acompanhar Região","acao":"Acompanhar abertura de região no Norte de RO.","status":"Em Andamento"},
-      {"nome":"(1518) L & R REPRESEN COMERCIAIS LTDA","fat25":16742.53,"fat26":0.0,"pilar":"5. Inativo / Encerrado","diag":"Encerramento de Operação","modalidade":"Inativação Cadastral","acao":"Não atua mais no varejo — inativar cadastro.","status":"Encerrado"}
+      {"nome": "(1473) TATIELY DE FREITAS SOUZA REPRE", "fat25": 3600264.68, "fat26": 3576349.28, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (-0,7%)", "modalidade": "Acompanhar", "acao": "Acompanhar carteira estável (R$ 3,58M).", "status": "Em Andamento"},
+      {"nome": "(65) JOSE CARLOS ROMERO", "fat25": 3274304.29, "fat26": 3369849.56, "pilar": "2. Intervenção em Campo", "diag": "Aceleração de Mix", "modalidade": "Carro Showroom (Jan/2027)", "acao": "Carro Showroom agendado para Jan/2027.", "status": "Agendado"},
+      {"nome": "(719) ZOCCAL REPRESENTACOES LTDA", "fat25": 3874498.23, "fat26": 3325887.35, "pilar": "2. Intervenção em Campo", "diag": "Reestruturação de Território", "modalidade": "Viagem Gerente (Wesley)", "acao": "Visita agendada com novo rep Wesley na região reduzida para foco na CRV.", "status": "Agendado"},
+      {"nome": "(1420) MARCELO  C. ANTONIO & CIA LTDA", "fat25": 3583427.19, "fat26": 3280969.89, "pilar": "2. Intervenção em Campo", "diag": "Fortalecimento de Marca", "modalidade": "Carro Showroom (Fev/2027)", "acao": "Carro Showroom Fev/2027 para fortalecer marca na região.", "status": "Agendado"},
+      {"nome": "(1576) COMERCIO E REPRESEN HPS LTDA", "fat25": 3365855.76, "fat26": 2993322.12, "pilar": "2. Intervenção em Campo", "diag": "Retração Regional MatCon", "modalidade": "Visita Edson", "acao": "Visita Edson para avaliar retração do consumo varejo MatCon na região.", "status": "Agendado"},
+      {"nome": "(1574) BELARDINUSCI REPRES DE MAT CON", "fat25": 3093627.0, "fat26": 2931331.36, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (-5,2%)", "modalidade": "Acompanhar", "acao": "Acompanhar carteira estável (R$ 2,93M).", "status": "Em Andamento"},
+      {"nome": "(1181) ROMERO REPRESENTACAO DE MAT CO", "fat25": 2646838.64, "fat26": 2664981.33, "pilar": "2. Intervenção em Campo", "diag": "Aceleração de Mix", "modalidade": "Carro Showroom (Jan/2027)", "acao": "Carro Showroom agendado para Jan/2027 (paralelo à viagem do gerente em Tottene).", "status": "Agendado"},
+      {"nome": "(1583) HENRIQUE ANDRADE CARVALHO", "fat25": 2603819.64, "fat26": 2320306.77, "pilar": "2. Intervenção em Campo", "diag": "Retomada de Foco", "modalidade": "Visita Edson", "acao": "Visita Edson para consolidar retomada de foco após negócios paralelos.", "status": "Agendado"},
+      {"nome": "(1575) CUNHA GESTAO CONSULT EM VENDAS", "fat25": 2040961.87, "fat26": 2122548.88, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (+4,0%)", "modalidade": "Acompanhar", "acao": "Acompanhar evolução (+4,0%).", "status": "Em Andamento"},
+      {"nome": "(1397) RAFAEL ROMERO", "fat25": 2308945.93, "fat26": 2018340.08, "pilar": "2. Intervenção em Campo", "diag": "Concorrência / Preço", "modalidade": "Carro Showroom (Jan/2027)", "acao": "Carro Showroom Jan/2027 para combater JC Esquadrias e ocupar vácuo C&B/Engeal.", "status": "Agendado"},
+      {"nome": "(1624) DENIS REBOLLO GUERRERO 7727465", "fat25": 1932806.67, "fat26": 1786278.79, "pilar": "4. Manutenção / Carteira Estável", "diag": "Expansão de Mix via Catálogo", "modalidade": "Acompanhar + Catálogo", "acao": "Acompanhar trabalho e expandir mix com o novo catálogo.", "status": "Em Andamento"},
+      {"nome": "(1673) YAN CUNHA COMERCIO E REP LTDA", "fat25": 1722398.65, "fat26": 1505498.07, "pilar": "2. Intervenção em Campo", "diag": "Expansão de Mix via Catálogo", "modalidade": "Visita Edson", "acao": "Visita Edson para expandir mix com o novo catálogo e reverter queda.", "status": "Agendado"},
+      {"nome": "(1406) F&R GAVA REPRESENTACOES LTDA", "fat25": 1645315.7, "fat26": 1505017.18, "pilar": "4. Manutenção / Carteira Estável", "diag": "Expansão de Mix via Catálogo", "modalidade": "Acompanhar + Catálogo", "acao": "Acompanhar trabalho e expandir mix com o novo catálogo.", "status": "Em Andamento"},
+      {"nome": "(32) HELDER HUGO DA SILVA FABBRI", "fat25": 1413400.23, "fat26": 1380703.27, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (-2,3%)", "modalidade": "Acompanhar", "acao": "Acompanhar trabalho (R$ 1,38M).", "status": "Em Andamento"},
+      {"nome": "(11) RBG REPRESENTAÇÕES COMERCIAIS", "fat25": 1482135.43, "fat26": 1370378.28, "pilar": "4. Manutenção / Carteira Estável", "diag": "Divisão de Foco (Campeão)", "modalidade": "Acompanhar + Cobrar Varejo", "acao": "Acompanhar e cobrar resultado no varejo (foco desviado para Campeão).", "status": "Em Andamento"},
+      {"nome": "(1250) E P DOS SANTOS COMERCIO REPRE", "fat25": 1541640.83, "fat26": 1326984.1, "pilar": "1. Crítico / Avaliar Continuidade", "diag": "Perda de Foco / Conflito", "modalidade": "Analisar Continuidade", "acao": "Discutir continuidade do rep (montou loja própria; Guilherme faz 90% do resultado).", "status": "Pendente"},
+      {"nome": "(1442) CAPONI & OLIVEIRA MKT E REP", "fat25": 919965.3, "fat26": 1302592.96, "pilar": "3. Expansão / Novos & Tração", "diag": "Ganho de Foco (Saída Tigre)", "modalidade": "Acompanhar Região", "acao": "Acompanhar trabalho em Itumbiara e Caldas Novas (+41,6%).", "status": "Em Andamento"},
+      {"nome": "(1773) MINAS SUL REP COMERCIAL LTDA", "fat25": 1517494.25, "fat26": 1297433.31, "pilar": "2. Intervenção em Campo", "diag": "Retomada Comercial", "modalidade": "Carro Showroom (Nov/26)", "acao": "Andar com Carro Showroom e catálogo em Nov/26; possível visita após avanço negociações.", "status": "Em Andamento"},
+      {"nome": "(1240) CABRAL & PIROLLA REP COM LTDA", "fat25": 1012440.39, "fat26": 1212078.27, "pilar": "3. Expansão / Novos & Tração", "diag": "Expansão com Expositores", "modalidade": "Carro Showroom (Jan/2027)", "acao": "Carro Showroom Jan/2027 reforçando expositores e flexibilidade em negociações.", "status": "Agendado"},
+      {"nome": "(1433) S L DELLABETA & CIA LTDA - ME", "fat25": 1237744.61, "fat26": 1108411.85, "pilar": "2. Intervenção em Campo", "diag": "Concorrência / Clima", "modalidade": "Visita Mar/27 + Showroom Mar/Abr", "acao": "Visita Mar/27 + Carro Showroom Mar/Abr com flexibilidade na linha Unicca.", "status": "Agendado"},
+      {"nome": "(1775) BARAVELLI REPRE COMERC LTDA", "fat25": 957377.57, "fat26": 1090644.5, "pilar": "2. Intervenção em Campo", "diag": "Migração para Material Acabado", "modalidade": "Visita Gerente (até Mai/27)", "acao": "Acompanhar migração para material acabado; visita prevista até Maio.", "status": "Agendado"},
+      {"nome": "(1484) EDERSON WAGNER MENEZES", "fat25": 1287269.41, "fat26": 1083768.25, "pilar": "2. Intervenção em Campo", "diag": "Queda Relevante (-15,8%)", "modalidade": "Alinhamento (\"Discutir\")", "acao": "Discutir queda de R$ 203k e plano de retomada.", "status": "Pendente"},
+      {"nome": "(1483) VIVO REPRESENTACOES LTDA", "fat25": 977887.4, "fat26": 965093.08, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (-1,3%)", "modalidade": "Acompanhar", "acao": "Acompanhar carteira estável (R$ 965k).", "status": "Em Andamento"},
+      {"nome": "(351) G DE O MATIAS", "fat25": 1406889.39, "fat26": 963768.64, "pilar": "2. Intervenção em Campo", "diag": "Resistência à Tabela / Mix", "modalidade": "Visita Gerente (Mar/27)", "acao": "Visita Mar/27: trabalhar atualização da tabela e mescla de linhas.", "status": "Agendado"},
+      {"nome": "(1757) RPM REPRESENTACOES LTDA", "fat25": 1301523.57, "fat26": 939288.43, "pilar": "2. Intervenção em Campo", "diag": "Concorrência / Preço", "modalidade": "Visita Mar/27 + Showroom Abr/27", "acao": "Visita Mar/27 (tabela Pablo / G10) + Carro Showroom Abr/2027 contra JP Esquadrias.", "status": "Agendado"},
+      {"nome": "(1733) EDSON LUIS DIEHL", "fat25": 797695.46, "fat26": 913377.11, "pilar": "1. Crítico / Avaliar Continuidade", "diag": "Perda de Foco / Varejo Zero", "modalidade": "Avaliação Fim de Ano", "acao": "Nova avaliação no final do ano sobre falta de atuação no varejo.", "status": "Pendente"},
+      {"nome": "(1505) AC DOS SANTOS DE BARREIRAS ME", "fat25": 708769.68, "fat26": 903659.51, "pilar": "3. Expansão / Novos & Tração", "diag": "Foco Territorial (Sul PI)", "modalidade": "Acompanhar Região", "acao": "Acompanhar atuação do Guilherme no Sul do PI (+27,5%).", "status": "Em Andamento"},
+      {"nome": "(1762) F G REPRESENTACOES", "fat25": 124597.99, "fat26": 857473.74, "pilar": "3. Expansão / Novos & Tração", "diag": "Abertura de Mercado (Antiga Zé Netto)", "modalidade": "Acompanhar + Catálogo", "acao": "Acompanhar abertura de mercado com apoio do catálogo.", "status": "Em Andamento"},
+      {"nome": "(1782) PANIS REPRESENTACOES LTDA", "fat25": 58536.83, "fat26": 800484.26, "pilar": "3. Expansão / Novos & Tração", "diag": "Abertura de Mercado (Antiga Daniel SC)", "modalidade": "Acompanhar + Catálogo", "acao": "Acompanhar abertura de mercado com apoio do catálogo.", "status": "Em Andamento"},
+      {"nome": "(1714) ROCHA REPRESENTACOES LTDA", "fat25": 1067475.78, "fat26": 779722.48, "pilar": "2. Intervenção em Campo", "diag": "Afastamento Saúde / Retomada", "modalidade": "Visita Edson", "acao": "Visita Edson para retomada após 4 meses afastado por saúde.", "status": "Agendado"},
+      {"nome": "(1701) LUISTA REPRESENTACOES COM LTDA", "fat25": 867152.45, "fat26": 761444.67, "pilar": "2. Intervenção em Campo", "diag": "Objeção Técnica / Clima", "modalidade": "Visita + Showroom (Fev/27)", "acao": "Visita Fev/27 + Carro Showroom Fev/2027 para demonstrar diferenciais da grade.", "status": "Agendado"},
+      {"nome": "(1428) 95400628 CLADISMAR ALESSIO ME", "fat25": 693865.04, "fat26": 734880.49, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (+5,9%)", "modalidade": "Acompanhar", "acao": "Acompanhar evolução (+5,9%).", "status": "Em Andamento"},
+      {"nome": "(1727) 54.832.667 PEDRO LUCAS MARMORA", "fat25": 802265.79, "fat26": 720163.73, "pilar": "2. Intervenção em Campo", "diag": "Concentração / Mix Restrito", "modalidade": "Alinhamento (\"Discutir\")", "acao": "Discutir abertura de novos clientes e ampliação de mix além de gabinetes/piso.", "status": "Pendente"},
+      {"nome": "(1776) WILSON  EVARISTO  DA  SILVA", "fat25": 732530.08, "fat26": 719399.45, "pilar": "4. Manutenção / Carteira Estável", "diag": "Cobertura Territorial Incompleta", "modalidade": "Acompanhar + Cobrar Cobertura", "acao": "Acompanhar trabalho e cobrar visitas em toda a região.", "status": "Em Andamento"},
+      {"nome": "(1123) FRANCISCO ANTONIO DE ALENCAR", "fat25": 753403.9, "fat26": 658710.95, "pilar": "2. Intervenção em Campo", "diag": "Fator Climático / Acesso", "modalidade": "Acompanhar", "acao": "Acompanhar retomada após chuvas e difícil acesso.", "status": "Em Andamento"},
+      {"nome": "(1642) JOSE SALES FERREIRA SILVA", "fat25": 751920.86, "fat26": 647410.26, "pilar": "2. Intervenção em Campo", "diag": "Baixa Penetração na Capital", "modalidade": "Visita Gerente", "acao": "Visita para penetração nos médios e grandes lojistas de Goiânia Capital.", "status": "Agendado"},
+      {"nome": "(1571) LOPES E GOMES REPR COMERCIAIS", "fat25": 666884.45, "fat26": 645393.27, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (-3,2%)", "modalidade": "Acompanhar", "acao": "Acompanhar carteira (R$ 645k).", "status": "Em Andamento"},
+      {"nome": "(1430) TOTTENE - REPRES. COMERCIAL LT", "fat25": 839205.55, "fat26": 567779.35, "pilar": "2. Intervenção em Campo", "diag": "Queda Relevante (-32,3%)", "modalidade": "Visita Gerente (Jan/2027)", "acao": "Visita postergada será realizada em Jan/2027; precisa retomar até fim do 1º semestre.", "status": "Agendado"},
+      {"nome": "(1578) BRENO A P MACIEL REPRES. - EPP", "fat25": 551353.96, "fat26": 523039.59, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (-5,1%)", "modalidade": "Acompanhar", "acao": "Acompanhar carteira estável (R$ 523k).", "status": "Em Andamento"},
+      {"nome": "(1732) PORTELA E CARVALHO LTDA", "fat25": 534328.59, "fat26": 431956.04, "pilar": "2. Intervenção em Campo", "diag": "Base Comparativa / Logística MT", "modalidade": "Acompanhar Logística", "acao": "Acompanhar melhora de logística e impacto da unificação acima de Nova Mutum/MT.", "status": "Em Andamento"},
+      {"nome": "(1786) AIRTON ALVES CARDOSO", "fat25": 0.0, "fat26": 401987.37, "pilar": "3. Expansão / Novos & Tração", "diag": "Abertura de Região (Sul RS)", "modalidade": "Acompanhar Região", "acao": "Acompanhar abertura da área nova no Sul do RS.", "status": "Em Andamento"},
+      {"nome": "(1774) ALIANÇA REPRESENTAÇÕES LTDA", "fat25": 0.0, "fat26": 324979.54, "pilar": "3. Expansão / Novos & Tração", "diag": "Abertura de Mercado / Catálogo", "modalidade": "Acompanhar + Catálogo", "acao": "Acompanhar destravamento de negociações com a chegada do catálogo.", "status": "Em Andamento"},
+      {"nome": "(1779) COBRA REPRESENTACOES COMERCIAL", "fat25": 221444.36, "fat26": 314516.35, "pilar": "3. Expansão / Novos & Tração", "diag": "Oportunidade de Ganho de Share", "modalidade": "Liberação Linha Unicca", "acao": "Estratégia sugerida: liberar linha Unicca no 1º Sem/27 sem trava para abrir mercado.", "status": "Pendente"},
+      {"nome": "(1691) E MARIANO DA SILVA", "fat25": 315939.37, "fat26": 309684.74, "pilar": "4. Manutenção / Carteira Estável", "diag": "Carteira Estável (-2,0%)", "modalidade": "Acompanhar", "acao": "Acompanhar carteira estável (R$ 310k).", "status": "Em Andamento"},
+      {"nome": "(1756) T & C COMERCIO E REP LTDA", "fat25": 163281.87, "fat26": 265589.11, "pilar": "1. Crítico / Avaliar Continuidade", "diag": "Baixo Giro / Desinteresse Rep", "modalidade": "Avaliação Fim de Ano", "acao": "Conversar no final do ano sobre continuidade (solicitação do rep).", "status": "Pendente"},
+      {"nome": "(1772) 50.149.105 DOUGLAS ADRIANO ZAN", "fat25": 100564.1, "fat26": 255951.61, "pilar": "3. Expansão / Novos & Tração", "diag": "Região Ampliada (+154,5%)", "modalidade": "Acompanhar Região", "acao": "Acompanhar evolução na região ampliada.", "status": "Em Andamento"},
+      {"nome": "(1432) M.MAXIMO REPRESENTAÇOES LTDA", "fat25": 233402.57, "fat26": 206929.23, "pilar": "2. Intervenção em Campo", "diag": "Transição de Carteira Varejo", "modalidade": "Acompanhar Transição", "acao": "Varejo encaminhado ao rep CJ Martins.", "status": "Em Andamento"},
+      {"nome": "(1722) COMERCIAL ARRUDA LTDA", "fat25": 317403.67, "fat26": 198087.72, "pilar": "1. Crítico / Avaliar Continuidade", "diag": "Pendência Financeira / Desfoco", "modalidade": "Visita Edson", "acao": "Visita Edson: rep desfocou após dever para CRV e não receber comissão líquida.", "status": "Agendado"},
+      {"nome": "(1563) ATHENAS COMER. E REPRES. LTDA", "fat25": 250031.58, "fat26": 175637.43, "pilar": "2. Intervenção em Campo", "diag": "Concentração Grandes Players", "modalidade": "Acompanhar Negociação", "acao": "Acompanhar negociação com a loja Virtual de Alvorada.", "status": "Em Andamento"},
+      {"nome": "(1689) BNA REPRESENTACOES COM LTDA", "fat25": 128162.31, "fat26": 102290.0, "pilar": "2. Intervenção em Campo", "diag": "Foco em Grandes Contas (GC)", "modalidade": "Acompanhar", "acao": "Acompanhar atendimento a clientes maiores enquadrados em GC.", "status": "Em Andamento"},
+      {"nome": "(1792) MAVAN COM. REPRESENTACOES LTDA", "fat25": 116559.26, "fat26": 90012.98, "pilar": "1. Crítico / Avaliar Continuidade", "diag": "Baixa Performance Pós-Contratação", "modalidade": "Acompanhamento de Trabalho", "acao": "Contratado pós-FEICON; acompanhar desenvolvimento e cobrar entregas reais.", "status": "Pendente"},
+      {"nome": "(1744) MILTON SALVADOR MOREIRA & CIA", "fat25": 32290.72, "fat26": 83511.93, "pilar": "3. Expansão / Novos & Tração", "diag": "Concorrência Informal / ST 28%", "modalidade": "Acompanhar", "acao": "Acompanhar concorrência de alumínio BA e primer sem NF (ST 28%).", "status": "Em Andamento"},
+      {"nome": "(1798) G DORNELAS NASCIMENTO REP.LTDA", "fat25": 317865.7, "fat26": 73077.0, "pilar": "2. Intervenção em Campo", "diag": "Falta de Material de Apoio", "modalidade": "Envio Catálogo/Amostras", "acao": "Providenciar envio urgente de catálogo e amostras.", "status": "Em Andamento"},
+      {"nome": "(1743) J. A. HOTT REPRESENTACOES LTDA", "fat25": 14364.58, "fat26": 47847.77, "pilar": "3. Expansão / Novos & Tração", "diag": "Crescimento Acelerado (+233%)", "modalidade": "Acompanhar Trabalho", "acao": "Acompanhar evolução do trabalho (+233,1%).", "status": "Em Andamento"},
+      {"nome": "(1760) DGO REPRESENTACOES LTDA", "fat25": 76930.07, "fat26": 38971.08, "pilar": "2. Intervenção em Campo", "diag": "Concorrência / Preço (BH)", "modalidade": "Acompanhar", "acao": "Acompanhar região de BH voltada somente a preço.", "status": "Em Andamento"},
+      {"nome": "(1652) HENRIQUE & BARBOSA REPRESENTAC", "fat25": 75560.14, "fat26": 33746.49, "pilar": "1. Crítico / Avaliar Continuidade", "diag": "Queda Crítica (-55,3%)", "modalidade": "Acompanhar até Jun/2027", "acao": "Retomada de trabalho com a Unicca — última chance no 1º semestre (acompanhar até Jun/27).", "status": "Em Andamento"},
+      {"nome": "(1788) FERDI REPRESENTACOES LTDA", "fat25": 0.0, "fat26": 14117.08, "pilar": "3. Expansão / Novos & Tração", "diag": "Abertura de Região (Sul RO)", "modalidade": "Acompanhar Região", "acao": "Acompanhar abertura de região no Sul de RO.", "status": "Em Andamento"},
+      {"nome": "(1797) FARIAS RIBEIRO REPRE. COM LTDA", "fat25": 21208.8, "fat26": 11418.18, "pilar": "2. Intervenção em Campo", "diag": "Concorrência / Preço", "modalidade": "Acompanhamento + Amostras", "acao": "Amostras chegaram há 15 dias; acompanhar quebra de paradigma de preço.", "status": "Em Andamento"},
+      {"nome": "(1784) CJ MARTINS REPRESENTACAO COMER", "fat25": 0.0, "fat26": 7055.35, "pilar": "2. Intervenção em Campo", "diag": "Penetração Pequeno Varejo Capital", "modalidade": "Carro Showroom (Abr/2027)", "acao": "Carro Showroom Abr/2027 para maior penetração no pequeno varejo da capital.", "status": "Agendado"},
+      {"nome": "(1794) DANTAS REPRESENTANÇÕES LTDA", "fat25": 0.0, "fat26": 368.3, "pilar": "3. Expansão / Novos & Tração", "diag": "Abertura de Região (AC)", "modalidade": "Acompanhar Região", "acao": "Acompanhar abertura do estado AC em parceria com rep RO.", "status": "Em Andamento"},
+      {"nome": "(1796) RIBEIRO FERNANDES & REPRESENT", "fat25": 0.0, "fat26": 368.3, "pilar": "3. Expansão / Novos & Tração", "diag": "Abertura de Região (Norte RO)", "modalidade": "Acompanhar Região", "acao": "Acompanhar abertura de região no Norte de RO.", "status": "Em Andamento"},
+      {"nome": "(1518) L & R REPRESEN COMERCIAIS LTDA", "fat25": 16742.53, "fat26": 0.0, "pilar": "5. Inativo / Encerrado", "diag": "Encerramento de Operação", "modalidade": "Inativação Cadastral", "acao": "Não atua mais no varejo — inativar cadastro.", "status": "Encerrado"}
     ];
 
     const INITIAL_TASKS = {
@@ -895,7 +943,7 @@
     // =========================================================================
     // 2. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
     // =========================================================================
-    const STORAGE_KEY = 'crv_planner_rotina_v5';
+    const STORAGE_KEY = 'crv_planner_rotina_v6';
 
     const NATIONAL_HOLIDAYS = {
       '2026-11-02': 'FINADOS',
@@ -941,15 +989,15 @@
     function normalizeWeekObj(w) {
       return {
         ...w,
-        gerente: Array.isArray(w.gerente) ? w.gerente : (Array.isArray(w.gerenteReps) ? w.gerenteReps : []),
-        showroom: Array.isArray(w.showroom) ? w.showroom : (Array.isArray(w.showroomReps) ? w.showroomReps : []),
-        fabrica: Array.isArray(w.fabrica) ? w.fabrica : (Array.isArray(w.fabricaReps) ? w.fabricaReps : [])
+        gerenteReps: Array.isArray(w.gerenteReps) ? w.gerenteReps : [],
+        showroomReps: Array.isArray(w.showroomReps) ? w.showroomReps : [],
+        fabricaReps: Array.isArray(w.fabricaReps) ? w.fabricaReps : []
       };
     }
 
     function loadState() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('crv_planner_rotina_v5') || localStorage.getItem('crv_planner_rotina_v4');
         if (raw) {
           const parsed = JSON.parse(raw);
           state.weeks = Array.isArray(parsed.weeks) && parsed.weeks.length
@@ -967,7 +1015,6 @@
           state.activeRotinaWeek = 'S47';
         }
       } catch (e) {
-        console.error('Erro ao ler localStorage:', e);
         state.weeks = structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
         state.reps = structuredClone(INITIAL_REPS);
         state.tasksByWeek = structuredClone(INITIAL_TASKS);
@@ -1042,9 +1089,9 @@
     function getRepScheduledWeeks(repName) {
       const list = [];
       state.weeks.forEach(w => {
-        const inG = w.gerente.includes(repName);
-        const inS = w.showroom.includes(repName);
-        const inF = w.fabrica.includes(repName);
+        const inG = w.gerenteReps.includes(repName);
+        const inS = w.showroomReps.includes(repName);
+        const inF = (w.fabricaReps || []).includes(repName);
         const activeCount = (inG ? 1 : 0) + (inS ? 1 : 0) + (inF ? 1 : 0);
         if (activeCount > 1) list.push({ id: w.id, mes: w.mes, type: 'both', inG, inS, inF });
         else if (inG) list.push({ id: w.id, mes: w.mes, type: 'gerente', inG, inS, inF });
@@ -1079,26 +1126,16 @@
       }, 3200);
     }
 
-    function openConfirmModal(title, message, onConfirm) {
-      const modal = document.getElementById('confirm-modal');
-      document.getElementById('confirm-title').textContent = title;
-      document.getElementById('confirm-message').textContent = message;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+    function openGithubHelpModal() {
+      const m = document.getElementById('github-help-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
 
-      const cancelBtn = document.getElementById('confirm-cancel-btn');
-      const okBtn = document.getElementById('confirm-ok-btn');
-
-      const close = () => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-      };
-
-      cancelBtn.onclick = close;
-      okBtn.onclick = () => {
-        close();
-        onConfirm();
-      };
+    function closeGithubHelpModal() {
+      const m = document.getElementById('github-help-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
     }
 
     // =========================================================================
@@ -1119,11 +1156,11 @@
         }
       });
 
-      updateKPIs();
       if (tab === 'mensal') {
         renderMonthlySidebar();
         renderMonthlyPlanner();
       } else if (tab === 'planner') {
+        updateKPIs();
         renderSidebarReps();
         renderWeeksGrid();
       } else if (tab === 'rotina') {
@@ -1135,7 +1172,7 @@
     }
 
     // =========================================================================
-    // 4B. PLANNER MENSAL VERTICAL (COLUNA ÚNICA: NOV/2026 – JUN/2027)
+    // 4B. PLANNER MENSAL VERTICAL (COLUNA ÚNICA + EXCLUIR DIA + ARRASTAR BLOCO)
     // =========================================================================
     function getISOWeekCode(dateObj) {
       const target = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()));
@@ -1201,7 +1238,7 @@
         const sched = getRepScheduledWeeks(rep.nome);
         const pills = sched.map(s => {
           const meta = getFrontMeta(s.type);
-          return `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${meta.pillCls}">${meta.icon} ${s.id}</span>`;
+          return `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${meta.pillCls}">${meta.icon}${s.id}</span>`;
         }).join('');
 
         return `
@@ -1219,13 +1256,7 @@
               <span class="font-semibold">${formatBRL(rep.fat26)}</span>
               <span class="truncate max-w-[115px]">${rep.diag}</span>
             </div>
-            <div class="flex items-center justify-between gap-1 mt-1.5 pt-1.5 border-t border-slate-100">
-              <div class="flex flex-wrap gap-1">${pills || '<span class="text-[10px] text-slate-400 italic">Sem agenda</span>'}</div>
-              <button
-                onclick="openScheduleModal(${JSON.stringify(rep.nome).replace(/"/g, '&quot;')}, 'gerente')"
-                class="text-[10px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-600 hover:text-white px-2 py-0.5 rounded-md transition shrink-0"
-              >+ Alocar</button>
-            </div>
+            ${pills ? `<div class="flex flex-wrap gap-1 mt-1.5">${pills}</div>` : ''}
           </div>
         `;
       }).join('');
@@ -1234,7 +1265,7 @@
     function openQuickWeekAssignModal(weekId) {
       const w = state.weeks.find(item => item.id === weekId);
       if (!w) return;
-      const defaultRep = w.gerente[0] || w.showroom[0] || w.fabrica[0] || state.reps[0]?.nome;
+      const defaultRep = w.gerenteReps[0] || w.showroomReps[0] || (w.fabricaReps || [])[0] || state.reps[0]?.nome;
       if (defaultRep) {
         openScheduleModal(defaultRep, 'gerente');
         const sel = document.getElementById('schedule-week-select');
@@ -1245,8 +1276,158 @@
       }
     }
 
+    // Extract the effective activity of any given date so it can be dragged as a block
+    function getEffectiveDayActivity(isoDate, weekId, dayIdx) {
+      const override = state.dayOverrides[isoDate];
+      if (override) {
+        if (override.type === 'EMPTY') return null;
+        return {
+          type: override.type || 'CUSTOM',
+          label: override.label || 'Atividade',
+          note: override.note || ''
+        };
+      }
+
+      const holiday = NATIONAL_HOLIDAYS[isoDate];
+      if (holiday) {
+        return { type: 'FERIADO', label: holiday, note: '' };
+      }
+
+      const isWeekend = dayIdx >= 5;
+      if (isWeekend || !weekId) return null;
+
+      const pw = state.weeks.find(w => w.id === weekId);
+      if (!pw) return null;
+
+      const hasG = pw.gerenteReps.length > 0;
+      const hasS = pw.showroomReps.length > 0;
+      const hasF = (pw.fabricaReps || []).length > 0;
+
+      if (hasG) {
+        return { type: 'GERENTE', label: pw.gerenteReps.map(shortRepName).join(', '), note: '' };
+      }
+      if (hasS) {
+        return { type: 'SHOWROOM', label: pw.showroomReps.map(shortRepName).join(', '), note: '' };
+      }
+      if (hasF) {
+        return { type: 'FABRICA', label: pw.fabricaReps.map(shortRepName).join(', '), note: '' };
+      }
+      return { type: 'BASE', label: 'Base / Disp.', note: '' };
+    }
+
+    // Clear day completely (leave completely blank/empty)
+    function clearDayCompletely(isoDate) {
+      if (!isoDate) return;
+      state.dayOverrides[isoDate] = { type: 'EMPTY', label: '', note: '' };
+      saveState();
+      updateKPIs();
+      renderMonthlyPlanner();
+      if (editingDayISO === isoDate) closeDayEditorModal();
+      showToast('Dia excluído e deixado em branco.', 'info');
+    }
+
+    // Restore cleared/edited day back to week default
+    function restoreDayDirectly(isoDate) {
+      if (!isoDate) return;
+      delete state.dayOverrides[isoDate];
+      saveState();
+      updateKPIs();
+      renderMonthlyPlanner();
+      showToast('↩ Dia restaurado ao padrão da semana.', 'info');
+    }
+
+    // Drag start of a day's activity block
+    function handleDayBlockDragStart(event, fromIsoDate, weekId, dayIdx) {
+      event.stopPropagation();
+      const activity = getEffectiveDayActivity(fromIsoDate, weekId, dayIdx);
+      if (!activity) {
+        event.preventDefault();
+        return;
+      }
+      dragPayload = {
+        source: 'dayBlock',
+        fromIsoDate,
+        activity
+      };
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', JSON.stringify(dragPayload));
+      event.currentTarget.classList.add('dragging-card');
+    }
+
+    function handleDayCellDragOver(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.dataTransfer.dropEffect = 'move';
+      event.currentTarget.classList.add('drag-over-day');
+    }
+
+    function handleDayCellDragLeave(event) {
+      event.currentTarget.classList.remove('drag-over-day');
+    }
+
+    // Drop a day activity block OR a sidebar representative onto a target day cell
+    function handleDayCellDrop(event, targetIsoDate, targetWeekId) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.currentTarget.classList.remove('drag-over-day');
+
+      let payload = dragPayload;
+      if (!payload) {
+        try {
+          payload = JSON.parse(event.dataTransfer.getData('text/plain'));
+        } catch (e) {
+          return;
+        }
+      }
+      if (!payload) return;
+
+      // Case A: Moving an activity block from one day to another day
+      if (payload.source === 'dayBlock' && payload.fromIsoDate && payload.activity) {
+        if (payload.fromIsoDate === targetIsoDate) {
+          dragPayload = null;
+          return;
+        }
+        // Leave origin day completely blank/empty
+        state.dayOverrides[payload.fromIsoDate] = { type: 'EMPTY', label: '', note: '' };
+        // Place activity block on target day
+        state.dayOverrides[targetIsoDate] = {
+          type: payload.activity.type,
+          label: payload.activity.label,
+          note: payload.activity.note || ''
+        };
+        saveState();
+        updateKPIs();
+        renderMonthlyPlanner();
+        showToast(`✅ Bloco "${payload.activity.label}" movido para ${targetIsoDate.split('-').reverse().join('/')}.`);
+        dragPayload = null;
+        return;
+      }
+
+      // Case B: Dragging a representative from sidebar onto a specific day
+      if (payload.repName) {
+        if (targetWeekId) {
+          openScheduleModal(payload.repName, 'gerente');
+          const sel = document.getElementById('schedule-week-select');
+          if (sel) {
+            sel.value = targetWeekId;
+            checkModalConsecutiveWarning();
+          }
+        } else {
+          state.dayOverrides[targetIsoDate] = {
+            type: 'GERENTE',
+            label: shortRepName(payload.repName),
+            note: ''
+          };
+          saveState();
+          renderMonthlyPlanner();
+          showToast(`✅ ${shortRepName(payload.repName)} alocado em ${targetIsoDate.split('-').reverse().join('/')}.`);
+        }
+        dragPayload = null;
+      }
+    }
+
     // =========================================================================
-    // 4C. INDIVIDUAL DAY CUSTOMIZER & ONE-CLICK CANCEL ("✕")
+    // 4C. INDIVIDUAL DAY CUSTOMIZER MODAL
     // =========================================================================
     function openDayEditorModal(isoDate, weekId) {
       editingDayISO = isoDate;
@@ -1267,9 +1448,9 @@
         defaultHint = `Feriado Nacional: 🎉 ${NATIONAL_HOLIDAYS[isoDate]}`;
       } else if (pw) {
         const parts = [];
-        if (pw.gerente.length) parts.push(`✈ Gerente (${pw.gerente.map(shortRepName).join(', ')})`);
-        if (pw.showroom.length) parts.push(`🚐 Showroom (${pw.showroom.map(shortRepName).join(', ')})`);
-        if (pw.fabrica.length) parts.push(`🏭 Fábrica (${pw.fabrica.map(shortRepName).join(', ')})`);
+        if (pw.gerenteReps.length) parts.push(`✈ Gerente (${pw.gerenteReps.map(shortRepName).join(', ')})`);
+        if (pw.showroomReps.length) parts.push(`🚐 Showroom (${pw.showroomReps.map(shortRepName).join(', ')})`);
+        if ((pw.fabricaReps || []).length) parts.push(`🏭 Fábrica (${pw.fabricaReps.map(shortRepName).join(', ')})`);
         if (parts.length) defaultHint = `Padrão da semana: ${parts.join(' + ')}`;
       }
       document.getElementById('day-editor-default-hint').textContent = defaultHint;
@@ -1302,28 +1483,36 @@
 
     function onDayEditorTypeChange() {
       const type = document.getElementById('day-editor-type').value;
+      const fieldsWrap = document.getElementById('day-editor-fields');
       const labelInput = document.getElementById('day-editor-label');
-      const defaults = {
-        FABRICA: 'Fábrica CRV - Visita / Alinhamento',
-        GERENTE: 'Viagem Gerente',
-        SHOWROOM: 'Carro Showroom',
-        BASE: 'Base / Escritório',
-        FERIADO: 'Folga / Feriado',
-        CANCELADO: 'Dia Cancelado / Livre'
-      };
-      if (defaults[type]) {
-        labelInput.placeholder = `Ex: ${defaults[type]}`;
+
+      if (type === 'EMPTY') {
+        fieldsWrap.classList.add('opacity-40', 'pointer-events-none');
+      } else {
+        fieldsWrap.classList.remove('opacity-40', 'pointer-events-none');
+      }
+
+      if (!labelInput.value.trim()) {
+        const defaults = {
+          FABRICA: 'Fábrica CRV - Visita / Alinhamento',
+          GERENTE: 'Viagem Gerente',
+          SHOWROOM: 'Carro Showroom',
+          BASE: 'Base / Escritório',
+          FERIADO: 'Folga / Feriado'
+        };
+        if (defaults[type]) labelInput.placeholder = `Ex: ${defaults[type]}`;
       }
     }
 
     function applyRepToDayLabel(shortName) {
       if (!shortName) return;
-      const typeSelect = document.getElementById('day-editor-type');
+      const type = document.getElementById('day-editor-type').value;
       const labelInput = document.getElementById('day-editor-label');
-      if (typeSelect.value === 'DEFAULT' || typeSelect.value === 'CANCELADO') {
-        typeSelect.value = 'GERENTE';
+      if (type === 'DEFAULT' || type === 'EMPTY') {
+        document.getElementById('day-editor-type').value = 'GERENTE';
+        onDayEditorTypeChange();
       }
-      if (typeSelect.value === 'FABRICA') {
+      if (document.getElementById('day-editor-type').value === 'FABRICA') {
         labelInput.value = `Fábrica c/ ${shortName}`;
       } else {
         labelInput.value = shortName;
@@ -1338,13 +1527,20 @@
       editingDayWeekId = null;
     }
 
+    function clearDayFromModal() {
+      if (!editingDayISO) return;
+      clearDayCompletely(editingDayISO);
+    }
+
     function saveDayOverride() {
       if (!editingDayISO) return;
       const type = document.getElementById('day-editor-type').value;
       const label = document.getElementById('day-editor-label').value.trim();
       const note = document.getElementById('day-editor-note').value.trim();
 
-      if (type === 'DEFAULT' && !label && !note) {
+      if (type === 'EMPTY') {
+        state.dayOverrides[editingDayISO] = { type: 'EMPTY', label: '', note: '' };
+      } else if (type === 'DEFAULT' && !label && !note) {
         delete state.dayOverrides[editingDayISO];
       } else {
         const fallbackLabels = {
@@ -1353,7 +1549,6 @@
           FABRICA: 'Visita à Fábrica CRV',
           BASE: 'Base / Escritório',
           FERIADO: 'Folga / Feriado',
-          CANCELADO: 'Dia Cancelado / Livre',
           CUSTOM: 'Compromisso Personalizado',
           DEFAULT: 'Dia Personalizado'
         };
@@ -1381,29 +1576,85 @@
       showToast('↺ Dia restaurado ao padrão da semana.', 'info');
     }
 
-    function cancelDayDirectly(isoDate) {
-      if (!isoDate) return;
-      state.dayOverrides[isoDate] = {
-        type: 'CANCELADO',
-        label: 'Dia Cancelado / Livre',
-        note: 'Cancelado manualmente no calendário'
+    function renderDayBlockBadge(type, label, note, isoDate, weekId, dayIdx) {
+      const themes = {
+        GERENTE: {
+          wrap: 'bg-blue-600 text-white border-blue-700',
+          icon: '✈',
+          tag: 'VIAGEM'
+        },
+        SHOWROOM: {
+          wrap: 'bg-orange-500 text-white border-orange-600',
+          icon: '🚐',
+          tag: 'SHOWROOM'
+        },
+        FABRICA: {
+          wrap: 'bg-teal-600 text-white border-teal-700',
+          icon: '🏭',
+          tag: 'FÁBRICA'
+        },
+        FERIADO: {
+          wrap: 'bg-emerald-600 text-white border-emerald-700',
+          icon: '🎉',
+          tag: 'FERIADO'
+        },
+        BASE: {
+          wrap: 'bg-slate-200/90 text-slate-700 border-slate-300',
+          icon: '🏢',
+          tag: 'BASE'
+        },
+        CUSTOM: {
+          wrap: 'bg-indigo-600 text-white border-indigo-700',
+          icon: '📌',
+          tag: 'AGENDA'
+        },
+        DEFAULT: {
+          wrap: 'bg-amber-500 text-white border-amber-600',
+          icon: '✏️',
+          tag: 'EDITADO'
+        }
       };
-      saveState();
-      updateKPIs();
-      renderMonthlyPlanner();
-      if (editingDayISO === isoDate) closeDayEditorModal();
-      const [, m, d] = isoDate.split('-');
-      showToast(`✕ Dia ${d}/${m} cancelado individualmente.`, 'info');
-    }
 
-    function restoreDayDirectly(isoDate) {
-      if (!isoDate) return;
-      delete state.dayOverrides[isoDate];
-      saveState();
-      updateKPIs();
-      renderMonthlyPlanner();
-      const [, m, d] = isoDate.split('-');
-      showToast(`↩ Dia ${d}/${m} restaurado ao padrão da semana.`, 'info');
+      const st = themes[type] || themes.CUSTOM;
+      const weekArg = weekId ? `'${weekId}'` : `''`;
+
+      if (type === 'BASE') {
+        return `
+          <div
+            draggable="true"
+            ondragstart="handleDayBlockDragStart(event, '${isoDate}', ${weekArg}, ${dayIdx})"
+            ondragend="handleDragEnd(event)"
+            title="Arraste este bloco para outro dia ou clique no ✕ acima para deixar o dia em branco"
+            class="mt-1.5 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-600 flex items-center justify-between gap-1 cursor-grab active:cursor-grabbing select-none transition"
+          >
+            <span class="flex items-center gap-1.5 text-[11px] font-semibold truncate">
+              <span class="text-sm leading-none">🏢</span>
+              <span class="truncate">${label}</span>
+            </span>
+            <span class="text-[10px] text-slate-400">⋮⋮</span>
+          </div>
+        `;
+      }
+
+      return `
+        <div
+          draggable="true"
+          ondragstart="handleDayBlockDragStart(event, '${isoDate}', ${weekArg}, ${dayIdx})"
+          ondragend="handleDragEnd(event)"
+          title="Puxe este bloco para mover para outro dia • ${label}${note ? ' (' + note + ')' : ''}"
+          class="mt-1.5 p-1.5 rounded-xl border ${st.wrap} shadow-2xs cursor-grab active:cursor-grabbing select-none transition hover:brightness-105"
+        >
+          <div class="flex items-center justify-between gap-1">
+            <span class="inline-flex items-center gap-1 text-[10px] font-black tracking-wide uppercase">
+              <span class="text-base leading-none">${st.icon}</span>
+              <span>${st.tag}</span>
+            </span>
+            <span class="text-[10px] opacity-75">⋮⋮</span>
+          </div>
+          <div class="text-[11px] font-extrabold leading-tight line-clamp-2 mt-0.5">${label}</div>
+          ${note ? `<div class="text-[9px] opacity-90 truncate mt-0.5">${note}</div>` : ''}
+        </div>
+      `;
     }
 
     function renderMonthlyPlanner() {
@@ -1414,9 +1665,9 @@
 
       let gCount = 0, sCount = 0, fCount = 0, multiCount = 0, baseCount = 0;
       state.weeks.forEach(w => {
-        const hasG = w.gerente.length > 0;
-        const hasS = w.showroom.length > 0;
-        const hasF = w.fabrica.length > 0;
+        const hasG = w.gerenteReps.length > 0;
+        const hasS = w.showroomReps.length > 0;
+        const hasF = (w.fabricaReps || []).length > 0;
         const fronts = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
         if (fronts > 1) multiCount++;
         if (hasG) gCount++;
@@ -1430,11 +1681,11 @@
       const summaryEl = document.getElementById('mensal-summary-pills');
       if (summaryEl) {
         summaryEl.innerHTML = `
-          <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 font-bold border border-blue-200"><span class="text-sm">✈</span> Gerente: ${gCount} sem.</span>
-          <span class="px-2.5 py-1 rounded-lg bg-orange-50 text-orange-800 font-bold border border-orange-200"><span class="text-sm">🚐</span> Showroom: ${sCount} sem.</span>
-          <span class="px-2.5 py-1 rounded-lg bg-teal-50 text-teal-800 font-bold border border-teal-200"><span class="text-sm">🏭</span> Fábrica: ${fCount} sem.${customFabricaDays ? ` (+${customFabricaDays}d)` : ''}</span>
-          <span class="px-2.5 py-1 rounded-lg bg-purple-50 text-purple-800 font-bold border border-purple-200"><span class="text-sm">🟣</span> Múltiplas: ${multiCount} sem.</span>
-          <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold border border-slate-200"><span class="text-sm">🏢</span> Base: ${baseCount} sem.</span>
+          <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 font-bold border border-blue-200">✈ Gerente: ${gCount} sem.</span>
+          <span class="px-2.5 py-1 rounded-lg bg-orange-50 text-orange-800 font-bold border border-orange-200">🚐 Showroom: ${sCount} sem.</span>
+          <span class="px-2.5 py-1 rounded-lg bg-teal-50 text-teal-800 font-bold border border-teal-200">🏭 Fábrica: ${fCount} sem.${customFabricaDays ? ` (+${customFabricaDays}d)` : ''}</span>
+          <span class="px-2.5 py-1 rounded-lg bg-purple-50 text-purple-800 font-bold border border-purple-200">🟣 Múltiplas: ${multiCount} sem.</span>
+          <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold border border-slate-200">🏢 Base: ${baseCount} sem.</span>
         `;
       }
 
@@ -1446,9 +1697,9 @@
 
         const rowsHtml = matrix.map(row => {
           const pw = row.plannedWeek;
-          const hasG = pw && pw.gerente.length > 0;
-          const hasS = pw && pw.showroom.length > 0;
-          const hasF = pw && pw.fabrica.length > 0;
+          const hasG = pw && pw.gerenteReps.length > 0;
+          const hasS = pw && pw.showroomReps.length > 0;
+          const hasF = pw && (pw.fabricaReps || []).length > 0;
           const activeFronts = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
 
           let weekBadgeCls = 'bg-slate-100 text-slate-500';
@@ -1470,23 +1721,23 @@
             }
 
             if (activeFronts === 0) {
-              agendaSummaryHtml = `<div class="text-xs font-semibold text-slate-500 flex items-center gap-1"><span class="text-base">🏢</span> Base / Disponível</div>`;
+              agendaSummaryHtml = `<div class="text-xs font-semibold text-slate-500">🏢 Base / Disponível</div>`;
             } else {
-              const gChips = pw.gerente.map(r => `
+              const gChips = pw.gerenteReps.map(r => `
                 <div class="flex items-center justify-between gap-1.5 bg-blue-600 text-white px-2 py-1 rounded-lg text-[11px] font-bold shadow-2xs">
-                  <span class="truncate flex items-center gap-1" title="${r}"><span class="text-sm">✈</span> ${shortRepName(r)}</span>
+                  <span class="truncate" title="${r}">✈ ${shortRepName(r)}</span>
                   <button onclick="event.stopPropagation(); removeRepFromWeek('${pw.id}', 'gerente', ${JSON.stringify(r).replace(/"/g, '&quot;')})" class="text-blue-200 hover:text-white ml-1">✕</button>
                 </div>
               `).join('');
-              const sChips = pw.showroom.map(r => `
+              const sChips = pw.showroomReps.map(r => `
                 <div class="flex items-center justify-between gap-1.5 bg-orange-500 text-white px-2 py-1 rounded-lg text-[11px] font-bold shadow-2xs">
-                  <span class="truncate flex items-center gap-1" title="${r}"><span class="text-sm">🚐</span> ${shortRepName(r)}</span>
+                  <span class="truncate" title="${r}">🚐 ${shortRepName(r)}</span>
                   <button onclick="event.stopPropagation(); removeRepFromWeek('${pw.id}', 'showroom', ${JSON.stringify(r).replace(/"/g, '&quot;')})" class="text-orange-100 hover:text-white ml-1">✕</button>
                 </div>
               `).join('');
-              const fChips = pw.fabrica.map(r => `
+              const fChips = (pw.fabricaReps || []).map(r => `
                 <div class="flex items-center justify-between gap-1.5 bg-teal-600 text-white px-2 py-1 rounded-lg text-[11px] font-bold shadow-2xs">
-                  <span class="truncate flex items-center gap-1" title="${r}"><span class="text-sm">🏭</span> ${shortRepName(r)}</span>
+                  <span class="truncate" title="${r}">🏭 ${shortRepName(r)}</span>
                   <button onclick="event.stopPropagation(); removeRepFromWeek('${pw.id}', 'fabrica', ${JSON.stringify(r).replace(/"/g, '&quot;')})" class="text-teal-100 hover:text-white ml-1">✕</button>
                 </div>
               `).join('');
@@ -1511,232 +1762,172 @@
               `;
             }
 
-            // Customized or Cancelled individual day
-            if (override) {
-              const isCancelled = override.type === 'CANCELADO';
-              const styleMap = {
-                GERENTE: {
-                  bg: 'bg-blue-50/95 hover:bg-blue-100/80',
-                  badgeBg: 'bg-blue-600 text-white',
-                  tag: 'VIAGEM',
-                  text: 'text-blue-950',
-                  icon: '✈'
-                },
-                SHOWROOM: {
-                  bg: 'bg-orange-50/95 hover:bg-orange-100/80',
-                  badgeBg: 'bg-orange-500 text-white',
-                  tag: 'SHOWROOM',
-                  text: 'text-orange-950',
-                  icon: '🚐'
-                },
-                FABRICA: {
-                  bg: 'bg-teal-50/95 hover:bg-teal-100/80',
-                  badgeBg: 'bg-teal-600 text-white',
-                  tag: 'FÁBRICA',
-                  text: 'text-teal-950',
-                  icon: '🏭'
-                },
-                BASE: {
-                  bg: 'bg-slate-100 hover:bg-slate-200/70',
-                  badgeBg: 'bg-slate-200 text-slate-700',
-                  tag: 'BASE',
-                  text: 'text-slate-700',
-                  icon: '🏢'
-                },
-                FERIADO: {
-                  bg: 'bg-emerald-50/95 hover:bg-emerald-100/80',
-                  badgeBg: 'bg-emerald-600 text-white',
-                  tag: 'FERIADO',
-                  text: 'text-emerald-950',
-                  icon: '🎉'
-                },
-                CANCELADO: {
-                  bg: 'bg-slate-100/90 hover:bg-rose-50/50',
-                  badgeBg: 'bg-rose-100 text-rose-700 border border-rose-200',
-                  tag: 'CANCELADO',
-                  text: 'text-slate-500 line-through',
-                  icon: '✕'
-                },
-                CUSTOM: {
-                  bg: 'bg-indigo-50/95 hover:bg-indigo-100/80',
-                  badgeBg: 'bg-indigo-600 text-white',
-                  tag: 'AGENDA',
-                  text: 'text-indigo-950',
-                  icon: '📌'
-                },
-                DEFAULT: {
-                  bg: 'bg-amber-50 hover:bg-amber-100/70',
-                  badgeBg: 'bg-amber-500 text-white',
-                  tag: 'EDITADO',
-                  text: 'text-amber-950',
-                  icon: '✏️'
-                }
-              };
-              const st = styleMap[override.type] || styleMap.CUSTOM;
-              const titleAttr = override.note ? `${override.label} — Obs: ${override.note}` : override.label;
-
-              const topActionBtn = isCancelled
-                ? `<button onclick="event.stopPropagation(); restoreDayDirectly('${isoDate}')" title="Restaurar este dia ao padrão" class="px-1.5 py-0.5 rounded bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold shadow-2xs transition">↩</button>`
-                : `<button onclick="event.stopPropagation(); cancelDayDirectly('${isoDate}')" title="Cancelar apenas este dia" class="px-1.5 py-0.5 rounded bg-white/90 hover:bg-rose-600 text-slate-500 hover:text-white border border-slate-200 hover:border-rose-600 text-[10px] font-extrabold shadow-2xs transition">✕</button>`;
-
+            // 1) Completely blank/empty cleared day (user clicked ✕ to delete day)
+            if (override && override.type === 'EMPTY') {
               return `
                 <td
                   onclick="openDayEditorModal('${isoDate}', ${weekIdArg})"
-                  title="Clique para editar este dia • ${titleAttr.replace(/"/g, '&quot;')}"
-                  class="p-2 align-top border border-slate-200/90 ${st.bg} h-28 cursor-pointer transition group/day"
+                  ondragover="handleDayCellDragOver(event)"
+                  ondragleave="handleDayCellDragLeave(event)"
+                  ondrop="handleDayCellDrop(event, '${isoDate}', ${weekIdArg})"
+                  title="Dia em branco (excluído) • Clique para preencher, arraste um bloco para cá ou clique em ↩ para restaurar"
+                  class="p-2 align-top border border-slate-200/80 bg-white hover:bg-slate-50 h-28 cursor-pointer transition group/day"
                 >
                   <div class="flex items-center justify-between gap-1">
-                    <span class="text-xs font-extrabold ${isCancelled ? 'text-slate-400' : 'text-slate-800'}">${dayNum}</span>
-                    <div class="flex items-center gap-1">
-                      ${!isCancelled ? '<span class="text-[10px] text-slate-400" title="Personalizado">✏️</span>' : ''}
-                      ${topActionBtn}
-                    </div>
+                    <span class="text-xs font-bold text-slate-400">${dayNum}</span>
+                    <button
+                      type="button"
+                      onclick="event.stopPropagation(); restoreDayDirectly('${isoDate}')"
+                      title="Restaurar padrão deste dia"
+                      class="opacity-0 group-hover/day:opacity-100 w-5 h-5 rounded-md bg-slate-100 hover:bg-blue-600 text-slate-500 hover:text-white text-[11px] font-bold flex items-center justify-center transition"
+                    >↩</button>
                   </div>
-                  <div class="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md ${st.badgeBg} text-[10px] font-extrabold tracking-wide shadow-2xs">
-                    <span class="text-sm leading-none">${st.icon}</span>
-                    <span>${st.tag}</span>
-                  </div>
-                  <div class="text-[11px] font-bold ${st.text} line-clamp-2 leading-tight mt-1">${override.label}</div>
-                  ${override.note && !isCancelled ? `<div class="text-[9px] text-slate-500 truncate mt-0.5">${override.note}</div>` : ''}
                 </td>
               `;
             }
 
-            if (isWeekend) {
+            // 2) Custom single-day activity override (moved block or edited day)
+            if (override) {
+              const blockHtml = renderDayBlockBadge(
+                override.type || 'CUSTOM',
+                override.label || 'Atividade',
+                override.note || '',
+                isoDate,
+                pw ? pw.id : '',
+                dayIdx
+              );
               return `
                 <td
                   onclick="openDayEditorModal('${isoDate}', ${weekIdArg})"
-                  title="Clique para personalizar este dia"
-                  class="p-2 align-top border border-slate-100 bg-slate-100/70 hover:bg-slate-200/70 text-slate-400 h-28 cursor-pointer transition group/day"
+                  ondragover="handleDayCellDragOver(event)"
+                  ondragleave="handleDayCellDragLeave(event)"
+                  ondrop="handleDayCellDrop(event, '${isoDate}', ${weekIdArg})"
+                  title="Clique para editar, puxe o bloco colorido para mover ou clique no ✕ para deixar o dia vazio"
+                  class="p-2 align-top border border-slate-200/90 bg-white hover:bg-slate-50/80 h-28 cursor-pointer transition group/day"
                 >
-                  <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold">${dayNum}</span>
-                    <div class="opacity-0 group-hover/day:opacity-100 flex items-center gap-1 transition">
-                      <span class="text-[10px] text-slate-500">✏️</span>
-                      <button onclick="event.stopPropagation(); cancelDayDirectly('${isoDate}')" title="Cancelar este dia" class="px-1 rounded bg-white hover:bg-rose-600 text-slate-500 hover:text-white border border-slate-200 text-[10px] font-bold">✕</button>
+                  <div class="flex items-center justify-between gap-1">
+                    <span class="text-xs font-extrabold text-slate-800">${dayNum}</span>
+                    <div class="flex items-center gap-1">
+                      <span class="opacity-0 group-hover/day:opacity-100 text-[10px] text-slate-400 transition">✏️</span>
+                      <button
+                        type="button"
+                        onclick="event.stopPropagation(); clearDayCompletely('${isoDate}')"
+                        title="Excluir este dia (deixar totalmente em branco)"
+                        class="w-5 h-5 rounded-md bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white border border-rose-200 hover:border-rose-600 text-[10px] font-extrabold flex items-center justify-center transition"
+                      >✕</button>
                     </div>
                   </div>
-                  ${holiday ? `
-                    <div class="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold">
-                      <span class="text-sm leading-none">🎉</span>
-                      <span>FERIADO</span>
-                    </div>
-                    <div class="text-[11px] font-bold text-emerald-800 mt-1 leading-tight">${holiday}</div>
-                  ` : ''}
+                  ${blockHtml}
                 </td>
               `;
             }
 
-            let cellBg = 'bg-white hover:bg-blue-50/40';
-            let cellContent = '';
-            let hasActiveEvent = false;
-
-            if (holiday) {
-              hasActiveEvent = true;
-              cellBg = 'bg-emerald-50/90 hover:bg-emerald-100/80';
-              cellContent = `
-                <div class="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold tracking-wide shadow-2xs">
-                  <span class="text-sm leading-none">🎉</span>
-                  <span>FERIADO</span>
-                </div>
-                <div class="text-[11px] font-extrabold text-emerald-800 leading-tight mt-1">${holiday}</div>
+            // 3) Weekend default (Saturday / Sunday)
+            if (isWeekend) {
+              const holidayBlock = holiday
+                ? renderDayBlockBadge('FERIADO', holiday, '', isoDate, pw ? pw.id : '', dayIdx)
+                : '';
+              return `
+                <td
+                  onclick="openDayEditorModal('${isoDate}', ${weekIdArg})"
+                  ondragover="handleDayCellDragOver(event)"
+                  ondragleave="handleDayCellDragLeave(event)"
+                  ondrop="handleDayCellDrop(event, '${isoDate}', ${weekIdArg})"
+                  title="Fim de semana • Clique para adicionar atividade ou arraste um bloco para cá"
+                  class="p-2 align-top border border-slate-100 bg-slate-100/70 hover:bg-slate-200/60 text-slate-400 h-28 cursor-pointer transition group/day"
+                >
+                  <div class="flex items-center justify-between gap-1">
+                    <span class="text-xs font-bold">${dayNum}</span>
+                    <div class="flex items-center gap-1">
+                      <span class="opacity-0 group-hover/day:opacity-100 text-[10px] text-slate-500 transition">✏️</span>
+                      ${holiday ? `
+                        <button
+                          type="button"
+                          onclick="event.stopPropagation(); clearDayCompletely('${isoDate}')"
+                          title="Excluir este dia (deixar em branco)"
+                          class="opacity-0 group-hover/day:opacity-100 w-5 h-5 rounded-md bg-white hover:bg-rose-600 text-slate-500 hover:text-white border border-slate-200 text-[10px] font-extrabold flex items-center justify-center transition"
+                        >✕</button>
+                      ` : ''}
+                    </div>
+                  </div>
+                  ${holidayBlock}
+                </td>
               `;
-            } else if (pw) {
-              if (activeFronts > 1) {
-                hasActiveEvent = true;
-                cellBg = 'bg-purple-50/80 hover:bg-purple-100/70';
-                const blocks = [];
-                if (hasG) {
-                  const gLabel = pw.gerente.map(shortRepName).join(', ');
-                  blocks.push(`
-                    <div class="px-1.5 py-0.5 rounded bg-blue-100/90 border border-blue-200/80 text-blue-950 truncate" title="Viagem Gerente: ${gLabel}">
-                      <span class="text-sm leading-none">✈</span> <span class="text-[10px] font-extrabold">${dayIdx === 4 ? 'Ret. ' : ''}${gLabel}</span>
-                    </div>
-                  `);
-                }
-                if (hasS) {
-                  const sLabel = pw.showroom.map(shortRepName).join(', ');
-                  blocks.push(`
-                    <div class="px-1.5 py-0.5 rounded bg-orange-100/90 border border-orange-200/80 text-orange-950 truncate" title="Carro Showroom: ${sLabel}">
-                      <span class="text-sm leading-none">🚐</span> <span class="text-[10px] font-extrabold">${sLabel}</span>
-                    </div>
-                  `);
-                }
-                if (hasF) {
-                  const fLabel = pw.fabrica.map(shortRepName).join(', ');
-                  blocks.push(`
-                    <div class="px-1.5 py-0.5 rounded bg-teal-100/90 border border-teal-200/80 text-teal-950 truncate" title="Visita à Fábrica: ${fLabel}">
-                      <span class="text-sm leading-none">🏭</span> <span class="text-[10px] font-extrabold">${fLabel}</span>
-                    </div>
-                  `);
-                }
-                cellContent = `<div class="mt-1 space-y-1">${blocks.join('')}</div>`;
-              } else if (hasG) {
-                hasActiveEvent = true;
-                cellBg = 'bg-blue-50/85 hover:bg-blue-100/75';
-                const gLabel = pw.gerente.map(shortRepName).join(', ');
-                cellContent = `
-                  <div class="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-blue-600 text-white text-[10px] font-extrabold tracking-wide shadow-2xs">
-                    <span class="text-sm leading-none">✈</span>
-                    <span>${dayIdx === 4 ? 'RETORNO' : 'VIAGEM'}</span>
-                  </div>
-                  <div class="text-[11px] font-bold text-blue-950 line-clamp-2 leading-tight mt-1" title="Viagem Gerente: ${gLabel}">${gLabel}</div>
-                `;
-              } else if (hasS) {
-                hasActiveEvent = true;
-                cellBg = 'bg-orange-50/85 hover:bg-orange-100/75';
-                const sLabel = pw.showroom.map(shortRepName).join(', ');
-                cellContent = `
-                  <div class="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-orange-500 text-white text-[10px] font-extrabold tracking-wide shadow-2xs">
-                    <span class="text-sm leading-none">🚐</span>
-                    <span>SHOWROOM</span>
-                  </div>
-                  <div class="text-[11px] font-bold text-orange-950 line-clamp-2 leading-tight mt-1" title="Carro Showroom: ${sLabel}">${sLabel}</div>
-                `;
-              } else if (hasF) {
-                hasActiveEvent = true;
-                cellBg = 'bg-teal-50/85 hover:bg-teal-100/75';
-                const fLabel = pw.fabrica.map(shortRepName).join(', ');
-                cellContent = `
-                  <div class="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-teal-600 text-white text-[10px] font-extrabold tracking-wide shadow-2xs">
-                    <span class="text-sm leading-none">🏭</span>
-                    <span>FÁBRICA</span>
-                  </div>
-                  <div class="text-[11px] font-bold text-teal-950 line-clamp-2 leading-tight mt-1" title="Visita à Fábrica: ${fLabel}">${fLabel}</div>
-                `;
-              } else {
-                cellBg = 'bg-slate-50/60 hover:bg-slate-100/80';
-                cellContent = `
-                  <div class="mt-2 inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400">
-                    <span class="text-sm leading-none">🏢</span>
-                    <span>Base / Disp.</span>
-                  </div>
-                `;
-              }
             }
 
-            const cancelBtnVisibility = hasActiveEvent
-              ? 'opacity-80 group-hover/day:opacity-100'
-              : 'opacity-0 group-hover/day:opacity-100';
+            // 4) Weekday default (Holiday, Weekly Scheduled Fronts, or Base / Disp.)
+            let cellBg = 'bg-white hover:bg-blue-50/30';
+            let blocksHtml = '';
+            let hasDeletableContent = false;
+
+            if (holiday) {
+              hasDeletableContent = true;
+              cellBg = 'bg-emerald-50/40 hover:bg-emerald-50/80';
+              blocksHtml = renderDayBlockBadge('FERIADO', holiday, '', isoDate, pw ? pw.id : '', dayIdx);
+            } else if (pw) {
+              if (activeFronts > 1) {
+                hasDeletableContent = true;
+                cellBg = 'bg-purple-50/40 hover:bg-purple-50/70';
+                const parts = [];
+                if (hasG) {
+                  const gLabel = (dayIdx === 4 ? 'Retorno: ' : '') + pw.gerenteReps.map(shortRepName).join(', ');
+                  parts.push(renderDayBlockBadge('GERENTE', gLabel, '', isoDate, pw.id, dayIdx));
+                }
+                if (hasS) {
+                  const sLabel = pw.showroomReps.map(shortRepName).join(', ');
+                  parts.push(renderDayBlockBadge('SHOWROOM', sLabel, '', isoDate, pw.id, dayIdx));
+                }
+                if (hasF) {
+                  const fLabel = pw.fabricaReps.map(shortRepName).join(', ');
+                  parts.push(renderDayBlockBadge('FABRICA', fLabel, '', isoDate, pw.id, dayIdx));
+                }
+                blocksHtml = `<div class="space-y-1">${parts.join('')}</div>`;
+              } else if (hasG) {
+                hasDeletableContent = true;
+                cellBg = 'bg-blue-50/40 hover:bg-blue-50/80';
+                const gLabel = (dayIdx === 4 ? 'Retorno: ' : '') + pw.gerenteReps.map(shortRepName).join(', ');
+                blocksHtml = renderDayBlockBadge('GERENTE', gLabel, '', isoDate, pw.id, dayIdx);
+              } else if (hasS) {
+                hasDeletableContent = true;
+                cellBg = 'bg-orange-50/40 hover:bg-orange-50/80';
+                const sLabel = pw.showroomReps.map(shortRepName).join(', ');
+                blocksHtml = renderDayBlockBadge('SHOWROOM', sLabel, '', isoDate, pw.id, dayIdx);
+              } else if (hasF) {
+                hasDeletableContent = true;
+                cellBg = 'bg-teal-50/40 hover:bg-teal-50/80';
+                const fLabel = pw.fabricaReps.map(shortRepName).join(', ');
+                blocksHtml = renderDayBlockBadge('FABRICA', fLabel, '', isoDate, pw.id, dayIdx);
+              } else {
+                hasDeletableContent = true;
+                cellBg = 'bg-slate-50/50 hover:bg-slate-100/70';
+                blocksHtml = renderDayBlockBadge('BASE', 'Base / Disp.', '', isoDate, pw.id, dayIdx);
+              }
+            }
 
             return `
               <td
                 onclick="openDayEditorModal('${isoDate}', ${weekIdArg})"
-                title="Clique para editar este dia ou clique no ✕ para cancelar"
+                ondragover="handleDayCellDragOver(event)"
+                ondragleave="handleDayCellDragLeave(event)"
+                ondrop="handleDayCellDrop(event, '${isoDate}', ${weekIdArg})"
+                title="Clique para editar este dia, arraste o bloco para outro dia ou clique no ✕ para deixar em branco"
                 class="p-2 align-top border border-slate-200/80 ${cellBg} h-28 cursor-pointer transition group/day"
               >
                 <div class="flex items-center justify-between gap-1">
                   <span class="text-xs font-extrabold text-slate-700">${dayNum}</span>
                   <div class="flex items-center gap-1">
                     <span class="opacity-0 group-hover/day:opacity-100 text-[10px] text-slate-400 transition">✏️</span>
-                    <button
-                      onclick="event.stopPropagation(); cancelDayDirectly('${isoDate}')"
-                      title="Cancelar apenas este dia"
-                      class="${cancelBtnVisibility} px-1.5 py-0.5 rounded bg-white/90 hover:bg-rose-600 text-slate-500 hover:text-white border border-slate-200 hover:border-rose-600 text-[10px] font-extrabold shadow-2xs transition"
-                    >✕</button>
+                    ${hasDeletableContent ? `
+                      <button
+                        type="button"
+                        onclick="event.stopPropagation(); clearDayCompletely('${isoDate}')"
+                        title="Excluir este dia (deixar totalmente em branco)"
+                        class="opacity-0 group-hover/day:opacity-100 w-5 h-5 rounded-md bg-white/90 hover:bg-rose-600 text-slate-500 hover:text-white border border-slate-200 hover:border-rose-600 text-[10px] font-extrabold flex items-center justify-center shadow-2xs transition"
+                      >✕</button>
+                    ` : ''}
                   </div>
                 </div>
-                ${cellContent}
+                ${blocksHtml}
               </td>
             `;
           }).join('');
@@ -1768,7 +1959,7 @@
           <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col w-full">
             <div class="bg-slate-900 text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2">
               <h3 class="text-sm sm:text-base font-extrabold tracking-wide">${mObj.label}</h3>
-              <span class="text-xs text-slate-300 font-medium">Clique no <strong>✕</strong> para cancelar um dia ou clique no dia para personalizar</span>
+              <span class="text-xs text-slate-300 font-medium">Puxe blocos entre dias • Clique no ✕ para deixar o dia vazio</span>
             </div>
             <div class="overflow-x-auto w-full">
               <table class="w-full border-collapse table-fixed min-w-[820px]">
@@ -1828,16 +2019,16 @@
       const coveredRepSet = new Set();
 
       state.weeks.forEach(w => {
-        const hasG = w.gerente.length > 0;
-        const hasS = w.showroom.length > 0;
-        const hasF = w.fabrica.length > 0;
+        const hasG = w.gerenteReps.length > 0;
+        const hasS = w.showroomReps.length > 0;
+        const hasF = (w.fabricaReps || []).length > 0;
         if (hasG) gerenteWeeks++;
         if (hasS) showroomWeeks++;
         if (hasF) fabricaWeeks++;
         if (!hasG && !hasS && !hasF) baseWeeks++;
-        w.gerente.forEach(r => coveredRepSet.add(r));
-        w.showroom.forEach(r => coveredRepSet.add(r));
-        w.fabrica.forEach(r => coveredRepSet.add(r));
+        w.gerenteReps.forEach(r => coveredRepSet.add(r));
+        w.showroomReps.forEach(r => coveredRepSet.add(r));
+        (w.fabricaReps || []).forEach(r => coveredRepSet.add(r));
       });
 
       const customFabricaDays = Object.values(state.dayOverrides).filter(o => o && o.type === 'FABRICA').length;
@@ -1855,8 +2046,9 @@
       document.getElementById('kpi-fabrica-weeks').textContent = fabricaWeeks;
       document.getElementById('kpi-fabrica-days').textContent = `${fabricaWeeks} sem. / ${customFabricaDays} dia(s) avulsos`;
       document.getElementById('kpi-base-weeks').textContent = baseWeeks;
+      document.getElementById('kpi-covered-reps').textContent = coveredRepSet.size;
       document.getElementById('kpi-covered-revenue').textContent = formatBRL(coveredRev);
-      document.getElementById('kpi-covered-pct').textContent = `${pct}% da carteira (${coveredRepSet.size}/62 reps)`;
+      document.getElementById('kpi-covered-pct').textContent = `${pct}% da carteira (${formatBRL(totalPortfolioRev)})`;
     }
 
     // =========================================================================
@@ -1985,12 +2177,12 @@
 
       const filteredWeeks = state.weeks.filter(w => {
         const matchesMonth = monthFilter === 'ALL' ||
-          (w.mes.toLowerCase().includes(monthFilter.slice(0, 3).toLowerCase()) &&
-          w.mes.includes(monthFilter.slice(-2)));
+          w.mes.toLowerCase().includes(monthFilter.slice(0, 3).toLowerCase()) &&
+          w.mes.includes(monthFilter.slice(-2));
 
-        const hasG = w.gerente.length > 0;
-        const hasS = w.showroom.length > 0;
-        const hasF = w.fabrica.length > 0;
+        const hasG = w.gerenteReps.length > 0;
+        const hasS = w.showroomReps.length > 0;
+        const hasF = (w.fabricaReps || []).length > 0;
         const matchesType =
           typeFilter === 'ALL' ||
           (typeFilter === 'GERENTE' && hasG) ||
@@ -2009,13 +2201,13 @@
 
       grid.innerHTML = filteredWeeks.map(w => {
         const realIdx = state.weeks.findIndex(item => item.id === w.id);
-        const hasG = w.gerente.length > 0;
-        const hasS = w.showroom.length > 0;
-        const hasF = w.fabrica.length > 0;
+        const hasG = w.gerenteReps.length > 0;
+        const hasS = w.showroomReps.length > 0;
+        const hasF = (w.fabricaReps || []).length > 0;
         const activeFronts = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
 
-        const prevHasG = realIdx > 0 && state.weeks[realIdx - 1].gerente.length > 0;
-        const nextHasG = realIdx < state.weeks.length - 1 && state.weeks[realIdx + 1].gerente.length > 0;
+        const prevHasG = realIdx > 0 && state.weeks[realIdx - 1].gerenteReps.length > 0;
+        const nextHasG = realIdx < state.weeks.length - 1 && state.weeks[realIdx + 1].gerenteReps.length > 0;
         const isConsecutiveTravel = hasG && (prevHasG || nextHasG);
 
         let cardBorder = 'border-slate-200';
@@ -2043,8 +2235,8 @@
         const weekTasks = state.tasksByWeek[w.id] || [];
         const doneTasks = weekTasks.filter(t => t.done).length;
 
-        const gerenteChips = w.gerente.length
-          ? w.gerente.map(repName => `
+        const gerenteChips = w.gerenteReps.length
+          ? w.gerenteReps.map(repName => `
               <div
                 draggable="true"
                 ondragstart="handleDragStart(event, { source: 'week', fromWeekId: '${w.id}', fromFront: 'gerente', repName: ${JSON.stringify(repName).replace(/"/g, '&quot;')} })"
@@ -2061,8 +2253,8 @@
             `).join('')
           : `<div class="text-[11px] text-slate-400 italic py-1 text-center">Arraste rep para Viagem Gerente</div>`;
 
-        const showroomChips = w.showroom.length
-          ? w.showroom.map(repName => `
+        const showroomChips = w.showroomReps.length
+          ? w.showroomReps.map(repName => `
               <div
                 draggable="true"
                 ondragstart="handleDragStart(event, { source: 'week', fromWeekId: '${w.id}', fromFront: 'showroom', repName: ${JSON.stringify(repName).replace(/"/g, '&quot;')} })"
@@ -2079,8 +2271,9 @@
             `).join('')
           : `<div class="text-[11px] text-slate-400 italic py-1 text-center">Arraste rep para Carro Showroom</div>`;
 
-        const fabricaChips = w.fabrica.length
-          ? w.fabrica.map(repName => `
+        const fabricaList = w.fabricaReps || [];
+        const fabricaChips = fabricaList.length
+          ? fabricaList.map(repName => `
               <div
                 draggable="true"
                 ondragstart="handleDragStart(event, { source: 'week', fromWeekId: '${w.id}', fromFront: 'fabrica', repName: ${JSON.stringify(repName).replace(/"/g, '&quot;')} })"
@@ -2123,9 +2316,11 @@
                 >
                   <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-blue-900">✈ Agenda / Viagem Gerente</span>
-                    <span class="text-[10px] font-semibold text-blue-600">${w.gerente.length} rep(s)</span>
+                    <span class="text-[10px] font-semibold text-blue-600">${w.gerenteReps.length} rep(s)</span>
                   </div>
-                  <div class="space-y-1.5">${gerenteChips}</div>
+                  <div class="space-y-1.5">
+                    ${gerenteChips}
+                  </div>
                 </div>
 
                 <div
@@ -2136,9 +2331,11 @@
                 >
                   <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-orange-900">🚐 Agenda Carro Showroom</span>
-                    <span class="text-[10px] font-semibold text-orange-600">${w.showroom.length} rep(s)</span>
+                    <span class="text-[10px] font-semibold text-orange-600">${w.showroomReps.length} rep(s)</span>
                   </div>
-                  <div class="space-y-1.5">${showroomChips}</div>
+                  <div class="space-y-1.5">
+                    ${showroomChips}
+                  </div>
                 </div>
 
                 <div
@@ -2149,9 +2346,11 @@
                 >
                   <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-teal-900">🏭 Agenda Visita à Fábrica</span>
-                    <span class="text-[10px] font-semibold text-teal-700">${w.fabrica.length} rep(s)</span>
+                    <span class="text-[10px] font-semibold text-teal-700">${fabricaList.length} rep(s)</span>
                   </div>
-                  <div class="space-y-1.5">${fabricaChips}</div>
+                  <div class="space-y-1.5">
+                    ${fabricaChips}
+                  </div>
                 </div>
 
                 <div>
@@ -2192,8 +2391,8 @@
 
     function handleDragEnd(event) {
       event.currentTarget.classList.remove('dragging-card');
-      document.querySelectorAll('.drag-over-zone, .drag-over-showroom, .drag-over-fabrica').forEach(el => {
-        el.classList.remove('drag-over-zone', 'drag-over-showroom', 'drag-over-fabrica');
+      document.querySelectorAll('.drag-over-zone, .drag-over-showroom, .drag-over-fabrica, .drag-over-day').forEach(el => {
+        el.classList.remove('drag-over-zone', 'drag-over-showroom', 'drag-over-fabrica', 'drag-over-day');
       });
     }
 
@@ -2213,9 +2412,12 @@
     }
 
     function getFrontArray(weekObj, front) {
-      if (front === 'showroom') return weekObj.showroom;
-      if (front === 'fabrica') return weekObj.fabrica;
-      return weekObj.gerente;
+      if (front === 'showroom') return weekObj.showroomReps;
+      if (front === 'fabrica') {
+        if (!Array.isArray(weekObj.fabricaReps)) weekObj.fabricaReps = [];
+        return weekObj.fabricaReps;
+      }
+      return weekObj.gerenteReps;
     }
 
     function handleDrop(event, targetWeekId, targetFront) {
@@ -2251,8 +2453,8 @@
       }
 
       const targetIdx = state.weeks.findIndex(w => w.id === targetWeekId);
-      const prevHasG = targetIdx > 0 && state.weeks[targetIdx - 1].gerente.length > 0;
-      const nextHasG = targetIdx < state.weeks.length - 1 && state.weeks[targetIdx + 1].gerente.length > 0;
+      const prevHasG = targetIdx > 0 && state.weeks[targetIdx - 1].gerenteReps.length > 0;
+      const nextHasG = targetIdx < state.weeks.length - 1 && state.weeks[targetIdx + 1].gerenteReps.length > 0;
 
       saveState();
       updateKPIs();
@@ -2325,18 +2527,18 @@
 
       const weekSelect = document.getElementById('schedule-week-select');
       weekSelect.innerHTML = state.weeks.map(w => {
-        const hasG = w.gerente.length > 0;
-        const hasS = w.showroom.length > 0;
-        const hasF = w.fabrica.length > 0;
+        const hasG = w.gerenteReps.length > 0;
+        const hasS = w.showroomReps.length > 0;
+        const hasF = (w.fabricaReps || []).length > 0;
         const count = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
         const tag = count > 1
           ? `🟣 ${count} Frentes`
           : hasG
-            ? `✈ Gerente (${w.gerente.length})`
+            ? `✈ Gerente (${w.gerenteReps.length})`
             : hasS
-              ? `🚐 Showroom (${w.showroom.length})`
+              ? `🚐 Showroom (${w.showroomReps.length})`
               : hasF
-                ? `🏭 Fábrica (${w.fabrica.length})`
+                ? `🏭 Fábrica (${w.fabricaReps.length})`
                 : '🏢 Base / Disponível';
         return `<option value="${w.id}">${w.id} — ${w.mes} (${w.periodo}) [${tag}]</option>`;
       }).join('');
@@ -2357,8 +2559,8 @@
       const weekId = document.getElementById('schedule-week-select').value;
       const front = document.querySelector('input[name="schedule-front"]:checked')?.value;
       const idx = state.weeks.findIndex(w => w.id === weekId);
-      const prevHasG = idx > 0 && state.weeks[idx - 1].gerente.length > 0;
-      const nextHasG = idx < state.weeks.length - 1 && state.weeks[idx + 1].gerente.length > 0;
+      const prevHasG = idx > 0 && state.weeks[idx - 1].gerenteReps.length > 0;
+      const nextHasG = idx < state.weeks.length - 1 && state.weeks[idx + 1].gerenteReps.length > 0;
 
       const warnEl = document.getElementById('consecutive-warning');
       if (front === 'gerente' && (prevHasG || nextHasG)) {
@@ -2390,12 +2592,12 @@
 
       closeScheduleModal();
       saveState();
-      updateKPIs();
 
       if (state.activeTab === 'mensal') {
         renderMonthlySidebar();
         renderMonthlyPlanner();
       } else if (state.activeTab === 'planner') {
+        updateKPIs();
         renderSidebarReps();
         renderWeeksGrid();
       } else if (state.activeTab === 'carteira') {
@@ -2407,7 +2609,7 @@
     }
 
     // =========================================================================
-    // 8. TAB 3: MINHA ROTINA & CHECKLIST OPERACIONAL
+    // 8. TAB 2: MINHA ROTINA & CHECKLIST OPERACIONAL
     // =========================================================================
     function renderRotinaView() {
       const weekSelect = document.getElementById('rotina-week-select');
@@ -2420,9 +2622,9 @@
         state.reps.map(r => `<option value="${r.nome}">${r.nome}</option>`).join('');
 
       const activeWeek = state.weeks.find(w => w.id === state.activeRotinaWeek) || state.weeks[0];
-      const hasG = activeWeek.gerente.length > 0;
-      const hasS = activeWeek.showroom.length > 0;
-      const hasF = activeWeek.fabrica.length > 0;
+      const hasG = activeWeek.gerenteReps.length > 0;
+      const hasS = activeWeek.showroomReps.length > 0;
+      const hasF = (activeWeek.fabricaReps || []).length > 0;
       const activeFronts = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
 
       const badge = document.getElementById('rotina-week-badge');
@@ -2447,9 +2649,9 @@
 
       const pillsContainer = document.getElementById('rotina-week-reps-pills');
       const pills = [
-        ...activeWeek.gerente.map(r => `<span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-blue-600 text-white">✈ Gerente: ${r}</span>`),
-        ...activeWeek.showroom.map(r => `<span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-orange-500 text-white">🚐 Showroom: ${r}</span>`),
-        ...activeWeek.fabrica.map(r => `<span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-teal-600 text-white">🏭 Fábrica: ${r}</span>`)
+        ...activeWeek.gerenteReps.map(r => `<span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-blue-600 text-white">✈ Gerente: ${r}</span>`),
+        ...activeWeek.showroomReps.map(r => `<span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-orange-500 text-white">🚐 Showroom: ${r}</span>`),
+        ...(activeWeek.fabricaReps || []).map(r => `<span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-teal-600 text-white">🏭 Fábrica: ${r}</span>`)
       ];
       pillsContainer.innerHTML = pills.length
         ? pills.join('')
@@ -2606,7 +2808,7 @@
       const activeWeek = state.weeks.find(w => w.id === weekId);
       if (!state.tasksByWeek[weekId]) state.tasksByWeek[weekId] = [];
 
-      const defaultRep = activeWeek?.gerente[0] || activeWeek?.showroom[0] || activeWeek?.fabrica[0] || '';
+      const defaultRep = activeWeek?.gerenteReps[0] || activeWeek?.showroomReps[0] || (activeWeek?.fabricaReps || [])[0] || '';
 
       templates.forEach((tpl, i) => {
         state.tasksByWeek[weekId].push({
@@ -2625,7 +2827,7 @@
     }
 
     // =========================================================================
-    // 9. TAB 4: CARTEIRA & DIAGNÓSTICO (62 REPS)
+    // 9. TAB 3: CARTEIRA & DIAGNÓSTICO (62 REPS)
     // =========================================================================
     function populateCarteiraDiagFilter() {
       const select = document.getElementById('table-diag-filter');
@@ -2775,7 +2977,7 @@
       const statuses = ['Agendado', 'Em Andamento', 'Pendente', 'Concluído', 'Encerrado'];
 
       if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="10" class="py-10 text-center text-sm text-slate-400">Nenhum representante encontrado com os filtros aplicados. Clique em <strong>Limpar Filtros</strong> para restaurar a visualização.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" class="py-10 text-center text-sm text-slate-400">Nenhum representante encontrado com os filtros aplicados. Clique em <strong>Limpar</strong> para restaurar a visualização.</td></tr>`;
         return;
       }
 
@@ -2830,7 +3032,7 @@
                 onclick="openScheduleModal(${JSON.stringify(rep.nome).replace(/"/g, '&quot;')}, 'gerente')"
                 class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-2xs transition"
               >
-                + Agendar
+                + Agendar no Planner
               </button>
             </td>
           </tr>
@@ -2856,16 +3058,16 @@
     }
 
     // =========================================================================
-    // 10. GLOBAL EXPORT CSV & RESET DEFAULT
+    // 10. GLOBAL EXPORT CSV
     // =========================================================================
     function exportCSV() {
       const lines = [];
       lines.push(['SEMANA', 'MES', 'PERIODO', 'STATUS_SEMANA', 'VIAGEM_GERENTE', 'CARRO_SHOWROOM', 'VISITA_FABRICA', 'DETALHAMENTO_OPERACIONAL'].join(';'));
 
       state.weeks.forEach(w => {
-        const hasG = w.gerente.length > 0;
-        const hasS = w.showroom.length > 0;
-        const hasF = w.fabrica.length > 0;
+        const hasG = w.gerenteReps.length > 0;
+        const hasS = w.showroomReps.length > 0;
+        const hasF = (w.fabricaReps || []).length > 0;
         const fronts = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
         const status = fronts > 1
           ? `${fronts} Frentes Simultaneas`
@@ -2882,9 +3084,9 @@
           w.mes,
           w.periodo,
           status,
-          `"${w.gerente.join(' | ')}"`,
-          `"${w.showroom.join(' | ')}"`,
-          `"${w.fabrica.join(' | ')}"`,
+          `"${w.gerenteReps.join(' | ')}"`,
+          `"${w.showroomReps.join(' | ')}"`,
+          `"${(w.fabricaReps || []).join(' | ')}"`,
           `"${(w.detalhe || '').replace(/"/g, '""')}"`
         ].join(';'));
       });
@@ -2934,24 +3136,6 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       showToast('📥 Arquivo CSV exportado com sucesso!');
-    }
-
-    function promptResetDefault() {
-      openConfirmModal(
-        'Restaurar Padrão Original',
-        'Isso apagará todas as movimentações manuais, dias personalizados, edições de notas, status e tarefas criadas, restaurando o planejamento original de 33 semanas e 62 representantes. Deseja continuar?',
-        () => {
-          localStorage.removeItem(STORAGE_KEY);
-          state.weeks = structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
-          state.reps = structuredClone(INITIAL_REPS);
-          state.tasksByWeek = structuredClone(INITIAL_TASKS);
-          state.dayOverrides = {};
-          state.activeRotinaWeek = 'S47';
-          saveState();
-          switchTab(state.activeTab);
-          showToast('↺ Planejamento restaurado ao padrão original.', 'info');
-        }
-      );
     }
 
     // =========================================================================
