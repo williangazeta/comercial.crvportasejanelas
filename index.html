@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planner Comercial & Rotina — CRV Portas e Janelas</title>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .drag-over { outline: 2px dashed #2563eb !important; background-color: #eff6ff !important; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- HEADER MINIMALISTA COM LOGO CRV -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="flex items-center justify-center bg-slate-900 text-white px-4 py-2 rounded-xl shadow-sm border border-slate-800">
+          <svg class="h-11 w-auto" viewBox="0 0 210 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="48" height="50" rx="8" fill="#1E3A8A" stroke="#60A5FA" stroke-width="2.5"/>
+            <rect x="10" y="12" width="14" height="34" rx="2" fill="#93C5FD" fill-opacity="0.35" stroke="#DBEAFE" stroke-width="1.8"/>
+            <rect x="28" y="12" width="14" height="34" rx="2" fill="#93C5FD" fill-opacity="0.35" stroke="#DBEAFE" stroke-width="1.8"/>
+            <circle cx="22" cy="29" r="1.8" fill="#FBBF24"/>
+            <circle cx="30" cy="29" r="1.8" fill="#FBBF24"/>
+            <text x="60" y="34" fill="#FFFFFF" font-family="Inter, sans-serif" font-weight="800" font-size="27" letter-spacing="1.5">CRV</text>
+            <text x="61" y="49" fill="#93C5FD" font-family="Inter, sans-serif" font-weight="600" font-size="10.5" letter-spacing="1.8">PORTAS &amp; JANELAS</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- KPIs RÁPIDOS + AÇÕES -->
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3 no-print">
+        <div id="header-kpis" class="hidden xl:flex items-center gap-2 text-xs font-semibold"></div>
+        <input id="excel-upload-input" type="file" accept=".xlsx,.xls,.csv" onchange="handleExcelImport(event)" class="hidden" />
+        <button onclick="document.getElementById('excel-upload-input').click()" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition flex items-center gap-1.5" title="Selecione sua planilha Excel (.xlsx) para atualizar automaticamente representantes, valores e próximas ações">
+          <span>📂</span> Importar Excel (.xlsx)
+        </button>
+        <button onclick="exportCSV()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow-sm transition flex items-center gap-1.5">
+          <span>📥</span> Exportar CSV
+        </button>
+        <button onclick="resetAllData()" class="px-3 py-2 bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-600 border border-slate-200 text-xs font-semibold rounded-lg transition">
+          ↺ Restaurar Base
+        </button>
+      </div>
+    </div>
+
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <div class="bg-slate-50 border-t border-slate-200/80 px-4 sm:px-6 py-2 no-print">
+      <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-1.5">
+          <button id="tab-btn-mensal" onclick="switchTab('mensal')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition">
+            📅 Planner Mensal (Nov/26–Jun/27)
+          </button>
+          <button id="tab-btn-semanal" onclick="switchTab('semanal')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
+            📋 Cronograma 33 Semanas
+          </button>
+          <button id="tab-btn-carteira" onclick="switchTab('carteira')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
+            👥 Carteira 62 Reps
+          </button>
+        </div>
+
+        <div id="mensal-controls" class="flex flex-wrap items-center gap-2">
+          <select id="mensal-month-select" onchange="renderMonthlyPlanner()" class="text-xs font-semibold bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="ALL">Todos os Meses (Nov/26 – Jun/27)</option>
+          </select>
+          <span class="text-[11px] text-slate-500 hidden md:inline">
+            Dica: Arraste blocos (segure <b>Ctrl/Alt</b> ou clique em <b>📋</b> para duplicar) e use <b>+</b> para várias ações no dia.
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 py-5">
+
+    <!-- ABA 1: PLANNER MENSAL VERTICAL -->
+    <section id="view-mensal" class="flex flex-col lg:flex-row gap-5">
+      <!-- BARRA LATERAL DE REPRESENTANTES (DRAG & DROP) -->
+      <aside class="w-full lg:w-72 shrink-0 bg-white border border-slate-200 rounded-xl shadow-sm p-3.5 flex flex-col max-h-[82vh] sticky top-28 no-print">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-700">Carteira (62 Reps)</h2>
+          <span class="text-[10px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">Arraste p/ o dia</span>
+        </div>
+        <input id="sidebar-rep-search" type="text" oninput="renderSidebarReps()" placeholder="Buscar código, nome ou ação..." class="w-full text-xs border border-slate-200 rounded-lg px-2.5 py-1.5 mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <select id="sidebar-pilar-filter" onchange="renderSidebarReps()" class="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 mb-2.5 bg-slate-50 text-slate-700">
+          <option value="ALL">Todos os Pilares</option>
+          <option value="P1">P1 — Top Curva A</option>
+          <option value="P2">P2 — Recuperação</option>
+          <option value="P3">P3 — Expansão</option>
+          <option value="P4">P4 — Base / Manutenção</option>
+        </select>
+        <div id="sidebar-reps-list" class="flex-1 overflow-y-auto custom-scroll space-y-1.5 pr-1"></div>
+      </aside>
+
+      <!-- GRADE MENSAL VERTICAL -->
+      <div class="flex-1 min-w-0 space-y-4">
+        <div id="mensal-summary-pills" class="flex flex-wrap items-center gap-2 text-xs"></div>
+        <div id="mensal-calendars-container" class="space-y-6"></div>
+      </div>
+    </section>
+
+    <!-- ABA 2: CRONOGRAMA 33 SEMANAS -->
+    <section id="view-semanal" class="hidden space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-sm font-extrabold text-slate-800">Cronograma Executivo das 33 Semanas (Nov/2026 – Jun/2027)</h2>
+          <p class="text-xs text-slate-500">Visão consolidada por semana comercial com alocações de Viagem Gerente, Carro Showroom e Visita à Fábrica.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="week-type-filter" onchange="renderWeeklyTable()" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white">
+            <option value="ALL">Todas as Semanas (33)</option>
+            <option value="GERENTE">Com Viagem Gerente</option>
+            <option value="SHOWROOM">Com Carro Showroom</option>
+            <option value="FABRICA">Com Visita à Fábrica</option>
+            <option value="MULTI">Frentes Simultâneas</option>
+          </select>
+        </div>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="bg-slate-800 text-white">
+              <th class="py-2.5 px-3 font-bold">Sem.</th>
+              <th class="py-2.5 px-3 font-bold">Período (Seg–Sex)</th>
+              <th class="py-2.5 px-3 font-bold">Mês</th>
+              <th class="py-2.5 px-3 font-bold">✈️ Viagem Gerente</th>
+              <th class="py-2.5 px-3 font-bold">🚐 Carro Showroom</th>
+              <th class="py-2.5 px-3 font-bold">🏭 Visita Fábrica</th>
+              <th class="py-2.5 px-3 font-bold">Foco Estratégico</th>
+            </tr>
+          </thead>
+          <tbody id="weekly-table-body" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ABA 3: CARTEIRA 62 REPRESENTANTES -->
+    <section id="view-carteira" class="hidden space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-sm font-extrabold text-slate-800">Base Completa — 62 Representantes Comerciais CRV</h2>
+          <p class="text-xs text-slate-500">Dados exatos da planilha: Jan–Out 2025 x 2026, Situação 2026 e Próximas Ações.</p>
+        </div>
+        <input id="carteira-search" type="text" oninput="renderCarteiraTable()" placeholder="Filtrar representante, situação ou ação..." class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 w-64" />
+      </div>
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="bg-slate-800 text-white">
+              <th class="py-2.5 px-3 font-bold">Cód.</th>
+              <th class="py-2.5 px-3 font-bold">Representante</th>
+              <th class="py-2.5 px-3 font-bold text-right">Jan–Out 2025</th>
+              <th class="py-2.5 px-3 font-bold text-right">Jan–Out 2026</th>
+              <th class="py-2.5 px-3 font-bold text-right">Δ Abs (R$)</th>
+              <th class="py-2.5 px-3 font-bold text-right">% Var.</th>
+              <th class="py-2.5 px-3 font-bold">Situação 2026</th>
+              <th class="py-2.5 px-3 font-bold">Próximas Ações (Planilha)</th>
+            </tr>
+          </thead>
+          <tbody id="carteira-table-body" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL MULTI-AÇÕES DO DIA -->
+  <div id="day-editor-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden">
+      <div class="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between">
+        <div>
+          <span id="day-editor-week-badge" class="text-[10px] font-bold uppercase tracking-wider bg-blue-600 px-2 py-0.5 rounded">S47</span>
+          <h3 id="day-editor-title" class="text-sm font-extrabold mt-1">Segunda-feira, 16/11/2026</h3>
+        </div>
+        <button onclick="closeDayEditorModal()" class="text-slate-300 hover:text-white text-lg font-bold px-2">✕</button>
+      </div>
+
+      <div class="p-5 space-y-4 max-h-[80vh] overflow-y-auto custom-scroll">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-700">Ações Agendadas neste Dia (<span id="day-editor-count">0</span>)</span>
+          <div class="flex gap-1.5">
+            <button onclick="clearDayFromModal()" class="text-[11px] font-semibold px-2.5 py-1 rounded bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200">
+              ✕ Limpar Dia Inteiro
+            </button>
+            <button onclick="resetDayOverride()" class="text-[11px] font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
+              ↺ Restaurar Padrão
+            </button>
+          </div>
+        </div>
+
+        <div id="day-editor-actions-list" class="space-y-2"></div>
+
+        <div class="border-t border-slate-200 pt-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <h4 id="day-editor-form-title" class="text-xs font-extrabold text-blue-700">+ Adicionar Nova Ação neste Dia</h4>
+            <button id="day-editor-cancel-edit" onclick="cancelEditSingleAction()" class="hidden text-[11px] text-slate-500 hover:text-slate-800 underline">Cancelar edição</button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-600 mb-1">1. Categoria da Ação</label>
+              <select id="day-editor-type" onchange="onEditorTypeChange()" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white">
+                <option value="GERENTE">✈️ Viagem Gerente</option>
+                <option value="SHOWROOM">🚐 Carro Showroom</option>
+                <option value="FABRICA">🏭 Visita à Fábrica CRV</option>
+                <option value="FERIADO">🎉 Feriado / Folga</option>
+                <option value="BASE">🏢 Base / Disponível</option>
+                <option value="CUSTOM">📌 Compromisso Personalizado</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-600 mb-1">2. Preencher com Rep (Opcional)</label>
+              <select id="day-editor-rep-picker" onchange="applyRepToDayLabel(this.value)" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-slate-50">
+                <option value="">— Selecionar representante —</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">3. Texto / Rótulo da Ação</label>
+            <input id="day-editor-label" type="text" placeholder="Ex: (65) JOSE CARLOS ROMERO" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5" />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">4. Observação / Detalhe (Opcional)</label>
+            <input id="day-editor-note" type="text" placeholder="Ex: Manhã loja X, Tarde loja Y" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5" />
+          </div>
+
+          <div class="flex justify-end gap-2 pt-2">
+            <button onclick="closeDayEditorModal()" class="px-3.5 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Concluir</button>
+            <button id="day-editor-save-btn" onclick="saveSingleDayAction()" class="px-4 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm">+ Adicionar Ação ao Dia</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 z-50"></div>
+
+  <script>
+    const STORAGE_KEY = 'crv_planner_rotina_v9';
+
+    const NATIONAL_HOLIDAYS = {
+      '2026-11-15': 'PROCLAMAÇÃO DA REPÚBLICA',
+      '2026-11-20': 'CONSCIÊNCIA NEGRA',
+      '2026-12-25': 'NATAL',
+      '2027-01-01': 'ANO NOVO',
+      '2027-02-08': 'CARNAVAL',
+      '2027-02-09': 'CARNAVAL',
+      '2027-02-10': 'QUARTA-FEIRA DE CINZAS',
+      '2027-03-26': 'SEXTA-FEIRA SANTA',
+      '2027-04-21': 'TIRADENTES',
+      '2027-05-01': 'DIA DO TRABALHO',
+      '2027-05-27': 'CORPUS CHRISTI'
+    };
+
+    const PLANNER_MONTHS = [
+      { key: '2026-11', year: 2026, month: 10, label: 'Novembro / 2026' },
+      { key: '2026-12', year: 2026, month: 11, label: 'Dezembro / 2026' },
+      { key: '2027-01', year: 2027, month: 0,  label: 'Janeiro / 2027' },
+      { key: '2027-02', year: 2027, month: 1,  label: 'Fevereiro / 2027' },
+      { key: '2027-03', year: 2027, month: 2,  label: 'Março / 2027' },
+      { key: '2027-04', year: 2027, month: 3,  label: 'Abril / 2027' },
+      { key: '2027-05', year: 2027, month: 4,  label: 'Maio / 2027' },
+      { key: '2027-06', year: 2027, month: 5,  label: 'Junho / 2027' }
+    ];
+
+    const INITIAL_REPS = [
+  {
+    "cod": 1473,
+    "nome": "TATIELY DE FREITAS SOUZA REPRE",
+    "full": "(1473) TATIELY DE FREITAS SOUZA REPRE",
+    "f2025": 3600264.68,
+    "f2026": 3576349.28,
+    "varPct": -0.006642678282194733,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Estável",
+    "acao": "acompanhar"
+  },
+  {
+    "cod": 65,
+    "nome": "JOSE CARLOS ROMERO",
+    "full": "(65) JOSE CARLOS ROMERO",
+    "f2025": 3274304.29,
+    "f2026": 3369849.56,
+    "varPct": 0.029180327036740943,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Estável",
+    "acao": "Carro showroom agendado para Jan/2027"
+  },
+  {
+    "cod": 719,
+    "nome": "ZOCCAL REPRESENTACOES LTDA",
+    "full": "(719) ZOCCAL REPRESENTACOES LTDA",
+    "f2025": 3874498.23,
+    "f2026": 3325887.35,
+    "varPct": -0.14159533633339907,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Teve a regiao reduzida para focar mais na CRV. Visita agendada com o Wesley novo rep.",
+    "acao": "acompanhar nova regiao"
+  },
+  {
+    "cod": 1420,
+    "nome": "MARCELO  C. ANTONIO & CIA LTDA",
+    "full": "(1420) MARCELO  C. ANTONIO & CIA LTDA",
+    "f2025": 3583427.19,
+    "f2026": 3280969.89,
+    "varPct": -0.08440447760290862,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Estamos planejando carro showroom para fortalecer marca na regiao",
+    "acao": "Carro showroom fev/2027"
+  },
+  {
+    "cod": 1576,
+    "nome": "COMERCIO E REPRESEN HPS LTDA",
+    "full": "(1576) COMERCIO E REPRESEN HPS LTDA",
+    "f2025": 3365855.76,
+    "f2026": 2993322.12,
+    "varPct": -0.11068021524486914,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Região diminuir muito o consumo varejo no MatCon. Não é problema de preço ou ação",
+    "acao": "Visita Edson"
+  },
+  {
+    "cod": 1574,
+    "nome": "BELARDINUSCI REPRES DE MAT CON",
+    "full": "(1574) BELARDINUSCI REPRES DE MAT CON",
+    "f2025": 3093627.0,
+    "f2026": 2931331.36,
+    "varPct": -0.05246128250108738,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Estável",
+    "acao": ""
+  },
+  {
+    "cod": 1181,
+    "nome": "ROMERO REPRESENTACAO DE MAT CO",
+    "full": "(1181) ROMERO REPRESENTACAO DE MAT CO",
+    "f2025": 2646838.64,
+    "f2026": 2664981.33,
+    "varPct": 0.006854475269406546,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Carro showroom agendado para Jan/2027",
+    "acao": "Carro showroom jan/2027"
+  },
+  {
+    "cod": 1583,
+    "nome": "HENRIQUE ANDRADE CARVALHO",
+    "full": "(1583) HENRIQUE ANDRADE CARVALHO",
+    "f2025": 2603819.64,
+    "f2026": 2320306.77,
+    "varPct": -0.10888345169714052,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Ao longo do ano desfocou da CRV, teve expansao para Zona da Mata sem sucesso e depois abriu novos negocios paralelos. Retomou foco",
+    "acao": "Visita Edson"
+  },
+  {
+    "cod": 1575,
+    "nome": "CUNHA GESTAO CONSULT EM VENDAS",
+    "full": "(1575) CUNHA GESTAO CONSULT EM VENDAS",
+    "f2025": 2040961.87,
+    "f2026": 2122548.88,
+    "varPct": 0.039974784046311086,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Estável",
+    "acao": "acompanhar"
+  },
+  {
+    "cod": 1397,
+    "nome": "RAFAEL ROMERO",
+    "full": "(1397) RAFAEL ROMERO",
+    "f2025": 2308945.93,
+    "f2026": 2018340.08,
+    "varPct": -0.1258608294911445,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Regiao muito atacada por concorrentes aventureiros: C&B (falhiu), Engeal (falhiu) e JC Esquadrias, a linha Unicca não surtiu efeito.",
+    "acao": "Carro showroom jan/2027"
+  },
+  {
+    "cod": 1624,
+    "nome": "DENIS REBOLLO GUERRERO 7727465",
+    "full": "(1624) DENIS REBOLLO GUERRERO 7727465",
+    "f2025": 1932806.67,
+    "f2026": 1786278.79,
+    "varPct": -0.07581093457215812,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Com o catalogo vamos conseguir expandir mais mix e reverter esse resultado",
+    "acao": "acompanhar trabalho"
+  },
+  {
+    "cod": 1673,
+    "nome": "YAN CUNHA COMERCIO E REP LTDA",
+    "full": "(1673) YAN CUNHA COMERCIO E REP LTDA",
+    "f2025": 1722398.65,
+    "f2026": 1505498.07,
+    "varPct": -0.12592937180948155,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Com o catalogo vamos conseguir expandir mais mix e reverter esse resultado",
+    "acao": "Visita Edson"
+  },
+  {
+    "cod": 1406,
+    "nome": "F&R GAVA REPRESENTACOES LTDA",
+    "full": "(1406) F&R GAVA REPRESENTACOES LTDA",
+    "f2025": 1645315.7,
+    "f2026": 1505017.18,
+    "varPct": -0.08527148923455936,
+    "pilar": "P1 — Top Curva A",
+    "situacao": "Com o catalogo vamos conseguir expandir mais mix e reverter esse resultado",
+    "acao": "acompanhar trabalho"
+  },
+  {
+    "cod": 32,
+    "nome": "HELDER HUGO DA SILVA FABBRI",
+    "full": "(32) HELDER HUGO DA SILVA FABBRI",
+    "f2025": 1413400.23,
+    "f2026": 1380703.27,
+    "varPct": -0.023133546539753063,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Estável",
+    "acao": "acompanhar trabalho"
+  },
+  {
+    "cod": 11,
+    "nome": "RBG REPRESENTAÇÕES COMERCIAIS",
+    "full": "(11) RBG REPRESENTAÇÕES COMERCIAIS",
+    "f2025": 1482135.43,
+    "f2026": 1370378.28,
+    "varPct": -0.07540279230758641,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Aumento das vendas na Campeao tirou foco no varejo ao longo do ano, tenho cobrado resultado com o rep nesse segmento.",
+    "acao": "acompanhar"
+  },
+  {
+    "cod": 1250,
+    "nome": "E P DOS SANTOS COMERCIO REPRE",
+    "full": "(1250) E P DOS SANTOS COMERCIO REPRE",
+    "f2025": 1541640.83,
+    "f2026": 1326984.1,
+    "varPct": -0.13923913133514704,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Discutir a continuidade do rep. Montou loja propria e não tem visitado clientes, Guilherme vem fazendo 90% do resultado",
+    "acao": "analisar continuidade"
+  },
+  {
+    "cod": 1442,
+    "nome": "CAPONI & OLIVEIRA MKT E REP",
+    "full": "(1442) CAPONI & OLIVEIRA MKT E REP",
+    "f2025": 919965.3,
+    "f2026": 1302592.96,
+    "varPct": 0.41591531767557194,
+    "pilar": "P3 — Expansão",
+    "situacao": "Sua saida da Tigre beneficiou a CRV em foco de trabalho",
+    "acao": "acompanhar trabalho na região de Itumbiara e Caldas Novas"
+  },
+  {
+    "cod": 1773,
+    "nome": "MINAS SUL REP COMERCIAL LTDA",
+    "full": "(1773) MINAS SUL REP COMERCIAL LTDA",
+    "f2025": 1517494.25,
+    "f2026": 1297433.31,
+    "varPct": -0.14501599594199482,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Começou surtir efeito após visita em set. Em nov vai andar com o carro showroom e catalogo para abrir novos clientes e ampliar mix onde tem",
+    "acao": "Possível visita assim que algumas negociações derem mais um passo"
+  },
+  {
+    "cod": 1240,
+    "nome": "CABRAL & PIROLLA REP COM LTDA",
+    "full": "(1240) CABRAL & PIROLLA REP COM LTDA",
+    "f2025": 1012440.39,
+    "f2026": 1212078.27,
+    "varPct": 0.1971848238887429,
+    "pilar": "P3 — Expansão",
+    "situacao": "Maior flexibilidade em negociações e expositores",
+    "acao": "Carro showroom jan/2027"
+  },
+  {
+    "cod": 1433,
+    "nome": "S L DELLABETA & CIA LTDA - ME",
+    "full": "(1433) S L DELLABETA & CIA LTDA - ME",
+    "f2025": 1237744.61,
+    "f2026": 1108411.85,
+    "varPct": -0.10449066710134951,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Regiao com dificuldade financeira e muita chuva. Assim como em Guarapuava, acredito que a flexibilidade na linha Unicca poderiamos abrir mais mercado.",
+    "acao": "Visita Mar/27. Agendar carro showroom para Mar ou Abril"
+  },
+  {
+    "cod": 1775,
+    "nome": "BARAVELLI REPRE COMERC LTDA",
+    "full": "(1775) BARAVELLI REPRE COMERC LTDA",
+    "f2025": 957377.57,
+    "f2026": 1090644.5,
+    "varPct": 0.13919997102083792,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Regiao ainda oscila muito, estamos fazendo migração para material acabado não abrindo mao da perda de faturamento",
+    "acao": "Acompanhar, provavel necessidade de visita até maio"
+  },
+  {
+    "cod": 1484,
+    "nome": "EDERSON WAGNER MENEZES",
+    "full": "(1484) EDERSON WAGNER MENEZES",
+    "f2025": 1287269.41,
+    "f2026": 1083768.25,
+    "varPct": -0.158087466709864,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Discutir",
+    "acao": ""
+  },
+  {
+    "cod": 1483,
+    "nome": "VIVO REPRESENTACOES LTDA",
+    "full": "(1483) VIVO REPRESENTACOES LTDA",
+    "f2025": 977887.4,
+    "f2026": 965093.08,
+    "varPct": -0.013083633146311759,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Estavel",
+    "acao": "acompanhar"
+  },
+  {
+    "cod": 351,
+    "nome": "G DE O MATIAS",
+    "full": "(351) G DE O MATIAS",
+    "f2025": 1406889.39,
+    "f2026": 963768.64,
+    "varPct": -0.31496488149647694,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Atenção: Rep sempre reclamando de preço. Tenho conversado sobre a atualização da sua tabela e as possibilidades de mesclas de linhas. Ainda tem resistencia a esse formato",
+    "acao": "Visita Mar/27"
+  },
+  {
+    "cod": 1757,
+    "nome": "RPM REPRESENTACOES LTDA",
+    "full": "(1757) RPM REPRESENTACOES LTDA",
+    "f2025": 1301523.57,
+    "f2026": 939288.43,
+    "varPct": -0.2783162351796664,
+    "pilar": "P2 — Recuperação",
+    "situacao": "JP Esquadrias tem tomado parte do mercado e a Unicca está 15% acima, os clientes de preço migraram. G10 reduziu em 100k volume de venda e tem comprado JP. Pablo está atualizando preço",
+    "acao": "Agendar carro showroom Abr/2027. Visita Mar/27"
+  },
+  {
+    "cod": 1733,
+    "nome": "EDSON LUIS DIEHL",
+    "full": "(1733) EDSON LUIS DIEHL",
+    "f2025": 797695.46,
+    "f2026": 913377.11,
+    "varPct": 0.14501981746267043,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Atenção:Resultado \"maqueado\" com a venda ao instalador de portas da construtora. Rep desfocou do varejo e já tivemos varias conversas sobre isso, teremos uma nova avaliação no final do ano. Sempre reclama que o produto não tem girado e que os preços do aluminio nao consegue competir com a Brasil e Alumasa, porem nao temos visto atuação na regiao e nem orçamentos disputados.",
+    "acao": ""
+  },
+  {
+    "cod": 1505,
+    "nome": "AC DOS SANTOS DE BARREIRAS ME",
+    "full": "(1505) AC DOS SANTOS DE BARREIRAS ME",
+    "f2025": 708769.68,
+    "f2026": 903659.51,
+    "varPct": 0.274969197327967,
+    "pilar": "P3 — Expansão",
+    "situacao": "Alteramos a regiao tirando BA e focando onde estava dando certo, no sul PI. Grande atuação do Guilherme na região.",
+    "acao": ""
+  },
+  {
+    "cod": 1762,
+    "nome": "F G REPRESENTACOES",
+    "full": "(1762) F G REPRESENTACOES",
+    "f2025": 124597.99,
+    "f2026": 857473.74,
+    "varPct": 5.881922734066571,
+    "pilar": "P3 — Expansão",
+    "situacao": "Antiga regiao do Ze Netto, ainda tem bastante mercado para abrir e com o catalogo vai melhorar seu trabalho",
+    "acao": ""
+  },
+  {
+    "cod": 1782,
+    "nome": "PANIS REPRESENTACOES LTDA",
+    "full": "(1782) PANIS REPRESENTACOES LTDA",
+    "f2025": 58536.83,
+    "f2026": 800484.26,
+    "varPct": 12.674882292054415,
+    "pilar": "P3 — Expansão",
+    "situacao": "Antiga regiao do Daniel SC, ainda tem bastante mercado para abrir e com o catalogo vai melhorar seu trabalho",
+    "acao": ""
+  },
+  {
+    "cod": 1714,
+    "nome": "ROCHA REPRESENTACOES LTDA",
+    "full": "(1714) ROCHA REPRESENTACOES LTDA",
+    "f2025": 1067475.78,
+    "f2026": 779722.48,
+    "varPct": -0.2695642424786453,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Região com muita dificuldade financeira, rep ficou 4 meses afastado por saude.",
+    "acao": "Visita Edson"
+  },
+  {
+    "cod": 1701,
+    "nome": "LUISTA REPRESENTACOES COM LTDA",
+    "full": "(1701) LUISTA REPRESENTACOES COM LTDA",
+    "f2025": 867152.45,
+    "f2026": 761444.67,
+    "varPct": -0.1219021868646056,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Região vem sofrendo com temporais. Diversos clientes reclamaram da grade e eu apresentei os diferenciais do modelo. Vamos organizar visita carro showroom em fev",
+    "acao": "Carro showroom fev/2027. Visita Fev/27"
+  },
+  {
+    "cod": 1428,
+    "nome": "95400628 CLADISMAR ALESSIO ME",
+    "full": "(1428) 95400628 CLADISMAR ALESSIO ME",
+    "f2025": 693865.04,
+    "f2026": 734880.49,
+    "varPct": 0.059111567286916605,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Estavel",
+    "acao": ""
+  },
+  {
+    "cod": 1727,
+    "nome": "54.832.667 PEDRO LUCAS MARMORA",
+    "full": "(1727) 54.832.667 PEDRO LUCAS MARMORA",
+    "f2025": 802265.79,
+    "f2026": 720163.73,
+    "varPct": -0.10233773024274159,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Discutir: Visita somente lojas que compram gabinetes e/ou piso. Fat. Baseado na loja do Ricardo(rep) e não tem aberto novos clientes e nem ampliado mix nos clientes atuais.",
+    "acao": ""
+  },
+  {
+    "cod": 1776,
+    "nome": "WILSON  EVARISTO  DA  SILVA",
+    "full": "(1776) WILSON  EVARISTO  DA  SILVA",
+    "f2025": 732530.08,
+    "f2026": 719399.45,
+    "varPct": -0.017925038655066852,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Tenho cobrado atuação e visita em toda a regiao que não vinha acontecendo.",
+    "acao": "Acompanhar trabalho"
+  },
+  {
+    "cod": 1123,
+    "nome": "FRANCISCO ANTONIO DE ALENCAR",
+    "full": "(1123) FRANCISCO ANTONIO DE ALENCAR",
+    "f2025": 753403.9,
+    "f2026": 658710.95,
+    "varPct": -0.1256868327865031,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Muita chuva na regiao e dificil acesso",
+    "acao": "Acompanhar"
+  },
+  {
+    "cod": 1642,
+    "nome": "JOSE SALES FERREIRA SILVA",
+    "full": "(1642) JOSE SALES FERREIRA SILVA",
+    "f2025": 751920.86,
+    "f2026": 647410.26,
+    "varPct": -0.13899148907771974,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Atenção: Rep atua somente da grande Goiania sem penetração na capital nos medios e grandes lojistas.",
+    "acao": "Visita"
+  },
+  {
+    "cod": 1571,
+    "nome": "LOPES E GOMES REPR COMERCIAIS",
+    "full": "(1571) LOPES E GOMES REPR COMERCIAIS",
+    "f2025": 666884.45,
+    "f2026": 645393.27,
+    "varPct": -0.03222624249223205,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "",
+    "acao": ""
+  },
+  {
+    "cod": 1430,
+    "nome": "TOTTENE - REPRES. COMERCIAL LT",
+    "full": "(1430) TOTTENE - REPRES. COMERCIAL LT",
+    "f2025": 839205.55,
+    "f2026": 567779.35,
+    "varPct": -0.32343232239109865,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Foi postergada visita na região, irei em jan/27. Precisa ter retomada até o fim do 1º semestre",
+    "acao": "Visita Jan/2027"
+  },
+  {
+    "cod": 1578,
+    "nome": "BRENO A P MACIEL REPRES. - EPP",
+    "full": "(1578) BRENO A P MACIEL REPRES. - EPP",
+    "f2025": 551353.96,
+    "f2026": 523039.59,
+    "varPct": -0.051354251631746894,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Estável",
+    "acao": ""
+  },
+  {
+    "cod": 1732,
+    "nome": "PORTELA E CARVALHO LTDA",
+    "full": "(1732) PORTELA E CARVALHO LTDA",
+    "f2025": 534328.59,
+    "f2026": 431956.04,
+    "varPct": -0.19159100208356897,
+    "pilar": "P2 — Recuperação",
+    "situacao": "O resultado de 2025 está com uma venda não recorrente de 268k que significa quase 50% do resultado do ano inteiro. Exceto essa venda, o trabalho e resultado vem crescendo, recentemente alteramos a rota para unificar com as vendas acima de Nova Mutum/MT",
+    "acao": "acompanhar melhora de logistica e impacto nos resultados"
+  },
+  {
+    "cod": 1786,
+    "nome": "AIRTON ALVES CARDOSO",
+    "full": "(1786) AIRTON ALVES CARDOSO",
+    "f2025": 0.0,
+    "f2026": 401987.37,
+    "varPct": null,
+    "pilar": "P3 — Expansão",
+    "situacao": "Area nova Sul do RS",
+    "acao": ""
+  },
+  {
+    "cod": 1774,
+    "nome": "ALIANÇA REPRESENTAÇÕES LTDA",
+    "full": "(1774) ALIANÇA REPRESENTAÇÕES LTDA",
+    "f2025": 0.0,
+    "f2026": 324979.54,
+    "varPct": null,
+    "pilar": "P3 — Expansão",
+    "situacao": "10% abaixo da media do Carlysson (fora inflação), temos negociações acontecendo que com a chegada do catálogo será uma boa ferramenta para destravar alguns negocios",
+    "acao": ""
+  },
+  {
+    "cod": 1779,
+    "nome": "COBRA REPRESENTACOES COMERCIAL",
+    "full": "(1779) COBRA REPRESENTACOES COMERCIAL",
+    "f2025": 221444.36,
+    "f2026": 314516.35,
+    "varPct": 0.420295147729207,
+    "pilar": "P3 — Expansão",
+    "situacao": "Temos muito mercado para crescer, forte concorrencia Brasil, AçoNorte e Back. Estratégia sugerida: liberação da Unicca para o 1º semestre sem trava para abertura de mercado.",
+    "acao": ""
+  },
+  {
+    "cod": 1691,
+    "nome": "E MARIANO DA SILVA",
+    "full": "(1691) E MARIANO DA SILVA",
+    "f2025": 315939.37,
+    "f2026": 309684.74,
+    "varPct": -0.019796931290963313,
+    "pilar": "P4 — Base / Manutenção",
+    "situacao": "Estável",
+    "acao": ""
+  },
+  {
+    "cod": 1756,
+    "nome": "T & C COMERCIO E REP LTDA",
+    "full": "(1756) T & C COMERCIO E REP LTDA",
+    "f2025": 163281.87,
+    "f2026": 265589.11,
+    "varPct": 0.6265682772986376,
+    "pilar": "P3 — Expansão",
+    "situacao": "Mesmo com crescimento o rep não tem trabalhado a pasta pois o que vendeu não girou conforme esperado. Ficamos de conversar no final do ano a continuidade (solicitação da parte dele)",
+    "acao": ""
+  },
+  {
+    "cod": 1772,
+    "nome": "50.149.105 DOUGLAS ADRIANO ZAN",
+    "full": "(1772) 50.149.105 DOUGLAS ADRIANO ZAN",
+    "f2025": 100564.1,
+    "f2026": 255951.61,
+    "varPct": 1.5451588588770753,
+    "pilar": "P3 — Expansão",
+    "situacao": "Região ampliada",
+    "acao": ""
+  },
+  {
+    "cod": 1432,
+    "nome": "M.MAXIMO REPRESENTAÇOES LTDA",
+    "full": "(1432) M.MAXIMO REPRESENTAÇOES LTDA",
+    "f2025": 233402.57,
+    "f2026": 206929.23,
+    "varPct": -0.11342351543087262,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Varejo foi encaminhado ao rep CJ Martins",
+    "acao": ""
+  },
+  {
+    "cod": 1722,
+    "nome": "COMERCIAL ARRUDA LTDA",
+    "full": "(1722) COMERCIAL ARRUDA LTDA",
+    "f2025": 317403.67,
+    "f2026": 198087.72,
+    "varPct": -0.3759123201064439,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Rep desfocou após estar devendo para CRV e não receber mais comissao para pagamento. Região que só fala em preço",
+    "acao": "Visita Edson"
+  },
+  {
+    "cod": 1563,
+    "nome": "ATHENAS COMER. E REPRES. LTDA",
+    "full": "(1563) ATHENAS COMER. E REPRES. LTDA",
+    "f2025": 250031.58,
+    "f2026": 175637.43,
+    "varPct": -0.29753901487164125,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Mercado da capital tem concentrado aos grandes players e cada vez mais pequenos varejistas (MatCon, Mercados, Farmacias) tem conseguido se manter. Estamos iniciando negociação com a loja Virtual de Alvorada.",
+    "acao": ""
+  },
+  {
+    "cod": 1689,
+    "nome": "BNA REPRESENTACOES COM LTDA",
+    "full": "(1689) BNA REPRESENTACOES COM LTDA",
+    "f2025": 128162.31,
+    "f2026": 102290.0,
+    "varPct": -0.20187143942708274,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Rep focado em mercados maiores clientes que se enquadram em GC",
+    "acao": ""
+  },
+  {
+    "cod": 1792,
+    "nome": "MAVAN COM. REPRESENTACOES LTDA",
+    "full": "(1792) MAVAN COM. REPRESENTACOES LTDA",
+    "f2025": 116559.26,
+    "f2026": 90012.98,
+    "varPct": -0.2277492152918612,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Contratado pós FEICON, ainda não se encaixou, estamos acompanhando o desenvolvimento do trabalho. Até o momento somente promessas",
+    "acao": ""
+  },
+  {
+    "cod": 1744,
+    "nome": "MILTON SALVADOR MOREIRA & CIA",
+    "full": "(1744) MILTON SALVADOR MOREIRA & CIA",
+    "f2025": 32290.72,
+    "f2026": 83511.93,
+    "varPct": 1.5862517156631986,
+    "pilar": "P3 — Expansão",
+    "situacao": "Rep sente muita dificuldade com a concorrencia de aluminio da BA e o primer de marcas sem NF (ST 28%) e/ou baixa qualidade.",
+    "acao": ""
+  },
+  {
+    "cod": 1798,
+    "nome": "G DORNELAS NASCIMENTO REP.LTDA",
+    "full": "(1798) G DORNELAS NASCIMENTO REP.LTDA",
+    "f2025": 317865.7,
+    "f2026": 73077.0,
+    "varPct": -0.7701010206511744,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Inicio de trabalho com dificuldade sem catalogo e amostra. Estamos providenciando o envio.",
+    "acao": ""
+  },
+  {
+    "cod": 1743,
+    "nome": "J. A. HOTT REPRESENTACOES LTDA",
+    "full": "(1743) J. A. HOTT REPRESENTACOES LTDA",
+    "f2025": 14364.58,
+    "f2026": 47847.77,
+    "varPct": 2.3309550296632406,
+    "pilar": "P3 — Expansão",
+    "situacao": "Acompanhar trabalho",
+    "acao": ""
+  },
+  {
+    "cod": 1760,
+    "nome": "DGO REPRESENTACOES LTDA",
+    "full": "(1760) DGO REPRESENTACOES LTDA",
+    "f2025": 76930.07,
+    "f2026": 38971.08,
+    "varPct": -0.49342201300479765,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Região de BH voltada somente a preço",
+    "acao": ""
+  },
+  {
+    "cod": 1652,
+    "nome": "HENRIQUE & BARBOSA REPRESENTAC",
+    "full": "(1652) HENRIQUE & BARBOSA REPRESENTAC",
+    "f2025": 75560.14,
+    "f2026": 33746.49,
+    "varPct": -0.5533823785927341,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Retomada de trabalho com a Unicca, ultima chance 1º semestre",
+    "acao": "acompanhar até Jun/2027"
+  },
+  {
+    "cod": 1788,
+    "nome": "FERDI REPRESENTACOES LTDA",
+    "full": "(1788) FERDI REPRESENTACOES LTDA",
+    "f2025": 0.0,
+    "f2026": 14117.08,
+    "varPct": null,
+    "pilar": "P3 — Expansão",
+    "situacao": "Sul de RO abertura de regiao",
+    "acao": ""
+  },
+  {
+    "cod": 1797,
+    "nome": "FARIAS RIBEIRO REPRE. COM LTDA",
+    "full": "(1797) FARIAS RIBEIRO REPRE. COM LTDA",
+    "f2025": 21208.8,
+    "f2026": 11418.18,
+    "varPct": -0.4616300780807967,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Inicio de trabalho chegaram as amostras há 15 dias. Quebra de paradigma da regiao voltada a preço",
+    "acao": "acompanhar"
+  },
+  {
+    "cod": 1784,
+    "nome": "CJ MARTINS REPRESENTACAO COMER",
+    "full": "(1784) CJ MARTINS REPRESENTACAO COMER",
+    "f2025": 0.0,
+    "f2026": 7055.35,
+    "varPct": null,
+    "pilar": "P3 — Expansão",
+    "situacao": "Mercado de pequeno varejo está com dificuldade de combater os grandes players em capitais. Vamos tentar maior penetração com o carro showroom na regiao",
+    "acao": "Agendar carro showroom Abr/2027"
+  },
+  {
+    "cod": 1794,
+    "nome": "DANTAS REPRESENTANÇÕES LTDA",
+    "full": "(1794) DANTAS REPRESENTANÇÕES LTDA",
+    "f2025": 0.0,
+    "f2026": 368.3,
+    "varPct": null,
+    "pilar": "P3 — Expansão",
+    "situacao": "Estado AC abertura de regiao, atuação em parceria com rep RO",
+    "acao": ""
+  },
+  {
+    "cod": 1796,
+    "nome": "RIBEIRO FERNANDES & REPRESENT",
+    "full": "(1796) RIBEIRO FERNANDES & REPRESENT",
+    "f2025": 0.0,
+    "f2026": 368.3,
+    "varPct": null,
+    "pilar": "P3 — Expansão",
+    "situacao": "Norte de RO abertura de regiao",
+    "acao": ""
+  },
+  {
+    "cod": 1518,
+    "nome": "L & R REPRESEN COMERCIAIS LTDA",
+    "full": "(1518) L & R REPRESEN COMERCIAIS LTDA",
+    "f2025": 16742.53,
+    "f2026": 0.0,
+    "varPct": -1.0,
+    "pilar": "P2 — Recuperação",
+    "situacao": "Não atua mais varejo",
+    "acao": ""
+  }
+];
+
+    const INITIAL_WEEKS = [
+  {
+    "id": "S47",
+    "start": "2026-11-16",
+    "end": "2026-11-20",
+    "mes": "Novembro/26",
+    "gerenteReps": [],
+    "showroomReps": [
+      "(1773) MINAS SUL REP COMERCIAL LTDA"
+    ],
+    "fabricaReps": [],
+    "foco": "Carro showroom e catálogo em Nov/2026 (Minas Sul)"
+  },
+  {
+    "id": "S48",
+    "start": "2026-11-23",
+    "end": "2026-11-27",
+    "mes": "Novembro/26",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível (sem agenda fixa na planilha)"
+  },
+  {
+    "id": "S49",
+    "start": "2026-11-30",
+    "end": "2026-12-04",
+    "mes": "Dezembro/26",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S50",
+    "start": "2026-12-07",
+    "end": "2026-12-11",
+    "mes": "Dezembro/26",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S51",
+    "start": "2026-12-14",
+    "end": "2026-12-18",
+    "mes": "Dezembro/26",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S52",
+    "start": "2026-12-21",
+    "end": "2026-12-25",
+    "mes": "Dezembro/26",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Natal / Base"
+  },
+  {
+    "id": "S53",
+    "start": "2026-12-28",
+    "end": "2027-01-01",
+    "mes": "Dezembro/26",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Virada de Ano / Base"
+  },
+  {
+    "id": "S01",
+    "start": "2027-01-04",
+    "end": "2027-01-08",
+    "mes": "Janeiro/27",
+    "gerenteReps": [
+      "(1430) TOTTENE - REPRES. COMERCIAL LT"
+    ],
+    "showroomReps": [
+      "(65) JOSE CARLOS ROMERO"
+    ],
+    "fabricaReps": [],
+    "foco": "Visita Jan/27 (Tottene) + Carro Showroom Jan/27 (José Carlos Romero)"
+  },
+  {
+    "id": "S02",
+    "start": "2027-01-11",
+    "end": "2027-01-15",
+    "mes": "Janeiro/27",
+    "gerenteReps": [],
+    "showroomReps": [
+      "(1181) ROMERO REPRESENTACAO DE MAT CO"
+    ],
+    "fabricaReps": [],
+    "foco": "Carro Showroom Jan/27 (Romero Rep. Mat. Co.)"
+  },
+  {
+    "id": "S03",
+    "start": "2027-01-18",
+    "end": "2027-01-22",
+    "mes": "Janeiro/27",
+    "gerenteReps": [],
+    "showroomReps": [
+      "(1397) RAFAEL ROMERO"
+    ],
+    "fabricaReps": [],
+    "foco": "Carro Showroom Jan/27 (Rafael Romero)"
+  },
+  {
+    "id": "S04",
+    "start": "2027-01-25",
+    "end": "2027-01-29",
+    "mes": "Janeiro/27",
+    "gerenteReps": [],
+    "showroomReps": [
+      "(1240) CABRAL & PIROLLA REP COM LTDA"
+    ],
+    "fabricaReps": [],
+    "foco": "Carro Showroom Jan/27 (Cabral & Pirolla)"
+  },
+  {
+    "id": "S05",
+    "start": "2027-02-01",
+    "end": "2027-02-05",
+    "mes": "Fevereiro/27",
+    "gerenteReps": [],
+    "showroomReps": [
+      "(1420) MARCELO  C. ANTONIO & CIA LTDA"
+    ],
+    "fabricaReps": [],
+    "foco": "Carro Showroom Fev/27 (Marcelo C. Antonio)"
+  },
+  {
+    "id": "S06",
+    "start": "2027-02-08",
+    "end": "2027-02-12",
+    "mes": "Fevereiro/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Semana Carnaval — Base / Disponível"
+  },
+  {
+    "id": "S07",
+    "start": "2027-02-15",
+    "end": "2027-02-19",
+    "mes": "Fevereiro/27",
+    "gerenteReps": [
+      "(1701) LUISTA REPRESENTACOES COM LTDA"
+    ],
+    "showroomReps": [
+      "(1701) LUISTA REPRESENTACOES COM LTDA"
+    ],
+    "fabricaReps": [],
+    "foco": "Visita Fev/27 + Carro Showroom Fev/27 (Luista Representações)"
+  },
+  {
+    "id": "S08",
+    "start": "2027-02-22",
+    "end": "2027-02-26",
+    "mes": "Fevereiro/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S09",
+    "start": "2027-03-01",
+    "end": "2027-03-05",
+    "mes": "Março/27",
+    "gerenteReps": [
+      "(1433) S L DELLABETA & CIA LTDA - ME"
+    ],
+    "showroomReps": [
+      "(1433) S L DELLABETA & CIA LTDA - ME"
+    ],
+    "fabricaReps": [],
+    "foco": "Visita Mar/27 + Carro Showroom Mar/Abr (S L Dellabeta)"
+  },
+  {
+    "id": "S10",
+    "start": "2027-03-08",
+    "end": "2027-03-12",
+    "mes": "Março/27",
+    "gerenteReps": [
+      "(351) G DE O MATIAS"
+    ],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Visita Mar/27 (G de O Matias)"
+  },
+  {
+    "id": "S11",
+    "start": "2027-03-15",
+    "end": "2027-03-19",
+    "mes": "Março/27",
+    "gerenteReps": [
+      "(1757) RPM REPRESENTACOES LTDA"
+    ],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Visita Mar/27 (RPM Representações)"
+  },
+  {
+    "id": "S12",
+    "start": "2027-03-22",
+    "end": "2027-03-26",
+    "mes": "Março/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S13",
+    "start": "2027-03-29",
+    "end": "2027-04-02",
+    "mes": "Março/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S14",
+    "start": "2027-04-05",
+    "end": "2027-04-09",
+    "mes": "Abril/27",
+    "gerenteReps": [],
+    "showroomReps": [
+      "(1757) RPM REPRESENTACOES LTDA"
+    ],
+    "fabricaReps": [],
+    "foco": "Carro Showroom Abr/27 (RPM Representações)"
+  },
+  {
+    "id": "S15",
+    "start": "2027-04-12",
+    "end": "2027-04-16",
+    "mes": "Abril/27",
+    "gerenteReps": [],
+    "showroomReps": [
+      "(1784) CJ MARTINS REPRESENTACAO COMER"
+    ],
+    "fabricaReps": [],
+    "foco": "Carro Showroom Abr/27 (CJ Martins)"
+  },
+  {
+    "id": "S16",
+    "start": "2027-04-19",
+    "end": "2027-04-23",
+    "mes": "Abril/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Tiradentes — Base / Disponível"
+  },
+  {
+    "id": "S17",
+    "start": "2027-04-26",
+    "end": "2027-04-30",
+    "mes": "Abril/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S18",
+    "start": "2027-05-03",
+    "end": "2027-05-07",
+    "mes": "Maio/27",
+    "gerenteReps": [
+      "(1775) BARAVELLI REPRE COMERC LTDA"
+    ],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Provável visita até Maio/27 (Baravelli)"
+  },
+  {
+    "id": "S19",
+    "start": "2027-05-10",
+    "end": "2027-05-14",
+    "mes": "Maio/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S20",
+    "start": "2027-05-17",
+    "end": "2027-05-21",
+    "mes": "Maio/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S21",
+    "start": "2027-05-24",
+    "end": "2027-05-28",
+    "mes": "Maio/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Corpus Christi — Base / Disponível"
+  },
+  {
+    "id": "S22",
+    "start": "2027-05-31",
+    "end": "2027-06-04",
+    "mes": "Junho/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S23",
+    "start": "2027-06-07",
+    "end": "2027-06-11",
+    "mes": "Junho/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S24",
+    "start": "2027-06-14",
+    "end": "2027-06-18",
+    "mes": "Junho/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S25",
+    "start": "2027-06-21",
+    "end": "2027-06-25",
+    "mes": "Junho/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  },
+  {
+    "id": "S26",
+    "start": "2027-06-28",
+    "end": "2027-07-02",
+    "mes": "Junho/27",
+    "gerenteReps": [],
+    "showroomReps": [],
+    "fabricaReps": [],
+    "foco": "Base / Disponível"
+  }
+];
+
+    let state = {
+      weeks: [],
+      reps: [],
+      dayOverrides: {},
+      activeTab: 'mensal'
+    };
+
+    let dragPayload = null;
+    let editingDayISO = null;
+    let editingDayWeekId = null;
+    let editingActionId = null;
+
+    function genActionId() {
+      return 'act-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6);
+    }
+
+    function shortRepName(label) {
+      return String(label || '').trim();
+    }
+
+    function normalizeWeekObj(w) {
+      return {
+        ...w,
+        gerenteReps: Array.isArray(w.gerenteReps) ? w.gerenteReps : [],
+        showroomReps: Array.isArray(w.showroomReps) ? w.showroomReps : [],
+        fabricaReps: Array.isArray(w.fabricaReps) ? w.fabricaReps : []
+      };
+    }
+
+    function normalizeDayOverridesMap(rawMap) {
+      const out = {};
+      if (!rawMap || typeof rawMap !== 'object') return out;
+      Object.entries(rawMap).forEach(([iso, val]) => {
+        if (!val) return;
+        if (Array.isArray(val.actions)) {
+          out[iso] = {
+            actions: val.actions.map(a => ({
+              id: a.id || genActionId(),
+              type: a.type || 'CUSTOM',
+              label: a.label || 'Atividade',
+              note: a.note || ''
+            }))
+          };
+        } else if (val.type === 'EMPTY') {
+          out[iso] = { actions: [] };
+        } else {
+          out[iso] = {
+            actions: [{
+              id: genActionId(),
+              type: val.type || 'CUSTOM',
+              label: val.label || 'Atividade',
+              note: val.note || ''
+            }]
+          };
+        }
+      });
+      return out;
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || null;
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state.weeks = Array.isArray(parsed.weeks) && parsed.weeks.length ? parsed.weeks.map(normalizeWeekObj) : structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
+          state.reps = Array.isArray(parsed.reps) && parsed.reps.length ? parsed.reps : structuredClone(INITIAL_REPS);
+          state.dayOverrides = normalizeDayOverridesMap(parsed.dayOverrides);
+          return;
+        }
+      } catch (e) {}
+      state.weeks = structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
+      state.reps = structuredClone(INITIAL_REPS);
+      state.dayOverrides = {};
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          weeks: state.weeks,
+          reps: state.reps,
+          dayOverrides: state.dayOverrides
+        }));
+      } catch (e) {}
+    }
+
+    function resetAllData() {
+      if (!confirm('Deseja restaurar toda a programação oficial padrão (33 semanas e 62 representantes)?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      state.weeks = structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
+      state.reps = structuredClone(INITIAL_REPS);
+      state.dayOverrides = {};
+      saveState();
+      renderAll();
+      showToast('↺ Base oficial restaurada!');
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.remove('opacity-0');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.add('opacity-0'), 2800);
+    }
+
+    function formatISO(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function parseISO(iso) {
+      const [y, m, d] = iso.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    function formatBRDate(iso) {
+      const [y, m, d] = iso.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    function getIsoWeekdayIdx(iso) {
+      const d = parseISO(iso);
+      const day = d.getDay();
+      return day === 0 ? 6 : day - 1;
+    }
+
+    function findPlannedWeekForDate(iso) {
+      return state.weeks.find(w => iso >= w.start && iso <= w.end) || null;
+    }
+
+    function buildDefaultDayActions(isoDate, weekId, dayIdx) {
+      const actions = [];
+      const holiday = NATIONAL_HOLIDAYS[isoDate];
+      if (holiday) {
+        actions.push({ id: `def-hol-${isoDate}`, type: 'FERIADO', label: holiday, note: '' });
+        return actions;
+      }
+      const isWeekend = dayIdx >= 5;
+      if (isWeekend || !weekId) return actions;
+
+      const pw = state.weeks.find(w => w.id === weekId);
+      if (!pw) return actions;
+
+      const hasG = pw.gerenteReps.length > 0;
+      const hasS = pw.showroomReps.length > 0;
+      const hasF = pw.fabricaReps.length > 0;
+
+      if (hasG) {
+        pw.gerenteReps.forEach((r, idx) => {
+          const gLabel = (dayIdx === 4 ? 'Retorno: ' : '') + shortRepName(r);
+          actions.push({ id: `def-g-${isoDate}-${idx}`, type: 'GERENTE', label: gLabel, note: '' });
+        });
+      }
+      if (hasS) {
+        pw.showroomReps.forEach((r, idx) => {
+          actions.push({ id: `def-s-${isoDate}-${idx}`, type: 'SHOWROOM', label: shortRepName(r), note: '' });
+        });
+      }
+      if (hasF) {
+        pw.fabricaReps.forEach((r, idx) => {
+          actions.push({ id: `def-f-${isoDate}-${idx}`, type: 'FABRICA', label: shortRepName(r), note: '' });
+        });
+      }
+      if (!hasG && !hasS && !hasF) {
+        actions.push({ id: `def-base-${isoDate}`, type: 'BASE', label: 'Base / Disp.', note: '' });
+      }
+      return actions;
+    }
+
+    function getEffectiveDayActions(isoDate, weekId, dayIdx) {
+      const override = state.dayOverrides[isoDate];
+      if (override && Array.isArray(override.actions)) return override.actions;
+      return buildDefaultDayActions(isoDate, weekId, dayIdx);
+    }
+
+    function ensureMutableDayActions(isoDate, weekId, dayIdx) {
+      if (!state.dayOverrides[isoDate] || !Array.isArray(state.dayOverrides[isoDate].actions)) {
+        const cloned = buildDefaultDayActions(isoDate, weekId, dayIdx).map(a => ({ ...a, id: genActionId() }));
+        state.dayOverrides[isoDate] = { actions: cloned };
+      }
+      return state.dayOverrides[isoDate].actions;
+    }
+
+    function getMonthWeeksMatrix(year, month) {
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const startOffset = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+      const cursor = new Date(year, month, 1 - startOffset);
+      const rows = [];
+
+      while (cursor <= lastDay || rows.length < 5) {
+        const days = [];
+        let plannedWeek = null;
+        for (let i = 0; i < 7; i++) {
+          const iso = formatISO(cursor);
+          const inMonth = cursor.getMonth() === month;
+          const pw = findPlannedWeekForDate(iso);
+          if (pw && i < 5) plannedWeek = pw;
+          days.push({
+            iso,
+            dayNum: String(cursor.getDate()).padStart(2, '0'),
+            inMonth,
+            isWeekend: i >= 5
+          });
+          cursor.setDate(cursor.getDate() + 1);
+        }
+        rows.push({ days, plannedWeek });
+        if (cursor > lastDay && cursor.getDay() === 1) break;
+      }
+      return rows;
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function renderDayBlockBadge(act, isoDate, weekId, dayIdx) {
+      const themes = {
+        GERENTE:  { wrap: 'bg-blue-600 text-white border-blue-700', icon: '✈️', tag: 'VIAGEM' },
+        SHOWROOM: { wrap: 'bg-orange-500 text-white border-orange-600', icon: '🚐', tag: 'SHOWROOM' },
+        FABRICA:  { wrap: 'bg-teal-600 text-white border-teal-700', icon: '🏭', tag: 'FÁBRICA' },
+        FERIADO:  { wrap: 'bg-emerald-600 text-white border-emerald-700', icon: '🎉', tag: 'FERIADO' },
+        BASE:     { wrap: 'bg-slate-100 hover:bg-slate-200/80 text-slate-600 border-slate-200', icon: '🏢', tag: 'BASE' },
+        CUSTOM:   { wrap: 'bg-indigo-600 text-white border-indigo-700', icon: '📌', tag: 'AGENDA' }
+      };
+      const st = themes[act.type] || themes.CUSTOM;
+      const weekArg = weekId ? `'${weekId}'` : 'null';
+
+      if (act.type === 'BASE') {
+        return `
+          <div draggable="true"
+               ondragstart="handleBlockDragStart(event, '${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})"
+               ondragend="handleDragEnd(event)"
+               class="group/blk relative rounded-md px-2 py-1 border ${st.wrap} text-[10px] font-semibold flex items-center justify-between gap-1 cursor-grab active:cursor-grabbing">
+            <span class="truncate">${st.icon} ${escapeHtml(act.label)}</span>
+            <div class="opacity-0 group-hover/blk:opacity-100 flex items-center gap-0.5 shrink-0">
+              <button onclick="event.stopPropagation(); duplicateDayAction('${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})" title="Duplicar ação" class="px-1 rounded bg-slate-300/70 hover:bg-slate-400/70 text-slate-800 text-[9px]">📋</button>
+              <button onclick="event.stopPropagation(); deleteSingleDayAction('${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})" title="Remover ação" class="px-1 rounded bg-rose-100 hover:bg-rose-200 text-rose-700 text-[9px]">✕</button>
+            </div>
+          </div>`;
+      }
+
+      return `
+        <div draggable="true"
+             ondragstart="handleBlockDragStart(event, '${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})"
+             ondragend="handleDragEnd(event)"
+             class="group/blk relative rounded-lg px-2 py-1.5 border shadow-xs ${st.wrap} text-[10px] leading-tight cursor-grab active:cursor-grabbing transition">
+          <div class="flex items-center justify-between gap-1 mb-0.5">
+            <span class="font-extrabold tracking-wide text-[9px] opacity-95 flex items-center gap-1">
+              <span class="text-xs">${st.icon}</span> ${st.tag}
+            </span>
+            <div class="opacity-0 group-hover/blk:opacity-100 flex items-center gap-0.5 transition">
+              <button onclick="event.stopPropagation(); duplicateDayAction('${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})" title="Duplicar esta ação" class="px-1 py-0.2 rounded bg-black/25 hover:bg-black/45 text-white text-[9px]">📋</button>
+              <button onclick="event.stopPropagation(); deleteSingleDayAction('${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})" title="Excluir esta ação" class="px-1 py-0.2 rounded bg-black/25 hover:bg-rose-600 text-white text-[9px]">✕</button>
+            </div>
+          </div>
+          <div class="font-bold break-words">${escapeHtml(act.label)}</div>
+          ${act.note ? `<div class="text-[9px] opacity-90 mt-0.5 italic">${escapeHtml(act.note)}</div>` : ''}
+        </div>`;
+    }
+
+    function renderMonthlyPlanner() {
+      const selectedMonth = document.getElementById('mensal-month-select')?.value || 'ALL';
+      const monthsToRender = selectedMonth === 'ALL'
+        ? PLANNER_MONTHS
+        : PLANNER_MONTHS.filter(m => m.key === selectedMonth);
+
+      let gCount = 0, sCount = 0, fCount = 0, multiCount = 0;
+      state.weeks.forEach(w => {
+        const hasG = w.gerenteReps.length > 0;
+        const hasS = w.showroomReps.length > 0;
+        const hasF = w.fabricaReps.length > 0;
+        if (hasG) gCount++;
+        if (hasS) sCount++;
+        if (hasF) fCount++;
+        if ((hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0) > 1) multiCount++;
+      });
+
+      const summaryEl = document.getElementById('mensal-summary-pills');
+      if (summaryEl) {
+        summaryEl.innerHTML = `
+          <span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-bold">✈️ Viagem Gerente: ${gCount} sem.</span>
+          <span class="px-2.5 py-1 rounded-full bg-orange-50 text-orange-700 border border-orange-200 font-bold">🚐 Carro Showroom: ${sCount} sem.</span>
+          <span class="px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 font-bold">🏭 Visita Fábrica: ${fCount} sem.</span>
+          <span class="px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200 font-bold">🟣 Frentes Simultâneas: ${multiCount} sem.</span>
+        `;
+      }
+
+      const container = document.getElementById('mensal-calendars-container');
+      if (!container) return;
+
+      container.innerHTML = monthsToRender.map(mObj => {
+        const matrix = getMonthWeeksMatrix(mObj.year, mObj.month);
+        const rowsHtml = matrix.map(row => {
+          const pw = row.plannedWeek;
+          const hasG = pw && pw.gerenteReps.length > 0;
+          const hasS = pw && pw.showroomReps.length > 0;
+          const hasF = pw && pw.fabricaReps.length > 0;
+          const activeFronts = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
+
+          let weekBadgeCls = 'bg-slate-200 text-slate-600';
+          if (pw) {
+            if (activeFronts > 1) weekBadgeCls = 'bg-purple-600 text-white';
+            else if (hasG) weekBadgeCls = 'bg-blue-600 text-white';
+            else if (hasS) weekBadgeCls = 'bg-orange-500 text-white';
+            else if (hasF) weekBadgeCls = 'bg-teal-600 text-white';
+          }
+
+          const daysCellsHtml = row.days.map((d, dayIdx) => {
+            if (!d.inMonth) {
+              return `<div class="bg-slate-50/70 border-r border-slate-200/70 p-1.5 min-h-[104px] text-slate-300 text-[11px] font-semibold">${d.dayNum}</div>`;
+            }
+
+            const weekId = pw ? pw.id : null;
+            const weekArg = weekId ? `'${weekId}'` : 'null';
+            const actions = getEffectiveDayActions(d.iso, weekId, dayIdx);
+            const blocksHtml = actions.map(act => renderDayBlockBadge(act, d.iso, weekId, dayIdx)).join('');
+
+            return `
+              <div onclick="openDayEditorModal('${d.iso}', ${weekArg})"
+                   ondragover="handleDayDragOver(event)"
+                   ondragleave="handleDayDragLeave(event)"
+                   ondrop="handleDayDrop(event, '${d.iso}', ${weekArg}, ${dayIdx})"
+                   class="group/cell relative border-r border-slate-200 p-1.5 min-h-[108px] transition cursor-pointer ${d.isWeekend ? 'bg-slate-50/90 hover:bg-blue-50/30' : 'bg-white hover:bg-blue-50/30'} flex flex-col">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[11px] font-extrabold ${d.isWeekend ? 'text-slate-400' : 'text-slate-700'}">${d.dayNum}</span>
+                  <div class="opacity-0 group-hover/cell:opacity-100 flex items-center gap-0.5 transition no-print">
+                    <button onclick="event.stopPropagation(); openDayEditorModal('${d.iso}', ${weekArg})" title="Adicionar / Editar ações do dia" class="w-4 h-4 rounded bg-blue-100 hover:bg-blue-600 text-blue-700 hover:text-white font-bold text-[11px] flex items-center justify-center">+</button>
+                    ${actions.length ? `<button onclick="event.stopPropagation(); clearDayCompletely('${d.iso}')" title="Limpar dia inteiro" class="w-4 h-4 rounded bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white font-bold text-[9px] flex items-center justify-center">✕</button>` : ''}
+                  </div>
+                </div>
+                <div class="space-y-1 flex-1">${blocksHtml}</div>
+              </div>`;
+          }).join('');
+
+          const chips = [];
+          if (pw) {
+            pw.gerenteReps.forEach(r => chips.push(`<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-bold">✈️ ${escapeHtml(r)}</span>`));
+            pw.showroomReps.forEach(r => chips.push(`<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-orange-500 text-white text-[10px] font-bold">🚐 ${escapeHtml(r)}</span>`));
+            pw.fabricaReps.forEach(r => chips.push(`<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-teal-600 text-white text-[10px] font-bold">🏭 ${escapeHtml(r)}</span>`));
+          }
+
+          return `
+            <div class="grid grid-cols-[64px_repeat(7,minmax(125px,1fr))_210px] border-t border-slate-200">
+              <div class="bg-slate-50 border-r border-slate-200 p-2 flex flex-col items-center justify-start gap-1">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${weekBadgeCls}">${pw ? pw.id : '—'}</span>
+                ${pw ? `<span class="text-[9px] text-emerald-700 font-semibold">✓ Rotina</span>` : ''}
+              </div>
+              ${daysCellsHtml}
+              <div class="bg-slate-50/70 p-2 flex flex-col justify-between gap-1.5">
+                <div class="space-y-1">
+                  ${chips.length ? chips.join('') : `<span class="text-[10px] text-slate-400 font-medium">🏢 Base / Disponível</span>`}
+                </div>
+                ${pw ? `<div class="text-[10px] text-slate-500 leading-snug border-t border-slate-200/80 pt-1">${escapeHtml(pw.foco)}</div>` : ''}
+              </div>
+            </div>`;
+        }).join('');
+
+        return `
+          <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-slate-900 text-white px-4 py-2.5 flex items-center justify-between">
+              <h3 class="text-sm font-extrabold tracking-wide">${mObj.label}</h3>
+              <span class="text-[11px] text-slate-300 font-medium">Arraste blocos ou clique no dia para gerenciar múltiplas ações</span>
+            </div>
+            <div class="overflow-x-auto custom-scroll">
+              <div class="min-w-[1150px]">
+                <div class="grid grid-cols-[64px_repeat(7,minmax(125px,1fr))_210px] bg-slate-100 text-slate-700 text-[11px] font-extrabold uppercase tracking-wider">
+                  <div class="py-2 px-2 text-center border-r border-slate-200">Sem.</div>
+                  <div class="py-2 px-2 border-r border-slate-200">Seg</div>
+                  <div class="py-2 px-2 border-r border-slate-200">Ter</div>
+                  <div class="py-2 px-2 border-r border-slate-200">Qua</div>
+                  <div class="py-2 px-2 border-r border-slate-200">Qui</div>
+                  <div class="py-2 px-2 border-r border-slate-200">Sex</div>
+                  <div class="py-2 px-2 border-r border-slate-200 text-slate-400">Sáb</div>
+                  <div class="py-2 px-2 border-r border-slate-200 text-slate-400">Dom</div>
+                  <div class="py-2 px-2">Resumo da Semana</div>
+                </div>
+                ${rowsHtml}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function handleRepDragStart(e, repLabel) {
+      dragPayload = { kind: 'REP', repLabel };
+      e.dataTransfer.effectAllowed = 'copy';
+    }
+
+    function handleBlockDragStart(e, sourceIso, actionId, weekId, dayIdx) {
+      e.stopPropagation();
+      dragPayload = { kind: 'BLOCK', sourceIso, actionId, weekId, dayIdx };
+      e.dataTransfer.effectAllowed = 'copyMove';
+    }
+
+    function handleDragEnd(e) {
+      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    }
+
+    function handleDayDragOver(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function handleDayDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    function handleDayDrop(e, targetIso, targetWeekId, targetDayIdx) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.remove('drag-over');
+      if (!dragPayload) return;
+
+      const isCopy = e.ctrlKey || e.altKey;
+
+      if (dragPayload.kind === 'REP') {
+        const list = ensureMutableDayActions(targetIso, targetWeekId, targetDayIdx);
+        const baseIdx = list.findIndex(a => a.type === 'BASE');
+        if (baseIdx > -1) list.splice(baseIdx, 1);
+        list.push({
+          id: genActionId(),
+          type: 'SHOWROOM',
+          label: dragPayload.repLabel,
+          note: ''
+        });
+        saveState();
+        renderMonthlyPlanner();
+        showToast(`✅ "${dragPayload.repLabel}" adicionado em ${formatBRDate(targetIso)}.`);
+      } else if (dragPayload.kind === 'BLOCK') {
+        const srcList = ensureMutableDayActions(dragPayload.sourceIso, dragPayload.weekId, dragPayload.dayIdx);
+        const srcIdx = srcList.findIndex(a => a.id === dragPayload.actionId);
+        if (srcIdx === -1) return;
+        const movingAct = { ...srcList[srcIdx], id: genActionId() };
+
+        if (!isCopy && dragPayload.sourceIso !== targetIso) {
+          srcList.splice(srcIdx, 1);
+        }
+
+        const dstList = ensureMutableDayActions(targetIso, targetWeekId, targetDayIdx);
+        const baseIdx = dstList.findIndex(a => a.type === 'BASE');
+        if (baseIdx > -1 && movingAct.type !== 'BASE') dstList.splice(baseIdx, 1);
+        dstList.push(movingAct);
+
+        saveState();
+        renderMonthlyPlanner();
+        showToast(`${isCopy ? '📋 Bloco duplicado' : '✅ Bloco movido'} para ${formatBRDate(targetIso)}.`);
+      }
+      dragPayload = null;
+    }
+
+    function duplicateDayAction(isoDate, actionId, weekId, dayIdx) {
+      const list = ensureMutableDayActions(isoDate, weekId, dayIdx);
+      const found = list.find(a => a.id === actionId);
+      if (!found) return;
+      list.push({ ...found, id: genActionId() });
+      saveState();
+      renderMonthlyPlanner();
+      if (editingDayISO === isoDate) renderDayEditorActionsList();
+      showToast(`📋 "${found.label}" duplicado no dia!`);
+    }
+
+    function deleteSingleDayAction(isoDate, actionId, weekId, dayIdx) {
+      const list = ensureMutableDayActions(isoDate, weekId, dayIdx);
+      const idx = list.findIndex(a => a.id === actionId);
+      if (idx > -1) {
+        const removed = list.splice(idx, 1)[0];
+        saveState();
+        renderMonthlyPlanner();
+        if (editingDayISO === isoDate) renderDayEditorActionsList();
+        showToast(`🗑️ "${removed.label}" removido.`);
+      }
+    }
+
+    function clearDayCompletely(isoDate) {
+      state.dayOverrides[isoDate] = { actions: [] };
+      saveState();
+      renderMonthlyPlanner();
+      if (editingDayISO === isoDate) renderDayEditorActionsList();
+      showToast(`🧹 Dia ${formatBRDate(isoDate)} limpo.`);
+    }
+
+    function openDayEditorModal(isoDate, weekId) {
+      editingDayISO = isoDate;
+      editingDayWeekId = weekId;
+      editingActionId = null;
+
+      const d = parseISO(isoDate);
+      const weekdays = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+      document.getElementById('day-editor-week-badge').textContent = weekId || 'Fora do Escopo';
+      document.getElementById('day-editor-title').textContent = `${weekdays[d.getDay()]}, ${formatBRDate(isoDate)}`;
+
+      cancelEditSingleAction();
+      renderDayEditorActionsList();
+
+      const modal = document.getElementById('day-editor-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeDayEditorModal() {
+      const modal = document.getElementById('day-editor-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      editingDayISO = null;
+      editingDayWeekId = null;
+      editingActionId = null;
+    }
+
+    function renderDayEditorActionsList() {
+      if (!editingDayISO) return;
+      const dayIdx = getIsoWeekdayIdx(editingDayISO);
+      const actions = getEffectiveDayActions(editingDayISO, editingDayWeekId, dayIdx);
+      document.getElementById('day-editor-count').textContent = actions.length;
+
+      const listEl = document.getElementById('day-editor-actions-list');
+      if (!actions.length) {
+        listEl.innerHTML = `<div class="text-xs text-slate-400 italic bg-slate-50 border border-dashed border-slate-200 rounded-lg p-3 text-center">Nenhuma ação neste dia (célula em branco).</div>`;
+        return;
+      }
+
+      const badges = {
+        GERENTE: 'bg-blue-100 text-blue-800',
+        SHOWROOM: 'bg-orange-100 text-orange-800',
+        FABRICA: 'bg-teal-100 text-teal-800',
+        FERIADO: 'bg-emerald-100 text-emerald-800',
+        BASE: 'bg-slate-200 text-slate-700',
+        CUSTOM: 'bg-indigo-100 text-indigo-800'
+      };
+
+      const weekArg = editingDayWeekId ? `'${editingDayWeekId}'` : 'null';
+
+      listEl.innerHTML = actions.map(act => `
+        <div class="flex items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+          <div class="min-w-0">
+            <span class="inline-block text-[10px] font-extrabold px-1.5 py-0.5 rounded ${badges[act.type] || badges.CUSTOM}">${act.type}</span>
+            <span class="text-xs font-bold text-slate-800 ml-1">${escapeHtml(act.label)}</span>
+            ${act.note ? `<div class="text-[11px] text-slate-500 mt-0.5">${escapeHtml(act.note)}</div>` : ''}
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="startEditSingleAction('${act.id}')" title="Editar" class="px-2 py-1 text-[11px] font-semibold bg-white hover:bg-blue-50 text-blue-700 border border-slate-200 rounded">✏️</button>
+            <button onclick="duplicateDayAction('${editingDayISO}', '${act.id}', ${weekArg}, ${dayIdx})" title="Duplicar" class="px-2 py-1 text-[11px] font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded">📋</button>
+            <button onclick="deleteSingleDayAction('${editingDayISO}', '${act.id}', ${weekArg}, ${dayIdx})" title="Excluir" class="px-2 py-1 text-[11px] font-semibold bg-white hover:bg-rose-50 text-rose-700 border border-slate-200 rounded">✕</button>
+          </div>
+        </div>`).join('');
+    }
+
+    function startEditSingleAction(actionId) {
+      if (!editingDayISO) return;
+      const dayIdx = getIsoWeekdayIdx(editingDayISO);
+      const list = ensureMutableDayActions(editingDayISO, editingDayWeekId, dayIdx);
+      const act = list.find(a => a.id === actionId);
+      if (!act) return;
+
+      editingActionId = actionId;
+      document.getElementById('day-editor-type').value = act.type;
+      document.getElementById('day-editor-label').value = act.label;
+      document.getElementById('day-editor-note').value = act.note || '';
+      document.getElementById('day-editor-form-title').textContent = '✏️ Editando Ação Selecionada';
+      document.getElementById('day-editor-save-btn').textContent = 'Salvar Alteração';
+      document.getElementById('day-editor-cancel-edit').classList.remove('hidden');
+    }
+
+    function cancelEditSingleAction() {
+      editingActionId = null;
+      document.getElementById('day-editor-label').value = '';
+      document.getElementById('day-editor-note').value = '';
+      document.getElementById('day-editor-rep-picker').value = '';
+      document.getElementById('day-editor-form-title').textContent = '+ Adicionar Nova Ação neste Dia';
+      document.getElementById('day-editor-save-btn').textContent = '+ Adicionar Ação ao Dia';
+      document.getElementById('day-editor-cancel-edit').classList.add('hidden');
+    }
+
+    function onEditorTypeChange() {
+      const type = document.getElementById('day-editor-type').value;
+      const defaults = {
+        GERENTE: 'Viagem Gerente',
+        SHOWROOM: 'Carro Showroom',
+        FABRICA: 'Visita à Fábrica CRV',
+        BASE: 'Base / Disponível',
+        FERIADO: 'Folga / Feriado',
+        CUSTOM: 'Compromisso Personalizado'
+      };
+      const labelInput = document.getElementById('day-editor-label');
+      if (defaults[type]) labelInput.placeholder = `Ex: ${defaults[type]}`;
+    }
+
+    function applyRepToDayLabel(repText) {
+      if (!repText) return;
+      document.getElementById('day-editor-label').value = repText;
+    }
+
+    function saveSingleDayAction() {
+      if (!editingDayISO) return;
+      const type = document.getElementById('day-editor-type').value;
+      const labelRaw = document.getElementById('day-editor-label').value.trim();
+      const note = document.getElementById('day-editor-note').value.trim();
+
+      const fallbackLabels = {
+        GERENTE: 'Viagem Gerente',
+        SHOWROOM: 'Carro Showroom',
+        FABRICA: 'Visita à Fábrica CRV',
+        BASE: 'Base / Disp.',
+        FERIADO: 'Feriado / Folga',
+        CUSTOM: 'Compromisso'
+      };
+
+      const label = labelRaw || fallbackLabels[type] || 'Atividade';
+      const dayIdx = getIsoWeekdayIdx(editingDayISO);
+      const list = ensureMutableDayActions(editingDayISO, editingDayWeekId, dayIdx);
+
+      if (editingActionId) {
+        const target = list.find(a => a.id === editingActionId);
+        if (target) {
+          target.type = type;
+          target.label = label;
+          target.note = note;
+        }
+        showToast('✅ Ação atualizada!');
+      } else {
+        if (type !== 'BASE') {
+          const baseIdx = list.findIndex(a => a.type === 'BASE');
+          if (baseIdx > -1) list.splice(baseIdx, 1);
+        }
+        list.push({ id: genActionId(), type, label, note });
+        showToast(`✅ "${label}" adicionada ao dia!`);
+      }
+
+      cancelEditSingleAction();
+      saveState();
+      renderMonthlyPlanner();
+      renderDayEditorActionsList();
+    }
+
+    function clearDayFromModal() {
+      if (!editingDayISO) return;
+      clearDayCompletely(editingDayISO);
+    }
+
+    function resetDayOverride() {
+      if (!editingDayISO) return;
+      delete state.dayOverrides[editingDayISO];
+      saveState();
+      renderMonthlyPlanner();
+      renderDayEditorActionsList();
+      showToast('↺ Dia restaurado ao padrão da semana.');
+    }
+
+    function renderSidebarReps() {
+      const q = (document.getElementById('sidebar-rep-search')?.value || '').toLowerCase();
+      const pilar = document.getElementById('sidebar-pilar-filter')?.value || 'ALL';
+
+      const filtered = state.reps.filter(r => {
+        const matchQ = `${r.cod} ${r.nome} ${r.uf}`.toLowerCase().includes(q);
+        const matchP = pilar === 'ALL' || r.pilar.startsWith(pilar);
+        return matchQ && matchP;
+      });
+
+      const listEl = document.getElementById('sidebar-reps-list');
+      if (!listEl) return;
+
+      listEl.innerHTML = filtered.map(r => {
+        const label = `(${r.cod}) ${r.nome}`;
+        const hasPlan = Boolean(r.acao);
+        return `
+          <div draggable="true"
+               ondragstart="handleRepDragStart(event, '${label.replace(/'/g, "\'")}')"
+               ondragend="handleDragEnd(event)"
+               class="p-2 rounded-lg border ${hasPlan ? 'border-blue-200 bg-blue-50/40' : 'border-slate-200 bg-slate-50'} hover:bg-blue-50 hover:border-blue-400 cursor-grab active:cursor-grabbing transition">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[11px] font-extrabold text-slate-800 truncate">${escapeHtml(label)}</span>
+              ${hasPlan ? `<span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-100 text-blue-800 shrink-0">Plano</span>` : ''}
+            </div>
+            <div class="text-[10px] ${hasPlan ? 'text-blue-700 font-semibold' : 'text-slate-500'} mt-0.5 truncate">${escapeHtml(r.acao || r.situacao || 'Sem ação definida')}</div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderWeeklyTable() {
+      const filter = document.getElementById('week-type-filter')?.value || 'ALL';
+      const tbody = document.getElementById('weekly-table-body');
+      if (!tbody) return;
+
+      const filtered = state.weeks.filter(w => {
+        const hasG = w.gerenteReps.length > 0;
+        const hasS = w.showroomReps.length > 0;
+        const hasF = w.fabricaReps.length > 0;
+        if (filter === 'GERENTE') return hasG;
+        if (filter === 'SHOWROOM') return hasS;
+        if (filter === 'FABRICA') return hasF;
+        if (filter === 'MULTI') return (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0) > 1;
+        return true;
+      });
+
+      tbody.innerHTML = filtered.map(w => `
+        <tr class="hover:bg-slate-50">
+          <td class="py-2.5 px-3 font-extrabold text-blue-700">${w.id}</td>
+          <td class="py-2.5 px-3 font-medium text-slate-700">${formatBRDate(w.start)} a ${formatBRDate(w.end)}</td>
+          <td class="py-2.5 px-3 text-slate-600">${w.mes}</td>
+          <td class="py-2.5 px-3">${w.gerenteReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[11px]">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
+          <td class="py-2.5 px-3">${w.showroomReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-orange-100 text-orange-800 font-bold text-[11px]">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
+          <td class="py-2.5 px-3">${w.fabricaReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-teal-100 text-teal-800 font-bold text-[11px]">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
+          <td class="py-2.5 px-3 text-slate-600">${escapeHtml(w.foco)}</td>
+        </tr>`).join('');
+    }
+
+    function renderCarteiraTable() {
+      const q = (document.getElementById('carteira-search')?.value || '').toLowerCase();
+      const tbody = document.getElementById('carteira-table-body');
+      if (!tbody) return;
+
+      const fmtBRL = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+      const filtered = state.reps.filter(r => `${r.cod} ${r.nome} ${r.situacao || ''} ${r.acao || ''}`.toLowerCase().includes(q));
+
+      tbody.innerHTML = filtered.map(r => {
+        const diff = r.f2026 - r.f2025;
+        const varPct = r.varPct !== null && r.varPct !== undefined ? r.varPct * 100 : (r.f2025 > 0 ? (diff / r.f2025) * 100 : null);
+        const varStr = varPct !== null ? `${varPct >= 0 ? '+' : ''}${varPct.toFixed(1)}%` : 'Novo';
+        const varCls = varPct === null ? 'text-blue-700 font-bold' : (varPct >= 0 ? 'text-emerald-700 font-bold' : 'text-rose-700 font-bold');
+        return `
+          <tr class="hover:bg-slate-50 align-top">
+            <td class="py-2 px-3 font-extrabold text-slate-700">${r.cod}</td>
+            <td class="py-2 px-3 font-bold text-slate-900">${escapeHtml(r.nome)}</td>
+            <td class="py-2 px-3 text-right text-slate-600">${fmtBRL(r.f2025)}</td>
+            <td class="py-2 px-3 text-right font-semibold text-slate-800">${fmtBRL(r.f2026)}</td>
+            <td class="py-2 px-3 text-right ${diff >= 0 ? 'text-emerald-700' : 'text-rose-700'} font-semibold">${fmtBRL(diff)}</td>
+            <td class="py-2 px-3 text-right ${varCls}">${varStr}</td>
+            <td class="py-2 px-3 text-slate-600 max-w-xs">${escapeHtml(r.situacao || '—')}</td>
+            <td class="py-2 px-3 font-semibold text-blue-800 max-w-xs">${escapeHtml(r.acao || '—')}</td>
+          </tr>`;
+      }).join('');
+    }
+
+    function updateKPIs() {
+      const el = document.getElementById('header-kpis');
+      if (!el) return;
+      const tot25 = state.reps.reduce((s, r) => s + (r.f2025 || 0), 0);
+      const tot26 = state.reps.reduce((s, r) => s + (r.f2026 || 0), 0);
+      el.innerHTML = `
+        <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">👥 ${state.reps.length} Reps (Planilha)</span>
+        <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">2025: R$ ${(tot25 / 1e6).toFixed(2)}M</span>
+        <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">2026: R$ ${(tot26 / 1e6).toFixed(2)}M</span>
+      `;
+    }
+
+    function switchTab(tab) {
+      state.activeTab = tab;
+      ['mensal', 'semanal', 'carteira'].forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (view) view.classList.toggle('hidden', t !== tab);
+        if (btn) {
+          btn.className = t === tab
+            ? 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition'
+            : 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition';
+        }
+      });
+      const ctrl = document.getElementById('mensal-controls');
+      if (ctrl) ctrl.classList.toggle('hidden', tab !== 'mensal');
+    }
+
+
+    function parseMonthTokenFromText(txt) {
+      const s = String(txt || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const patterns = [
+        { key: '2026-11', re: /\b(nov|novembro)\s*\/\s*(26|2026)\b|\bem\s+nov\b/ },
+        { key: '2026-12', re: /\b(dez|dezembro)\s*\/\s*(26|2026)\b|\bem\s+dez\b/ },
+        { key: '2027-01', re: /\b(jan|janeiro)\s*\/\s*(27|2027)\b|\bem\s+jan\b/ },
+        { key: '2027-02', re: /\b(fev|fevereiro)\s*\/\s*(27|2027)\b|\bem\s+fev\b/ },
+        { key: '2027-03', re: /\b(mar|marco)\s*\/\s*(27|2027)\b|\bem\s+mar\b/ },
+        { key: '2027-04', re: /\b(abr|abril)\s*\/\s*(27|2027)\b|\bem\s+abr\b/ },
+        { key: '2027-05', re: /\b(mai|maio)\s*\/\s*(27|2027)\b|\bate\s+mai(o)?\b/ },
+        { key: '2027-06', re: /\b(jun|junho)\s*\/\s*(27|2027)\b|\bate\s+jun(ho)?\b/ }
+      ];
+      const matchedMonths = [];
+      patterns.forEach(p => {
+        if (p.re.test(s)) matchedMonths.push(p.key);
+      });
+      return matchedMonths;
+    }
+
+    function handleExcelImport(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      if (typeof XLSX === 'undefined') {
+        alert('Biblioteca de leitura Excel ainda carregando. Aguarde 2 segundos e tente novamente.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames.includes('Planilha1') ? 'Planilha1' : workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+          if (!rows.length) {
+            showToast('⚠️ A planilha selecionada está vazia.');
+            return;
+          }
+
+          const newReps = [];
+          const freshWeeks = structuredClone(INITIAL_WEEKS).map(w => ({
+            ...w,
+            gerenteReps: [],
+            showroomReps: [],
+            fabricaReps: [],
+            foco: 'Base / Disponível'
+          }));
+
+          const weekCursorByMonth = {};
+          freshWeeks.forEach((w, idx) => {
+            const mKey = w.start.slice(0, 7);
+            if (!weekCursorByMonth[mKey]) weekCursorByMonth[mKey] = [];
+            weekCursorByMonth[mKey].push(idx);
+          });
+          const nextSlotIdx = {};
+
+          rows.forEach((row, idx) => {
+            const keys = Object.keys(row);
+            const repKey = keys.find(k => k.toLowerCase().includes('representante')) || keys[0];
+            const rawRep = String(row[repKey] || '').trim();
+            if (!rawRep || rawRep.toLowerCase().includes('total')) return;
+
+            const m = rawRep.match(/^\((\d+)\)\s*(.+)$/);
+            const cod = m ? parseInt(m[1], 10) : (idx + 1);
+            const nome = m ? m[2].trim() : rawRep;
+            const fullLabel = m ? `(${cod}) ${nome}` : rawRep;
+
+            const k25 = keys.find(k => k.includes('2025'));
+            const k26 = keys.find(k => k.includes('2026') && !k.toLowerCase().includes('situa'));
+            const kVar = keys.find(k => k.includes('%'));
+            const kSit = keys.find(k => k.toLowerCase().includes('situa'));
+            const kAcao = keys.find(k => k.toLowerCase().includes('próxima') || k.toLowerCase().includes('proxima') || k.toLowerCase().includes('ação') || k.toLowerCase().includes('acao'));
+
+            const f2025 = k25 && row[k25] !== '' ? Number(row[k25]) || 0 : 0;
+            const f2026 = k26 && row[k26] !== '' ? Number(row[k26]) || 0 : 0;
+            const varPct = (kVar && row[kVar] !== '' && !isNaN(Number(row[kVar]))) ? Number(row[kVar]) : null;
+            const situacao = kSit ? String(row[kSit] || '').trim() : '';
+            const acao = kAcao ? String(row[kAcao] || '').trim() : '';
+
+            let pilar = 'P4 — Base / Manutenção';
+            if (f2026 >= 1500000) pilar = 'P1 — Top Curva A';
+            else if (varPct !== null && varPct < -0.10) pilar = 'P2 — Recuperação';
+            else if (f2025 === 0 || (varPct !== null && varPct >= 0.15)) pilar = 'P3 — Expansão';
+
+            newReps.push({ cod, nome, full: fullLabel, f2025, f2026, varPct, pilar, situacao, acao });
+
+            // Agendar estritamente o que tiver mês explícito em Próximas Ações (ou Situação quando mencionar showroom/visita com mês)
+            const combined = `${acao} | ${situacao}`;
+            const lowAcao = acao.toLowerCase();
+            const lowComb = combined.toLowerCase();
+            if (lowAcao.includes('acompanhar até jun')) return; // Apenas acompanhamento, não viagem
+
+            const monthsFound = parseMonthTokenFromText(acao).length ? parseMonthTokenFromText(acao) : parseMonthTokenFromText(situacao);
+            if (!monthsFound.length) return;
+
+            const wantsShowroom = lowComb.includes('showroom');
+            const wantsVisita = lowAcao.includes('visita') || lowComb.includes('irei em');
+            const wantsFabrica = lowComb.includes('fábrica') || lowComb.includes('fabrica');
+
+            monthsFound.forEach(mKey => {
+              const slots = weekCursorByMonth[mKey];
+              if (!slots || !slots.length) return;
+              const ptr = nextSlotIdx[mKey] || 0;
+              const wIdx = slots[ptr % slots.length];
+              nextSlotIdx[mKey] = ptr + 1;
+
+              const targetWeek = freshWeeks[wIdx];
+              if (wantsShowroom && !targetWeek.showroomReps.includes(fullLabel)) {
+                targetWeek.showroomReps.push(fullLabel);
+              }
+              if (wantsVisita && !targetWeek.gerenteReps.includes(fullLabel)) {
+                targetWeek.gerenteReps.push(fullLabel);
+              }
+              if (wantsFabrica && !targetWeek.fabricaReps.includes(fullLabel)) {
+                targetWeek.fabricaReps.push(fullLabel);
+              }
+              if (targetWeek.foco === 'Base / Disponível') {
+                targetWeek.foco = acao || situacao;
+              } else if (!targetWeek.foco.includes(nome)) {
+                targetWeek.foco += ` + ${acao || nome}`;
+              }
+            });
+          });
+
+          if (!newReps.length) {
+            showToast('⚠️ Não foi possível identificar a coluna Representantes.');
+            return;
+          }
+
+          state.reps = newReps;
+          state.weeks = freshWeeks;
+          state.dayOverrides = {};
+          saveState();
+
+          const repPicker = document.getElementById('day-editor-rep-picker');
+          if (repPicker) {
+            repPicker.innerHTML = '<option value="">— Selecionar representante —</option>';
+          }
+          renderAll();
+          showToast(`✅ Planilha "${file.name}" importada! (${newReps.length} reps atualizados)`);
+        } catch (err) {
+          console.error(err);
+          alert('Erro ao ler a planilha Excel. Verifique se o arquivo é .xlsx, .xls ou .csv válido.');
+        } finally {
+          event.target.value = '';
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function exportCSV() {
+      const rows = [['Data', 'Semana', 'Tipo', 'Atividade', 'Observacao']];
+      PLANNER_MONTHS.forEach(mObj => {
+        const lastDay = new Date(mObj.year, mObj.month + 1, 0).getDate();
+        for (let d = 1; d <= lastDay; d++) {
+          const iso = formatISO(new Date(mObj.year, mObj.month, d));
+          const pw = findPlannedWeekForDate(iso);
+          const dayIdx = getIsoWeekdayIdx(iso);
+          const actions = getEffectiveDayActions(iso, pw ? pw.id : null, dayIdx);
+          actions.forEach(a => {
+            rows.push([formatBRDate(iso), pw ? pw.id : '', a.type, a.label, a.note || '']);
+          });
+        }
+      });
+      const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(';')).join('\n');
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Planner_Comercial_CRV_2026_2027.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📥 CSV exportado com sucesso!');
+    }
+
+    function populateStaticSelects() {
+      const mSel = document.getElementById('mensal-month-select');
+      if (mSel && mSel.options.length === 1) {
+        PLANNER_MONTHS.forEach(m => {
+          const opt = document.createElement('option');
+          opt.value = m.key;
+          opt.textContent = m.label;
+          mSel.appendChild(opt);
+        });
+      }
+
+      const repPicker = document.getElementById('day-editor-rep-picker');
+      if (repPicker && repPicker.options.length === 1) {
+        state.reps.forEach(r => {
+          const opt = document.createElement('option');
+          const lbl = `(${r.cod}) ${r.nome}`;
+          opt.value = lbl;
+          opt.textContent = r.acao ? `${lbl} [${r.acao}]` : lbl;
+          repPicker.appendChild(opt);
+        });
+      }
+    }
+
+    function renderAll() {
+      populateStaticSelects();
+      updateKPIs();
+      renderSidebarReps();
+      renderMonthlyPlanner();
+      renderWeeklyTable();
+      renderCarteiraTable();
+    }
+
+    loadState();
+    renderAll();
+  </script>
+</body>
+</html>
