@@ -3,2630 +3,1195 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Planner Comercial & Rotina — CRV Portas e Janelas</title>
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=-xezgScFngYWq6LIb9Dj9bb9IbWI14NikMKzx_NKnFjFuzqy7fTcfNTI0EAE3cIcPvqxU0Qb8m2Af2_ePIZz8gXrEDIz2swtEQ2RyzyUMVgYBA2HcjsDZGp8e0dJnqcSqoLvRufBvL5r7AKn4_TTH7uGPzJJcicPwIi0Um-73oRRrX_WdMMU667EHhXUYYWR5CDqMKVj6XNkdqhVthcnLDHq-VZkybiEU3dQizS5tIVaYhp3-NlDtBLUKfCeD-ZwW81VbW60vm7XOevi6q91V4-r3bfdkEIA3sJNpQ_A7NPXF9UqX8kHvat_MTcppz3s" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Planejamento Comercial & Carteira de Representantes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
-    .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    .drag-over { outline: 2px dashed #2563eb !important; background-color: #eff6ff !important; }
-    @media print {
-      .no-print { display: none !important; }
-      body { background: white !important; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    .drop-zone-active {
+      outline: 2px dashed #3b82f6;
+      outline-offset: -3px;
+      background-color: #eff6ff !important;
+    }
+    .rep-pill {
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .rep-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+    }
+    .rep-pill.dragging {
+      opacity: 0.45;
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- HEADER MINIMALISTA COM LOGO CRV -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+  <!-- Barra Superior Institucional -->
+  <header class="bg-[#1e293b] text-white shadow-sm sticky top-0 z-30">
     <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-4">
-        <div class="flex items-center justify-center bg-slate-900 text-white px-4 py-2 rounded-xl shadow-sm border border-slate-800">
-          <svg class="h-11 w-auto" viewBox="0 0 210 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="4" width="48" height="50" rx="8" fill="#1E3A8A" stroke="#60A5FA" stroke-width="2.5"/>
-            <rect x="10" y="12" width="14" height="34" rx="2" fill="#93C5FD" fill-opacity="0.35" stroke="#DBEAFE" stroke-width="1.8"/>
-            <rect x="28" y="12" width="14" height="34" rx="2" fill="#93C5FD" fill-opacity="0.35" stroke="#DBEAFE" stroke-width="1.8"/>
-            <circle cx="22" cy="29" r="1.8" fill="#FBBF24"/>
-            <circle cx="30" cy="29" r="1.8" fill="#FBBF24"/>
-            <text x="60" y="34" fill="#FFFFFF" font-family="Inter, sans-serif" font-weight="800" font-size="27" letter-spacing="1.5">CRV</text>
-            <text x="61" y="49" fill="#93C5FD" font-family="Inter, sans-serif" font-weight="600" font-size="10.5" letter-spacing="1.8">PORTAS &amp; JANELAS</text>
-          </svg>
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white shadow-inner">
+          CRV
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight leading-tight">Planejamento Comercial & Rotina</h1>
+          <p class="text-xs text-slate-300">Gestão de viagens, carro showroom, visitas e carteira 2026/2027</p>
         </div>
       </div>
 
-      <!-- KPIs RÁPIDOS + AÇÕES -->
-      <div class="flex flex-wrap items-center gap-2 sm:gap-3 no-print">
-        <div id="header-kpis" class="hidden xl:flex items-center gap-2 text-xs font-semibold"></div>
-        <input id="excel-upload-input" type="file" accept=".xlsx,.xls,.csv" onchange="handleExcelImport(event)" class="hidden" />
-        <button onclick="document.getElementById('excel-upload-input').click()" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition flex items-center gap-1.5" title="Selecione sua planilha Excel (.xlsx) para atualizar automaticamente representantes, valores e próximas ações">
-          <span>📂</span> Importar Excel (.xlsx)
+      <!-- Abas Principais -->
+      <nav class="flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700">
+        <button id="tab-btn-semanal" onclick="switchTab('semanal')"
+          class="px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-blue-600 text-white shadow">
+          📅 Planejamento Semanal
         </button>
-        <button onclick="exportCSV()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow-sm transition flex items-center gap-1.5">
-          <span>📥</span> Exportar CSV
+        <button id="tab-btn-carteira" onclick="switchTab('carteira')"
+          class="px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white">
+          👥 Carteira
         </button>
-        <button onclick="resetAllData()" class="px-3 py-2 bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-600 border border-slate-200 text-xs font-semibold rounded-lg transition">
-          ↺ Restaurar Base
-        </button>
-      </div>
-    </div>
+      </nav>
 
-    <!-- BARRA DE NAVEGAÇÃO -->
-    <div class="bg-slate-50 border-t border-slate-200/80 px-4 sm:px-6 py-2 no-print">
-      <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-1.5">
-          <button id="tab-btn-mensal" onclick="switchTab('mensal')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition">
-            📅 Planner mensal
-          </button>
-          <button id="tab-btn-semanal" onclick="switchTab('semanal')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
-            📋 Cronograma
-          </button>
-          <button id="tab-btn-carteira" onclick="switchTab('carteira')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
-            👥 Carteira
-          </button>
-        </div>
-
-        <div id="mensal-controls" class="flex flex-wrap items-center gap-2">
-          <select id="mensal-month-select" onchange="renderMonthlyPlanner()" class="text-xs font-semibold bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="ALL">Todos os Meses (Nov/26 – Jun/27)</option>
-          </select>
-          <span class="text-[11px] text-slate-500 hidden md:inline">
-            Dica: Arraste blocos (segure <b>Ctrl/Alt</b> ou clique em <b>📋</b> para duplicar) e use <b>+</b> para várias ações no dia.
-          </span>
-        </div>
+      <!-- Ações Rápidas -->
+      <div class="flex items-center gap-2">
+        <button onclick="resetDefaultData()" title="Restaurar dados iniciais"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700 hover:bg-slate-600 text-slate-200 border border-slate-600 transition">
+          ↺ Restaurar Padrão
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- CONTEÚDO PRINCIPAL -->
+  <!-- Conteúdo Principal -->
   <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 py-5">
 
-    <!-- ABA 1: PLANNER MENSAL VERTICAL -->
-    <section id="view-mensal" class="flex flex-col lg:flex-row gap-5">
-      <!-- BARRA LATERAL DE REPRESENTANTES (DRAG & DROP) -->
-      <aside class="w-full lg:w-72 shrink-0 bg-white border border-slate-200 rounded-xl shadow-sm p-3.5 flex flex-col max-h-[82vh] sticky top-28 no-print">
-        <div class="flex items-center justify-between mb-2">
-          <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-700">Carteira (62 Reps)</h2>
-          <span class="text-[10px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">Arraste p/ o dia</span>
-        </div>
-        <input id="sidebar-rep-search" type="text" oninput="renderSidebarReps()" placeholder="Buscar código, nome ou ação..." class="w-full text-xs border border-slate-200 rounded-lg px-2.5 py-1.5 mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <select id="sidebar-pilar-filter" onchange="renderSidebarReps()" class="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 mb-2.5 bg-slate-50 text-slate-700">
-          <option value="ALL">Todos os Pilares</option>
-          <option value="P1">P1 — Top Curva A</option>
-          <option value="P2">P2 — Recuperação</option>
-          <option value="P3">P3 — Expansão</option>
-          <option value="P4">P4 — Base / Manutenção</option>
-        </select>
-        <div id="sidebar-reps-list" class="flex-1 overflow-y-auto custom-scroll space-y-1.5 pr-1"></div>
-      </aside>
-
-      <!-- GRADE MENSAL VERTICAL -->
-      <div class="flex-1 min-w-0 space-y-4">
-        <div id="mensal-summary-pills" class="flex flex-wrap items-center gap-2 text-xs"></div>
-        <div id="mensal-calendars-container" class="space-y-6"></div>
-      </div>
-    </section>
-
-    <!-- ABA 2: CRONOGRAMA -->
-    <section id="view-semanal" class="hidden space-y-4">
-      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <div class="flex items-center gap-2">
-            <h2 class="text-sm font-extrabold text-slate-800">Cronograma Executivo (Nov/2026 – Jun/2027)</h2>
-            <span id="cronograma-count-badge" class="text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">33 de 33 exibidas</span>
-          </div>
-          <p class="text-xs text-slate-500 mt-0.5">Visão consolidada por semana comercial. Clique nos cabeçalhos para ordenar ou edite o Foco Estratégico diretamente na linha.</p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <select id="week-month-filter" onchange="renderWeeklyTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <!-- ========================================================= -->
+    <!-- ABA 1: PLANEJAMENTO SEMANAL                               -->
+    <!-- ========================================================= -->
+    <section id="view-semanal" class="space-y-4">
+      <!-- Barra de Filtros e Ações (Fiel ao layout da imagem) -->
+      <div class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2.5 flex-1">
+          <!-- Filtro Mês -->
+          <select id="filter-month" onchange="renderWeeklyTable()"
+            class="h-9 px-3 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="ALL">Todos os Meses</option>
-            <option value="Novembro/26">Novembro/26</option>
-            <option value="Dezembro/26">Dezembro/26</option>
-            <option value="Janeiro/27">Janeiro/27</option>
-            <option value="Fevereiro/27">Fevereiro/27</option>
-            <option value="Março/27">Março/27</option>
-            <option value="Abril/27">Abril/27</option>
-            <option value="Maio/27">Maio/27</option>
-            <option value="Junho/27">Junho/27</option>
           </select>
-          <select id="week-type-filter" onchange="renderWeeklyTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="ALL">Todas as Frentes (33)</option>
-            <option value="ATIVAS">🎯 Semanas com Ação Agendada</option>
-            <option value="GERENTE">✈️ Com Viagem Gerente</option>
-            <option value="SHOWROOM">🚐 Com Carro Showroom</option>
-            <option value="FABRICA">🏭 Com Visita à Fábrica</option>
-            <option value="MULTI">🟣 Frentes Simultâneas</option>
-            <option value="BASE">🏢 Base / Disponível</option>
+
+          <!-- Filtro Status / Ação -->
+          <select id="filter-status" onchange="renderWeeklyTable()"
+            class="h-9 px-3 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="SCHEDULED">🎯 Semanas com Ação Agendada</option>
+            <option value="ALL">📋 Todas as Semanas</option>
+            <option value="EMPTY">⚪ Semanas Livres / Disponíveis</option>
           </select>
-          <select id="cronograma-sort-select" onchange="onCronogramaSortSelectChange(this.value)" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-slate-50 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500" title="Ordenação rápida">
-            <option value="cron:asc">Ordenar: Cronológico (S47 → S26)</option>
-            <option value="cron:desc">Ordenar: Cronológico (S26 → S47)</option>
-            <option value="id:asc">Ordenar: Semana (A → Z)</option>
-            <option value="id:desc">Ordenar: Semana (Z → A)</option>
-            <option value="mes:asc">Ordenar: Mês (A → Z)</option>
-            <option value="mes:desc">Ordenar: Mês (Z → A)</option>
-            <option value="gerente:asc">Ordenar: Viagem Gerente (A → Z)</option>
-            <option value="showroom:asc">Ordenar: Carro Showroom (A → Z)</option>
-            <option value="fabrica:asc">Ordenar: Visita Fábrica (A → Z)</option>
-            <option value="foco:asc">Ordenar: Foco Estratégico (A → Z)</option>
+
+          <!-- Ordenação -->
+          <select id="sort-order" onchange="renderWeeklyTable()"
+            class="h-9 px-3 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="CHRONO_ASC">Ordenar: Cronológico (S47 → S26)</option>
+            <option value="CHRONO_DESC">Ordenar: Inverso (S26 → S47)</option>
+            <option value="SEM_ASC">Ordenar: Código Semana (A → Z)</option>
+            <option value="MONTH">Ordenar: Mês</option>
           </select>
-          <input id="cronograma-search" type="text" oninput="renderWeeklyTable()" placeholder="Filtrar semana, rep ou foco..." class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 w-60 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <button onclick="resetCronogramaFilters()" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 transition" title="Limpar filtros e voltar à ordem padrão">
+
+          <!-- Busca -->
+          <div class="relative flex-1 min-w-[210px] max-w-xs">
+            <input id="filter-search" type="text" oninput="renderWeeklyTable()"
+              placeholder="Filtrar semana, rep ou foco..."
+              class="w-full h-9 pl-3 pr-8 rounded-lg border border-slate-300 text-xs sm:text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
+          </div>
+
+          <!-- Limpar -->
+          <button onclick="clearWeeklyFilters()"
+            class="h-9 px-3.5 rounded-lg border border-slate-300 bg-slate-50 hover:bg-slate-100 text-xs sm:text-sm font-medium text-slate-600 transition">
             Limpar
           </button>
         </div>
+
+        <!-- Botão Nova Semana -->
+        <div class="flex items-center gap-2">
+          <span id="weekly-counter" class="text-xs text-slate-500 hidden md:inline"></span>
+          <button onclick="openNewWeekModal()"
+            class="h-9 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center gap-1.5 transition">
+            <span class="text-base leading-none">+</span> Nova Semana
+          </button>
+        </div>
       </div>
-      <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="bg-slate-800 text-white select-none">
-              <th onclick="toggleCronogramaSort('id')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Sem. <span id="wsort-icon-id" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
-              <th onclick="toggleCronogramaSort('cron')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Período (Seg–Sex) <span id="wsort-icon-cron" class="text-[10px] text-amber-300 ml-0.5">▲</span></th>
-              <th onclick="toggleCronogramaSort('mes')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Mês <span id="wsort-icon-mes" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
-              <th onclick="toggleCronogramaSort('gerente')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">✈️ Viagem Gerente <span id="wsort-icon-gerente" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
-              <th onclick="toggleCronogramaSort('showroom')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">🚐 Carro Showroom <span id="wsort-icon-showroom" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
-              <th onclick="toggleCronogramaSort('fabrica')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">🏭 Visita Fábrica <span id="wsort-icon-fabrica" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
-              <th onclick="toggleCronogramaSort('foco')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Foco Estratégico (Editável) <span id="wsort-icon-foco" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
-            </tr>
-          </thead>
-          <tbody id="weekly-table-body" class="divide-y divide-slate-200"></tbody>
-        </table>
+
+      <!-- Dica de Interatividade -->
+      <div class="flex flex-wrap items-center justify-between gap-2 px-1 text-xs text-slate-500">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Viagem Gerente</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span> Carro Showroom</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Visita Fábrica</span>
+        </div>
+        <span>💡 <strong>Arraste e solte</strong> qualquer card de representante para mover entre colunas ou semanas, ou clique em <strong>+</strong> para adicionar.</span>
+      </div>
+
+      <!-- Tabela Principal de Planejamento Semanal -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[1150px]">
+            <thead>
+              <tr class="bg-[#1e293b] text-white text-xs font-semibold tracking-wide">
+                <th class="py-3.5 px-4 w-20">Sem. <span class="text-slate-400">↕</span></th>
+                <th class="py-3.5 px-4 w-48">Período (Seg–Sex) <span class="text-amber-400">▲</span></th>
+                <th class="py-3.5 px-4 w-32">Mês <span class="text-slate-400">↕</span></th>
+                <th class="py-3.5 px-4 w-64">✈️ Viagem Gerente <span class="text-slate-400">↕</span></th>
+                <th class="py-3.5 px-4 w-64">🚐 Carro Showroom <span class="text-slate-400">↕</span></th>
+                <th class="py-3.5 px-4 w-56">🏭 Visita Fábrica <span class="text-slate-400">↕</span></th>
+                <th class="py-3.5 px-4 min-w-[290px]">Foco Estratégico (Editável) <span class="text-slate-400">↕</span></th>
+              </tr>
+            </thead>
+            <tbody id="weekly-table-body" class="divide-y divide-slate-200 text-xs sm:text-[13px]">
+              <!-- Linhas geradas via JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
-    <!-- ABA 3: CARTEIRA 62 REPRESENTANTES -->
-    <section id="view-carteira" class="hidden space-y-4">
-      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <div class="flex items-center gap-2">
-            <h2 class="text-sm font-extrabold text-slate-800">Carteira de Representantes Comerciais CRV</h2>
-            <span id="carteira-count-badge" class="text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">62 exibidos</span>
+    <!-- ========================================================= -->
+    <!-- ABA 2: CARTEIRA & GRÁFICO PIZZA SITUAÇÃO 2027             -->
+    <!-- ========================================================= -->
+    <section id="view-carteira" class="hidden space-y-5">
+
+      <!-- Painel Superior: Gráfico Pizza em Tempo Real + Resumo -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- Card do Gráfico Pizza -->
+        <div class="lg:col-span-5 bg-white rounded-xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div>
+              <h2 class="text-sm sm:text-base font-bold text-slate-800">Distribuição por Situação (Tempo Real)</h2>
+              <p class="text-xs text-slate-500">Atualizado automaticamente ao editar a coluna Situação 2027</p>
+            </div>
+            <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
+              <button id="chart-mode-2027" onclick="setChartMode('2027')"
+                class="px-2.5 py-1 rounded-md font-semibold bg-blue-600 text-white transition">
+                2027
+              </button>
+              <button id="chart-mode-2026" onclick="setChartMode('2026')"
+                class="px-2.5 py-1 rounded-md font-semibold text-slate-600 hover:text-slate-900 transition">
+                2026
+              </button>
+            </div>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Dados de Jan–Out 2025 x 2026, Situação 2026 e Foco Estratégico / Próximas Ações. Clique nos cabeçalhos para ordenar ou edite o foco diretamente na linha.</p>
+
+          <div class="relative h-60 w-full flex items-center justify-center">
+            <canvas id="situacaoPieChart"></canvas>
+          </div>
         </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <select id="carteira-pilar-filter" onchange="renderCarteiraTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="ALL">Todos os Pilares</option>
-            <option value="P1">P1 — Top Curva A</option>
-            <option value="P2">P2 — Recuperação</option>
-            <option value="P3">P3 — Expansão</option>
-            <option value="P4">P4 — Base / Manutenção</option>
-          </select>
-          <select id="carteira-perf-filter" onchange="renderCarteiraTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="ALL">Todas as Performances</option>
-            <option value="CRESCIMENTO">📈 Em Crescimento (+)</option>
-            <option value="QUEDA">📉 Em Queda (-)</option>
-            <option value="CRITICO">🚨 Queda Crítica (&lt; -10%)</option>
-            <option value="NOVO">🆕 Novos (Sem Base 2025)</option>
-            <option value="COM_ACAO">🎯 Com Próxima Ação</option>
-          </select>
-          <select id="carteira-sort-select" onchange="onCarteiraSortSelectChange(this.value)" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-slate-50 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500" title="Ordenação rápida">
-            <option value="f2026:desc">Ordenar: 2026 (Maior → Menor)</option>
-            <option value="f2026:asc">Ordenar: 2026 (Menor → Maior)</option>
-            <option value="f2025:desc">Ordenar: 2025 (Maior → Menor)</option>
-            <option value="f2025:asc">Ordenar: 2025 (Menor → Maior)</option>
-            <option value="diff:desc">Ordenar: Δ Abs (Maior Ganho)</option>
-            <option value="diff:asc">Ordenar: Δ Abs (Maior Queda)</option>
-            <option value="varPct:desc">Ordenar: % Var. (Maior → Menor)</option>
-            <option value="varPct:asc">Ordenar: % Var. (Menor → Maior)</option>
-            <option value="nome:asc">Ordenar: Nome (A → Z)</option>
-            <option value="nome:desc">Ordenar: Nome (Z → A)</option>
-            <option value="cod:asc">Ordenar: Código (Crescente)</option>
-            <option value="cod:desc">Ordenar: Código (Decrescente)</option>
-          </select>
-          <input id="carteira-search" type="text" oninput="renderCarteiraTable()" placeholder="Filtrar representante, situação ou ação..." class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 w-60 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <button onclick="resetCarteiraFilters()" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 transition" title="Limpar filtros e voltar à ordem padrão">
-            Limpar
-          </button>
+
+        <!-- Card de Indicadores / Legenda Detalhada -->
+        <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <div>
+                <h2 class="text-sm sm:text-base font-bold text-slate-800">Panorama da Carteira Comercial</h2>
+                <p class="text-xs text-slate-500">Acompanhe a evolução de status dos representantes entre 2026 e 2027</p>
+              </div>
+              <button onclick="openNewRepModal()"
+                class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs transition">
+                + Novo Representante
+              </button>
+            </div>
+
+            <!-- Cards de KPI por Status 2027 -->
+            <div id="status-kpi-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <!-- Preenchido via JS -->
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+            <span>Total de representantes cadastrados: <strong id="total-reps-count" class="text-slate-800">0</strong></span>
+            <span>Edite diretamente na coluna <strong>Situação 2027</strong> abaixo para recalcular o gráfico.</span>
+          </div>
         </div>
       </div>
-      <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="bg-slate-800 text-white select-none">
-              <th onclick="toggleCarteiraSort('cod')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Cód. <span id="sort-icon-cod" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('nome')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Representante <span id="sort-icon-nome" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('f2025')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Jan–Out 2025 <span id="sort-icon-f2025" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('f2026')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Jan–Out 2026 <span id="sort-icon-f2026" class="text-[10px] text-amber-300 ml-0.5">▼</span></th>
-              <th onclick="toggleCarteiraSort('diff')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Δ Abs (R$) <span id="sort-icon-diff" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('varPct')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">% Var. <span id="sort-icon-varPct" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('situacao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Situação 2026 <span id="sort-icon-situacao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('acao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Foco Estratégico / Próximas Ações <span id="sort-icon-acao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-            </tr>
-          </thead>
-          <tbody id="carteira-table-body" class="divide-y divide-slate-200"></tbody>
-        </table>
+
+      <!-- Barra de Busca da Carteira -->
+      <div class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2.5 flex-1">
+          <input id="carteira-search" type="text" oninput="renderCarteiraTable()"
+            placeholder="Buscar por código, representante ou região..."
+            class="h-9 px-3 rounded-lg border border-slate-300 text-xs sm:text-sm w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+          <select id="carteira-filter-2027" onchange="renderCarteiraTable()"
+            class="h-9 px-3 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="ALL">Todas as Situações 2027</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tabela da Carteira -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[900px]">
+            <thead>
+              <tr class="bg-[#1e293b] text-white text-xs font-semibold tracking-wide">
+                <th class="py-3.5 px-4 w-24">Código</th>
+                <th class="py-3.5 px-4">Representante</th>
+                <th class="py-3.5 px-4 w-44">Região / UF</th>
+                <th class="py-3.5 px-4 w-48">Situação 2026</th>
+                <th class="py-3.5 px-4 w-56 bg-blue-950/60 border-l border-slate-700">Situação 2027 (Editável)</th>
+                <th class="py-3.5 px-4 w-24 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="carteira-table-body" class="divide-y divide-slate-200 text-xs sm:text-[13px]">
+              <!-- Linhas geradas via JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- MODAL MULTI-AÇÕES DO DIA -->
-  <div id="day-editor-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden">
-      <div class="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between">
+  <!-- ========================================================= -->
+  <!-- MODAL 1: ADICIONAR CARD DE REPRESENTANTE NA CÉLULA        -->
+  <!-- ========================================================= -->
+  <div id="modal-add-card" class="fixed inset-0 bg-slate-900/50 backdrop-blur-[1px] hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl w-full max-w-md overflow-hidden">
+      <div class="bg-[#1e293b] text-white px-5 py-3.5 flex items-center justify-between">
         <div>
-          <span id="day-editor-week-badge" class="text-[10px] font-bold uppercase tracking-wider bg-blue-600 px-2 py-0.5 rounded">S47</span>
-          <h3 id="day-editor-title" class="text-sm font-extrabold mt-1">Segunda-feira, 16/11/2026</h3>
+          <h3 class="text-sm font-bold">Acrescentar Card de Representante</h3>
+          <p id="modal-add-card-subtitle" class="text-[11px] text-slate-300 mt-0.5"></p>
         </div>
-        <button onclick="closeDayEditorModal()" class="text-slate-300 hover:text-white text-lg font-bold px-2">✕</button>
+        <button onclick="closeAddCardModal()" class="text-slate-300 hover:text-white text-lg leading-none">&times;</button>
       </div>
 
-      <div class="p-5 space-y-4 max-h-[80vh] overflow-y-auto custom-scroll">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-700">Ações Agendadas neste Dia (<span id="day-editor-count">0</span>)</span>
-          <div class="flex gap-1.5">
-            <button onclick="clearDayFromModal()" class="text-[11px] font-semibold px-2.5 py-1 rounded bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200">
-              ✕ Limpar Dia Inteiro
-            </button>
-            <button onclick="resetDayOverride()" class="text-[11px] font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
-              ↺ Restaurar Padrão
-            </button>
-          </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1.5">Selecionar Representante da Carteira</label>
+          <select id="select-rep-for-card"
+            class="w-full h-10 px-3 rounded-lg border border-slate-300 text-xs sm:text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </select>
         </div>
 
-        <div id="day-editor-actions-list" class="space-y-2"></div>
+        <div class="relative flex py-1 items-center">
+          <div class="flex-grow border-t border-slate-200"></div>
+          <span class="flex-shrink mx-3 text-[11px] uppercase tracking-wider text-slate-400 font-semibold">ou digite manualmente</span>
+          <div class="flex-grow border-t border-slate-200"></div>
+        </div>
 
-        <div class="border-t border-slate-200 pt-3.5 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <h4 id="day-editor-form-title" class="text-xs font-extrabold text-blue-700">+ Adicionar Nova Ação neste Dia</h4>
-            <button id="day-editor-cancel-edit" onclick="cancelEditSingleAction()" class="hidden text-[11px] text-slate-500 hover:text-slate-800 underline">Cancelar edição</button>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">1. Categoria da Ação</label>
-              <select id="day-editor-type" onchange="onEditorTypeChange()" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white">
-                <option value="GERENTE">✈️ Viagem Gerente</option>
-                <option value="SHOWROOM">🚐 Carro Showroom</option>
-                <option value="FABRICA">🏭 Visita à Fábrica CRV</option>
-                <option value="FERIADO">🎉 Feriado / Folga</option>
-                <option value="BASE">🏢 Base / Disponível</option>
-                <option value="CUSTOM">📌 Compromisso Personalizado</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">2. Preencher com Rep (Opcional)</label>
-              <select id="day-editor-rep-picker" onchange="applyRepToDayLabel(this.value)" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-slate-50">
-                <option value="">— Selecionar representante —</option>
-              </select>
-            </div>
-          </div>
-
+        <div class="grid grid-cols-3 gap-2.5">
           <div>
-            <label class="block text-[11px] font-semibold text-slate-600 mb-1">3. Texto / Rótulo da Ação</label>
-            <input id="day-editor-label" type="text" placeholder="Ex: (65) JOSE CARLOS ROMERO" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5" />
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Código</label>
+            <input id="custom-rep-code" type="text" placeholder="Ex: 1473"
+              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
-
-          <div>
-            <label class="block text-[11px] font-semibold text-slate-600 mb-1">4. Observação / Detalhe (Opcional)</label>
-            <input id="day-editor-note" type="text" placeholder="Ex: Manhã loja X, Tarde loja Y" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5" />
-          </div>
-
-          <div class="flex justify-end gap-2 pt-2">
-            <button onclick="closeDayEditorModal()" class="px-3.5 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Concluir</button>
-            <button id="day-editor-save-btn" onclick="saveSingleDayAction()" class="px-4 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm">+ Adicionar Ação ao Dia</button>
+          <div class="col-span-2">
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Nome do Representante</label>
+            <input id="custom-rep-name" type="text" placeholder="Ex: TATIELY DE FREITAS"
+              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs uppercase focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
         </div>
+      </div>
+
+      <div class="bg-slate-50 px-5 py-3 border-t border-slate-200 flex justify-end gap-2">
+        <button onclick="closeAddCardModal()"
+          class="px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Cancelar
+        </button>
+        <button onclick="confirmAddCard()"
+          class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs">
+          + Inserir Card
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- TOAST -->
-  <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 z-50"></div>
+  <!-- ========================================================= -->
+  <!-- MODAL 2: ACRESCENTAR NOVA SEMANA                          -->
+  <!-- ========================================================= -->
+  <div id="modal-new-week" class="fixed inset-0 bg-slate-900/50 backdrop-blur-[1px] hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl w-full max-w-md overflow-hidden">
+      <div class="bg-[#1e293b] text-white px-5 py-3.5 flex items-center justify-between">
+        <h3 class="text-sm font-bold">Acrescentar Nova Semana ao Cronograma</h3>
+        <button onclick="closeNewWeekModal()" class="text-slate-300 hover:text-white text-lg leading-none">&times;</button>
+      </div>
+
+      <form onsubmit="submitNewWeek(event)" class="p-5 space-y-3.5">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Código da Semana *</label>
+            <input id="new-week-sem" type="text" required placeholder="Ex: S06 ou S11"
+              class="w-full h-9 px-3 rounded-lg border border-slate-300 text-xs uppercase focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Mês de Referência *</label>
+            <select id="new-week-month"
+              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="Novembro/26">Novembro/26</option>
+              <option value="Dezembro/26">Dezembro/26</option>
+              <option value="Janeiro/27">Janeiro/27</option>
+              <option value="Fevereiro/27" selected>Fevereiro/27</option>
+              <option value="Março/27">Março/27</option>
+              <option value="Abril/27">Abril/27</option>
+              <option value="Maio/27">Maio/27</option>
+              <option value="Junho/27">Junho/27</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Início (Segunda) *</label>
+            <input id="new-week-start" type="date" required value="2027-02-08"
+              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Fim (Sexta) *</label>
+            <input id="new-week-end" type="date" required value="2027-02-12"
+              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Foco Estratégico</label>
+          <input id="new-week-foco" type="text" placeholder="Ex: Prospecção Regional + Carro Showroom"
+            class="w-full h-9 px-3 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeNewWeekModal()"
+            class="px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-600 hover:bg-slate-100">
+            Cancelar
+          </button>
+          <button type="submit"
+            class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs">
+            Salvar Semana
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 3: NOVO REPRESENTANTE NA CARTEIRA                   -->
+  <!-- ========================================================= -->
+  <div id="modal-new-rep" class="fixed inset-0 bg-slate-900/50 backdrop-blur-[1px] hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl w-full max-w-md overflow-hidden">
+      <div class="bg-[#1e293b] text-white px-5 py-3.5 flex items-center justify-between">
+        <h3 class="text-sm font-bold">Cadastrar Novo Representante</h3>
+        <button onclick="closeNewRepModal()" class="text-slate-300 hover:text-white text-lg leading-none">&times;</button>
+      </div>
+
+      <form onsubmit="submitNewRep(event)" class="p-5 space-y-3.5">
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Código *</label>
+            <input id="rep-form-code" type="text" required placeholder="1805"
+              class="w-full h-9 px-3 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div class="col-span-2">
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Nome / Razão Social *</label>
+            <input id="rep-form-name" type="text" required placeholder="NOME REPRESENTAÇÕES LTDA"
+              class="w-full h-9 px-3 rounded-lg border border-slate-300 text-xs uppercase focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Região / Estado</label>
+          <input id="rep-form-region" type="text" placeholder="Ex: Interior SP / Sul de Minas"
+            class="w-full h-9 px-3 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Situação 2026</label>
+            <select id="rep-form-sit2026"
+              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Situação 2027</label>
+            <select id="rep-form-sit2027"
+              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeNewRepModal()"
+            class="px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-600 hover:bg-slate-100">
+            Cancelar
+          </button>
+          <button type="submit"
+            class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs">
+            Adicionar à Carteira
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white text-xs font-medium px-4 py-2.5 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 z-50"></div>
 
   <script>
-    const STORAGE_KEY = 'crv_planner_rotina_v9';
+    const STORAGE_KEY = 'crv_planejamento_carteira_v1';
 
-    const NATIONAL_HOLIDAYS = {
-      '2026-11-15': 'PROCLAMAÇÃO DA REPÚBLICA',
-      '2026-11-20': 'CONSCIÊNCIA NEGRA',
-      '2026-12-25': 'NATAL',
-      '2027-01-01': 'ANO NOVO',
-      '2027-02-08': 'CARNAVAL',
-      '2027-02-09': 'CARNAVAL',
-      '2027-02-10': 'QUARTA-FEIRA DE CINZAS',
-      '2027-03-26': 'SEXTA-FEIRA SANTA',
-      '2027-04-21': 'TIRADENTES',
-      '2027-05-01': 'DIA DO TRABALHO',
-      '2027-05-27': 'CORPUS CHRISTI'
-    };
-
-    const PLANNER_MONTHS = [
-      { key: '2026-11', year: 2026, month: 10, label: 'Novembro / 2026' },
-      { key: '2026-12', year: 2026, month: 11, label: 'Dezembro / 2026' },
-      { key: '2027-01', year: 2027, month: 0,  label: 'Janeiro / 2027' },
-      { key: '2027-02', year: 2027, month: 1,  label: 'Fevereiro / 2027' },
-      { key: '2027-03', year: 2027, month: 2,  label: 'Março / 2027' },
-      { key: '2027-04', year: 2027, month: 3,  label: 'Abril / 2027' },
-      { key: '2027-05', year: 2027, month: 4,  label: 'Maio / 2027' },
-      { key: '2027-06', year: 2027, month: 5,  label: 'Junho / 2027' }
+    const SITUACAO_OPTIONS = [
+      { value: 'Ativo / Estável', color: '#10b981', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+      { value: 'Em Expansão', color: '#3b82f6', badge: 'bg-blue-50 text-blue-700 border-blue-200' },
+      { value: 'Showroom / Ação', color: '#f97316', badge: 'bg-orange-50 text-orange-700 border-orange-200' },
+      { value: 'Atenção / Recuperação', color: '#eab308', badge: 'bg-amber-50 text-amber-800 border-amber-200' },
+      { value: 'Em Avaliação', color: '#8b5cf6', badge: 'bg-purple-50 text-purple-700 border-purple-200' },
+      { value: 'Inativo / Substituir', color: '#ef4444', badge: 'bg-rose-50 text-rose-700 border-rose-200' }
     ];
 
-    const INITIAL_REPS = [
-  {
-    "cod": 1473,
-    "nome": "TATIELY DE FREITAS SOUZA REPRE",
-    "full": "(1473) TATIELY DE FREITAS SOUZA REPRE",
-    "f2025": 3600264.68,
-    "f2026": 3576349.28,
-    "varPct": -0.006642678282194733,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Estável",
-    "acao": "acompanhar"
-  },
-  {
-    "cod": 65,
-    "nome": "JOSE CARLOS ROMERO",
-    "full": "(65) JOSE CARLOS ROMERO",
-    "f2025": 3274304.29,
-    "f2026": 3369849.56,
-    "varPct": 0.029180327036740943,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Estável",
-    "acao": "Carro showroom agendado para Jan/2027"
-  },
-  {
-    "cod": 719,
-    "nome": "ZOCCAL REPRESENTACOES LTDA",
-    "full": "(719) ZOCCAL REPRESENTACOES LTDA",
-    "f2025": 3874498.23,
-    "f2026": 3325887.35,
-    "varPct": -0.14159533633339907,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Teve a regiao reduzida para focar mais na CRV. Visita agendada com o Wesley novo rep.",
-    "acao": "acompanhar nova regiao"
-  },
-  {
-    "cod": 1420,
-    "nome": "MARCELO  C. ANTONIO & CIA LTDA",
-    "full": "(1420) MARCELO  C. ANTONIO & CIA LTDA",
-    "f2025": 3583427.19,
-    "f2026": 3280969.89,
-    "varPct": -0.08440447760290862,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Estamos planejando carro showroom para fortalecer marca na regiao",
-    "acao": "Carro showroom fev/2027"
-  },
-  {
-    "cod": 1576,
-    "nome": "COMERCIO E REPRESEN HPS LTDA",
-    "full": "(1576) COMERCIO E REPRESEN HPS LTDA",
-    "f2025": 3365855.76,
-    "f2026": 2993322.12,
-    "varPct": -0.11068021524486914,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Região diminuir muito o consumo varejo no MatCon. Não é problema de preço ou ação",
-    "acao": "Visita Edson"
-  },
-  {
-    "cod": 1574,
-    "nome": "BELARDINUSCI REPRES DE MAT CON",
-    "full": "(1574) BELARDINUSCI REPRES DE MAT CON",
-    "f2025": 3093627.0,
-    "f2026": 2931331.36,
-    "varPct": -0.05246128250108738,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Estável",
-    "acao": ""
-  },
-  {
-    "cod": 1181,
-    "nome": "ROMERO REPRESENTACAO DE MAT CO",
-    "full": "(1181) ROMERO REPRESENTACAO DE MAT CO",
-    "f2025": 2646838.64,
-    "f2026": 2664981.33,
-    "varPct": 0.006854475269406546,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Carro showroom agendado para Jan/2027",
-    "acao": "Carro showroom jan/2027"
-  },
-  {
-    "cod": 1583,
-    "nome": "HENRIQUE ANDRADE CARVALHO",
-    "full": "(1583) HENRIQUE ANDRADE CARVALHO",
-    "f2025": 2603819.64,
-    "f2026": 2320306.77,
-    "varPct": -0.10888345169714052,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Ao longo do ano desfocou da CRV, teve expansao para Zona da Mata sem sucesso e depois abriu novos negocios paralelos. Retomou foco",
-    "acao": "Visita Edson"
-  },
-  {
-    "cod": 1575,
-    "nome": "CUNHA GESTAO CONSULT EM VENDAS",
-    "full": "(1575) CUNHA GESTAO CONSULT EM VENDAS",
-    "f2025": 2040961.87,
-    "f2026": 2122548.88,
-    "varPct": 0.039974784046311086,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Estável",
-    "acao": "acompanhar"
-  },
-  {
-    "cod": 1397,
-    "nome": "RAFAEL ROMERO",
-    "full": "(1397) RAFAEL ROMERO",
-    "f2025": 2308945.93,
-    "f2026": 2018340.08,
-    "varPct": -0.1258608294911445,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Regiao muito atacada por concorrentes aventureiros: C&B (falhiu), Engeal (falhiu) e JC Esquadrias, a linha Unicca não surtiu efeito.",
-    "acao": "Carro showroom jan/2027"
-  },
-  {
-    "cod": 1624,
-    "nome": "DENIS REBOLLO GUERRERO 7727465",
-    "full": "(1624) DENIS REBOLLO GUERRERO 7727465",
-    "f2025": 1932806.67,
-    "f2026": 1786278.79,
-    "varPct": -0.07581093457215812,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Com o catalogo vamos conseguir expandir mais mix e reverter esse resultado",
-    "acao": "acompanhar trabalho"
-  },
-  {
-    "cod": 1673,
-    "nome": "YAN CUNHA COMERCIO E REP LTDA",
-    "full": "(1673) YAN CUNHA COMERCIO E REP LTDA",
-    "f2025": 1722398.65,
-    "f2026": 1505498.07,
-    "varPct": -0.12592937180948155,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Com o catalogo vamos conseguir expandir mais mix e reverter esse resultado",
-    "acao": "Visita Edson"
-  },
-  {
-    "cod": 1406,
-    "nome": "F&R GAVA REPRESENTACOES LTDA",
-    "full": "(1406) F&R GAVA REPRESENTACOES LTDA",
-    "f2025": 1645315.7,
-    "f2026": 1505017.18,
-    "varPct": -0.08527148923455936,
-    "pilar": "P1 — Top Curva A",
-    "situacao": "Com o catalogo vamos conseguir expandir mais mix e reverter esse resultado",
-    "acao": "acompanhar trabalho"
-  },
-  {
-    "cod": 32,
-    "nome": "HELDER HUGO DA SILVA FABBRI",
-    "full": "(32) HELDER HUGO DA SILVA FABBRI",
-    "f2025": 1413400.23,
-    "f2026": 1380703.27,
-    "varPct": -0.023133546539753063,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Estável",
-    "acao": "acompanhar trabalho"
-  },
-  {
-    "cod": 11,
-    "nome": "RBG REPRESENTAÇÕES COMERCIAIS",
-    "full": "(11) RBG REPRESENTAÇÕES COMERCIAIS",
-    "f2025": 1482135.43,
-    "f2026": 1370378.28,
-    "varPct": -0.07540279230758641,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Aumento das vendas na Campeao tirou foco no varejo ao longo do ano, tenho cobrado resultado com o rep nesse segmento.",
-    "acao": "acompanhar"
-  },
-  {
-    "cod": 1250,
-    "nome": "E P DOS SANTOS COMERCIO REPRE",
-    "full": "(1250) E P DOS SANTOS COMERCIO REPRE",
-    "f2025": 1541640.83,
-    "f2026": 1326984.1,
-    "varPct": -0.13923913133514704,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Discutir a continuidade do rep. Montou loja propria e não tem visitado clientes, Guilherme vem fazendo 90% do resultado",
-    "acao": "analisar continuidade"
-  },
-  {
-    "cod": 1442,
-    "nome": "CAPONI & OLIVEIRA MKT E REP",
-    "full": "(1442) CAPONI & OLIVEIRA MKT E REP",
-    "f2025": 919965.3,
-    "f2026": 1302592.96,
-    "varPct": 0.41591531767557194,
-    "pilar": "P3 — Expansão",
-    "situacao": "Sua saida da Tigre beneficiou a CRV em foco de trabalho",
-    "acao": "acompanhar trabalho na região de Itumbiara e Caldas Novas"
-  },
-  {
-    "cod": 1773,
-    "nome": "MINAS SUL REP COMERCIAL LTDA",
-    "full": "(1773) MINAS SUL REP COMERCIAL LTDA",
-    "f2025": 1517494.25,
-    "f2026": 1297433.31,
-    "varPct": -0.14501599594199482,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Começou surtir efeito após visita em set. Em nov vai andar com o carro showroom e catalogo para abrir novos clientes e ampliar mix onde tem",
-    "acao": "Possível visita assim que algumas negociações derem mais um passo"
-  },
-  {
-    "cod": 1240,
-    "nome": "CABRAL & PIROLLA REP COM LTDA",
-    "full": "(1240) CABRAL & PIROLLA REP COM LTDA",
-    "f2025": 1012440.39,
-    "f2026": 1212078.27,
-    "varPct": 0.1971848238887429,
-    "pilar": "P3 — Expansão",
-    "situacao": "Maior flexibilidade em negociações e expositores",
-    "acao": "Carro showroom jan/2027"
-  },
-  {
-    "cod": 1433,
-    "nome": "S L DELLABETA & CIA LTDA - ME",
-    "full": "(1433) S L DELLABETA & CIA LTDA - ME",
-    "f2025": 1237744.61,
-    "f2026": 1108411.85,
-    "varPct": -0.10449066710134951,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Regiao com dificuldade financeira e muita chuva. Assim como em Guarapuava, acredito que a flexibilidade na linha Unicca poderiamos abrir mais mercado.",
-    "acao": "Visita Mar/27. Agendar carro showroom para Mar ou Abril"
-  },
-  {
-    "cod": 1775,
-    "nome": "BARAVELLI REPRE COMERC LTDA",
-    "full": "(1775) BARAVELLI REPRE COMERC LTDA",
-    "f2025": 957377.57,
-    "f2026": 1090644.5,
-    "varPct": 0.13919997102083792,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Regiao ainda oscila muito, estamos fazendo migração para material acabado não abrindo mao da perda de faturamento",
-    "acao": "Acompanhar, provavel necessidade de visita até maio"
-  },
-  {
-    "cod": 1484,
-    "nome": "EDERSON WAGNER MENEZES",
-    "full": "(1484) EDERSON WAGNER MENEZES",
-    "f2025": 1287269.41,
-    "f2026": 1083768.25,
-    "varPct": -0.158087466709864,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Discutir",
-    "acao": ""
-  },
-  {
-    "cod": 1483,
-    "nome": "VIVO REPRESENTACOES LTDA",
-    "full": "(1483) VIVO REPRESENTACOES LTDA",
-    "f2025": 977887.4,
-    "f2026": 965093.08,
-    "varPct": -0.013083633146311759,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Estavel",
-    "acao": "acompanhar"
-  },
-  {
-    "cod": 351,
-    "nome": "G DE O MATIAS",
-    "full": "(351) G DE O MATIAS",
-    "f2025": 1406889.39,
-    "f2026": 963768.64,
-    "varPct": -0.31496488149647694,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Atenção: Rep sempre reclamando de preço. Tenho conversado sobre a atualização da sua tabela e as possibilidades de mesclas de linhas. Ainda tem resistencia a esse formato",
-    "acao": "Visita Mar/27"
-  },
-  {
-    "cod": 1757,
-    "nome": "RPM REPRESENTACOES LTDA",
-    "full": "(1757) RPM REPRESENTACOES LTDA",
-    "f2025": 1301523.57,
-    "f2026": 939288.43,
-    "varPct": -0.2783162351796664,
-    "pilar": "P2 — Recuperação",
-    "situacao": "JP Esquadrias tem tomado parte do mercado e a Unicca está 15% acima, os clientes de preço migraram. G10 reduziu em 100k volume de venda e tem comprado JP. Pablo está atualizando preço",
-    "acao": "Agendar carro showroom Abr/2027. Visita Mar/27"
-  },
-  {
-    "cod": 1733,
-    "nome": "EDSON LUIS DIEHL",
-    "full": "(1733) EDSON LUIS DIEHL",
-    "f2025": 797695.46,
-    "f2026": 913377.11,
-    "varPct": 0.14501981746267043,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Atenção:Resultado \"maqueado\" com a venda ao instalador de portas da construtora. Rep desfocou do varejo e já tivemos varias conversas sobre isso, teremos uma nova avaliação no final do ano. Sempre reclama que o produto não tem girado e que os preços do aluminio nao consegue competir com a Brasil e Alumasa, porem nao temos visto atuação na regiao e nem orçamentos disputados.",
-    "acao": ""
-  },
-  {
-    "cod": 1505,
-    "nome": "AC DOS SANTOS DE BARREIRAS ME",
-    "full": "(1505) AC DOS SANTOS DE BARREIRAS ME",
-    "f2025": 708769.68,
-    "f2026": 903659.51,
-    "varPct": 0.274969197327967,
-    "pilar": "P3 — Expansão",
-    "situacao": "Alteramos a regiao tirando BA e focando onde estava dando certo, no sul PI. Grande atuação do Guilherme na região.",
-    "acao": ""
-  },
-  {
-    "cod": 1762,
-    "nome": "F G REPRESENTACOES",
-    "full": "(1762) F G REPRESENTACOES",
-    "f2025": 124597.99,
-    "f2026": 857473.74,
-    "varPct": 5.881922734066571,
-    "pilar": "P3 — Expansão",
-    "situacao": "Antiga regiao do Ze Netto, ainda tem bastante mercado para abrir e com o catalogo vai melhorar seu trabalho",
-    "acao": ""
-  },
-  {
-    "cod": 1782,
-    "nome": "PANIS REPRESENTACOES LTDA",
-    "full": "(1782) PANIS REPRESENTACOES LTDA",
-    "f2025": 58536.83,
-    "f2026": 800484.26,
-    "varPct": 12.674882292054415,
-    "pilar": "P3 — Expansão",
-    "situacao": "Antiga regiao do Daniel SC, ainda tem bastante mercado para abrir e com o catalogo vai melhorar seu trabalho",
-    "acao": ""
-  },
-  {
-    "cod": 1714,
-    "nome": "ROCHA REPRESENTACOES LTDA",
-    "full": "(1714) ROCHA REPRESENTACOES LTDA",
-    "f2025": 1067475.78,
-    "f2026": 779722.48,
-    "varPct": -0.2695642424786453,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Região com muita dificuldade financeira, rep ficou 4 meses afastado por saude.",
-    "acao": "Visita Edson"
-  },
-  {
-    "cod": 1701,
-    "nome": "LUISTA REPRESENTACOES COM LTDA",
-    "full": "(1701) LUISTA REPRESENTACOES COM LTDA",
-    "f2025": 867152.45,
-    "f2026": 761444.67,
-    "varPct": -0.1219021868646056,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Região vem sofrendo com temporais. Diversos clientes reclamaram da grade e eu apresentei os diferenciais do modelo. Vamos organizar visita carro showroom em fev",
-    "acao": "Carro showroom fev/2027. Visita Fev/27"
-  },
-  {
-    "cod": 1428,
-    "nome": "95400628 CLADISMAR ALESSIO ME",
-    "full": "(1428) 95400628 CLADISMAR ALESSIO ME",
-    "f2025": 693865.04,
-    "f2026": 734880.49,
-    "varPct": 0.059111567286916605,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Estavel",
-    "acao": ""
-  },
-  {
-    "cod": 1727,
-    "nome": "54.832.667 PEDRO LUCAS MARMORA",
-    "full": "(1727) 54.832.667 PEDRO LUCAS MARMORA",
-    "f2025": 802265.79,
-    "f2026": 720163.73,
-    "varPct": -0.10233773024274159,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Discutir: Visita somente lojas que compram gabinetes e/ou piso. Fat. Baseado na loja do Ricardo(rep) e não tem aberto novos clientes e nem ampliado mix nos clientes atuais.",
-    "acao": ""
-  },
-  {
-    "cod": 1776,
-    "nome": "WILSON  EVARISTO  DA  SILVA",
-    "full": "(1776) WILSON  EVARISTO  DA  SILVA",
-    "f2025": 732530.08,
-    "f2026": 719399.45,
-    "varPct": -0.017925038655066852,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Tenho cobrado atuação e visita em toda a regiao que não vinha acontecendo.",
-    "acao": "Acompanhar trabalho"
-  },
-  {
-    "cod": 1123,
-    "nome": "FRANCISCO ANTONIO DE ALENCAR",
-    "full": "(1123) FRANCISCO ANTONIO DE ALENCAR",
-    "f2025": 753403.9,
-    "f2026": 658710.95,
-    "varPct": -0.1256868327865031,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Muita chuva na regiao e dificil acesso",
-    "acao": "Acompanhar"
-  },
-  {
-    "cod": 1642,
-    "nome": "JOSE SALES FERREIRA SILVA",
-    "full": "(1642) JOSE SALES FERREIRA SILVA",
-    "f2025": 751920.86,
-    "f2026": 647410.26,
-    "varPct": -0.13899148907771974,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Atenção: Rep atua somente da grande Goiania sem penetração na capital nos medios e grandes lojistas.",
-    "acao": "Visita"
-  },
-  {
-    "cod": 1571,
-    "nome": "LOPES E GOMES REPR COMERCIAIS",
-    "full": "(1571) LOPES E GOMES REPR COMERCIAIS",
-    "f2025": 666884.45,
-    "f2026": 645393.27,
-    "varPct": -0.03222624249223205,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "",
-    "acao": ""
-  },
-  {
-    "cod": 1430,
-    "nome": "TOTTENE - REPRES. COMERCIAL LT",
-    "full": "(1430) TOTTENE - REPRES. COMERCIAL LT",
-    "f2025": 839205.55,
-    "f2026": 567779.35,
-    "varPct": -0.32343232239109865,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Foi postergada visita na região, irei em jan/27. Precisa ter retomada até o fim do 1º semestre",
-    "acao": "Visita Jan/2027"
-  },
-  {
-    "cod": 1578,
-    "nome": "BRENO A P MACIEL REPRES. - EPP",
-    "full": "(1578) BRENO A P MACIEL REPRES. - EPP",
-    "f2025": 551353.96,
-    "f2026": 523039.59,
-    "varPct": -0.051354251631746894,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Estável",
-    "acao": ""
-  },
-  {
-    "cod": 1732,
-    "nome": "PORTELA E CARVALHO LTDA",
-    "full": "(1732) PORTELA E CARVALHO LTDA",
-    "f2025": 534328.59,
-    "f2026": 431956.04,
-    "varPct": -0.19159100208356897,
-    "pilar": "P2 — Recuperação",
-    "situacao": "O resultado de 2025 está com uma venda não recorrente de 268k que significa quase 50% do resultado do ano inteiro. Exceto essa venda, o trabalho e resultado vem crescendo, recentemente alteramos a rota para unificar com as vendas acima de Nova Mutum/MT",
-    "acao": "acompanhar melhora de logistica e impacto nos resultados"
-  },
-  {
-    "cod": 1786,
-    "nome": "AIRTON ALVES CARDOSO",
-    "full": "(1786) AIRTON ALVES CARDOSO",
-    "f2025": 0.0,
-    "f2026": 401987.37,
-    "varPct": null,
-    "pilar": "P3 — Expansão",
-    "situacao": "Area nova Sul do RS",
-    "acao": ""
-  },
-  {
-    "cod": 1774,
-    "nome": "ALIANÇA REPRESENTAÇÕES LTDA",
-    "full": "(1774) ALIANÇA REPRESENTAÇÕES LTDA",
-    "f2025": 0.0,
-    "f2026": 324979.54,
-    "varPct": null,
-    "pilar": "P3 — Expansão",
-    "situacao": "10% abaixo da media do Carlysson (fora inflação), temos negociações acontecendo que com a chegada do catálogo será uma boa ferramenta para destravar alguns negocios",
-    "acao": ""
-  },
-  {
-    "cod": 1779,
-    "nome": "COBRA REPRESENTACOES COMERCIAL",
-    "full": "(1779) COBRA REPRESENTACOES COMERCIAL",
-    "f2025": 221444.36,
-    "f2026": 314516.35,
-    "varPct": 0.420295147729207,
-    "pilar": "P3 — Expansão",
-    "situacao": "Temos muito mercado para crescer, forte concorrencia Brasil, AçoNorte e Back. Estratégia sugerida: liberação da Unicca para o 1º semestre sem trava para abertura de mercado.",
-    "acao": ""
-  },
-  {
-    "cod": 1691,
-    "nome": "E MARIANO DA SILVA",
-    "full": "(1691) E MARIANO DA SILVA",
-    "f2025": 315939.37,
-    "f2026": 309684.74,
-    "varPct": -0.019796931290963313,
-    "pilar": "P4 — Base / Manutenção",
-    "situacao": "Estável",
-    "acao": ""
-  },
-  {
-    "cod": 1756,
-    "nome": "T & C COMERCIO E REP LTDA",
-    "full": "(1756) T & C COMERCIO E REP LTDA",
-    "f2025": 163281.87,
-    "f2026": 265589.11,
-    "varPct": 0.6265682772986376,
-    "pilar": "P3 — Expansão",
-    "situacao": "Mesmo com crescimento o rep não tem trabalhado a pasta pois o que vendeu não girou conforme esperado. Ficamos de conversar no final do ano a continuidade (solicitação da parte dele)",
-    "acao": ""
-  },
-  {
-    "cod": 1772,
-    "nome": "50.149.105 DOUGLAS ADRIANO ZAN",
-    "full": "(1772) 50.149.105 DOUGLAS ADRIANO ZAN",
-    "f2025": 100564.1,
-    "f2026": 255951.61,
-    "varPct": 1.5451588588770753,
-    "pilar": "P3 — Expansão",
-    "situacao": "Região ampliada",
-    "acao": ""
-  },
-  {
-    "cod": 1432,
-    "nome": "M.MAXIMO REPRESENTAÇOES LTDA",
-    "full": "(1432) M.MAXIMO REPRESENTAÇOES LTDA",
-    "f2025": 233402.57,
-    "f2026": 206929.23,
-    "varPct": -0.11342351543087262,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Varejo foi encaminhado ao rep CJ Martins",
-    "acao": ""
-  },
-  {
-    "cod": 1722,
-    "nome": "COMERCIAL ARRUDA LTDA",
-    "full": "(1722) COMERCIAL ARRUDA LTDA",
-    "f2025": 317403.67,
-    "f2026": 198087.72,
-    "varPct": -0.3759123201064439,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Rep desfocou após estar devendo para CRV e não receber mais comissao para pagamento. Região que só fala em preço",
-    "acao": "Visita Edson"
-  },
-  {
-    "cod": 1563,
-    "nome": "ATHENAS COMER. E REPRES. LTDA",
-    "full": "(1563) ATHENAS COMER. E REPRES. LTDA",
-    "f2025": 250031.58,
-    "f2026": 175637.43,
-    "varPct": -0.29753901487164125,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Mercado da capital tem concentrado aos grandes players e cada vez mais pequenos varejistas (MatCon, Mercados, Farmacias) tem conseguido se manter. Estamos iniciando negociação com a loja Virtual de Alvorada.",
-    "acao": ""
-  },
-  {
-    "cod": 1689,
-    "nome": "BNA REPRESENTACOES COM LTDA",
-    "full": "(1689) BNA REPRESENTACOES COM LTDA",
-    "f2025": 128162.31,
-    "f2026": 102290.0,
-    "varPct": -0.20187143942708274,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Rep focado em mercados maiores clientes que se enquadram em GC",
-    "acao": ""
-  },
-  {
-    "cod": 1792,
-    "nome": "MAVAN COM. REPRESENTACOES LTDA",
-    "full": "(1792) MAVAN COM. REPRESENTACOES LTDA",
-    "f2025": 116559.26,
-    "f2026": 90012.98,
-    "varPct": -0.2277492152918612,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Contratado pós FEICON, ainda não se encaixou, estamos acompanhando o desenvolvimento do trabalho. Até o momento somente promessas",
-    "acao": ""
-  },
-  {
-    "cod": 1744,
-    "nome": "MILTON SALVADOR MOREIRA & CIA",
-    "full": "(1744) MILTON SALVADOR MOREIRA & CIA",
-    "f2025": 32290.72,
-    "f2026": 83511.93,
-    "varPct": 1.5862517156631986,
-    "pilar": "P3 — Expansão",
-    "situacao": "Rep sente muita dificuldade com a concorrencia de aluminio da BA e o primer de marcas sem NF (ST 28%) e/ou baixa qualidade.",
-    "acao": ""
-  },
-  {
-    "cod": 1798,
-    "nome": "G DORNELAS NASCIMENTO REP.LTDA",
-    "full": "(1798) G DORNELAS NASCIMENTO REP.LTDA",
-    "f2025": 317865.7,
-    "f2026": 73077.0,
-    "varPct": -0.7701010206511744,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Inicio de trabalho com dificuldade sem catalogo e amostra. Estamos providenciando o envio.",
-    "acao": ""
-  },
-  {
-    "cod": 1743,
-    "nome": "J. A. HOTT REPRESENTACOES LTDA",
-    "full": "(1743) J. A. HOTT REPRESENTACOES LTDA",
-    "f2025": 14364.58,
-    "f2026": 47847.77,
-    "varPct": 2.3309550296632406,
-    "pilar": "P3 — Expansão",
-    "situacao": "Acompanhar trabalho",
-    "acao": ""
-  },
-  {
-    "cod": 1760,
-    "nome": "DGO REPRESENTACOES LTDA",
-    "full": "(1760) DGO REPRESENTACOES LTDA",
-    "f2025": 76930.07,
-    "f2026": 38971.08,
-    "varPct": -0.49342201300479765,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Região de BH voltada somente a preço",
-    "acao": ""
-  },
-  {
-    "cod": 1652,
-    "nome": "HENRIQUE & BARBOSA REPRESENTAC",
-    "full": "(1652) HENRIQUE & BARBOSA REPRESENTAC",
-    "f2025": 75560.14,
-    "f2026": 33746.49,
-    "varPct": -0.5533823785927341,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Retomada de trabalho com a Unicca, ultima chance 1º semestre",
-    "acao": "acompanhar até Jun/2027"
-  },
-  {
-    "cod": 1788,
-    "nome": "FERDI REPRESENTACOES LTDA",
-    "full": "(1788) FERDI REPRESENTACOES LTDA",
-    "f2025": 0.0,
-    "f2026": 14117.08,
-    "varPct": null,
-    "pilar": "P3 — Expansão",
-    "situacao": "Sul de RO abertura de regiao",
-    "acao": ""
-  },
-  {
-    "cod": 1797,
-    "nome": "FARIAS RIBEIRO REPRE. COM LTDA",
-    "full": "(1797) FARIAS RIBEIRO REPRE. COM LTDA",
-    "f2025": 21208.8,
-    "f2026": 11418.18,
-    "varPct": -0.4616300780807967,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Inicio de trabalho chegaram as amostras há 15 dias. Quebra de paradigma da regiao voltada a preço",
-    "acao": "acompanhar"
-  },
-  {
-    "cod": 1784,
-    "nome": "CJ MARTINS REPRESENTACAO COMER",
-    "full": "(1784) CJ MARTINS REPRESENTACAO COMER",
-    "f2025": 0.0,
-    "f2026": 7055.35,
-    "varPct": null,
-    "pilar": "P3 — Expansão",
-    "situacao": "Mercado de pequeno varejo está com dificuldade de combater os grandes players em capitais. Vamos tentar maior penetração com o carro showroom na regiao",
-    "acao": "Agendar carro showroom Abr/2027"
-  },
-  {
-    "cod": 1794,
-    "nome": "DANTAS REPRESENTANÇÕES LTDA",
-    "full": "(1794) DANTAS REPRESENTANÇÕES LTDA",
-    "f2025": 0.0,
-    "f2026": 368.3,
-    "varPct": null,
-    "pilar": "P3 — Expansão",
-    "situacao": "Estado AC abertura de regiao, atuação em parceria com rep RO",
-    "acao": ""
-  },
-  {
-    "cod": 1796,
-    "nome": "RIBEIRO FERNANDES & REPRESENT",
-    "full": "(1796) RIBEIRO FERNANDES & REPRESENT",
-    "f2025": 0.0,
-    "f2026": 368.3,
-    "varPct": null,
-    "pilar": "P3 — Expansão",
-    "situacao": "Norte de RO abertura de regiao",
-    "acao": ""
-  },
-  {
-    "cod": 1518,
-    "nome": "L & R REPRESEN COMERCIAIS LTDA",
-    "full": "(1518) L & R REPRESEN COMERCIAIS LTDA",
-    "f2025": 16742.53,
-    "f2026": 0.0,
-    "varPct": -1.0,
-    "pilar": "P2 — Recuperação",
-    "situacao": "Não atua mais varejo",
-    "acao": ""
-  }
-];
+    const DEFAULT_REPS = [
+      { id: 'r-1773', code: '1773', name: 'MINAS SUL REP COMERCIAL LTDA', region: 'Sul de Minas / MG', sit2026: 'Atenção / Recuperação', sit2027: 'Em Expansão' },
+      { id: 'r-1430', code: '1430', name: 'TOTTENE - REPRES. COMERCIAL LT', region: 'Interior / Sudeste', sit2026: 'Atenção / Recuperação', sit2027: 'Em Expansão' },
+      { id: 'r-65',   code: '65',   name: 'JOSE CARLOS ROMERO', region: 'São Paulo / Interior', sit2026: 'Ativo / Estável', sit2027: 'Showroom / Ação' },
+      { id: 'r-1181', code: '1181', name: 'ROMERO REPRESENTACAO DE MAT CO', region: 'São Paulo / Região', sit2026: 'Ativo / Estável', sit2027: 'Showroom / Ação' },
+      { id: 'r-1397', code: '1397', name: 'RAFAEL ROMERO', region: 'São Paulo / Oeste', sit2026: 'Atenção / Recuperação', sit2027: 'Showroom / Ação' },
+      { id: 'r-1240', code: '1240', name: 'CABRAL & PIROLLA REP COM LTDA', region: 'Paraná / Sul', sit2026: 'Em Expansão', sit2027: 'Em Expansão' },
+      { id: 'r-1420', code: '1420', name: 'MARCELO C. ANTONIO & CIA LTDA', region: 'São Paulo / Norte', sit2026: 'Ativo / Estável', sit2027: 'Showroom / Ação' },
+      { id: 'r-1701', code: '1701', name: 'LUISTA REPRESENTACOES COM LTDA', region: 'Região Sul', sit2026: 'Atenção / Recuperação', sit2027: 'Showroom / Ação' },
+      { id: 'r-1433', code: '1433', name: 'S L DELLABETA & CIA LTDA - ME', region: 'Paraná / Centro-Sul', sit2026: 'Atenção / Recuperação', sit2027: 'Em Expansão' },
+      { id: 'r-351',  code: '351',  name: 'G DE O MATIAS', region: 'Interior / Varejo', sit2026: 'Atenção / Recuperação', sit2027: 'Em Avaliação' },
+      { id: 'r-1473', code: '1473', name: 'TATIELY DE FREITAS SOUZA REPRE', region: 'Curva A / Nacional', sit2026: 'Ativo / Estável', sit2027: 'Ativo / Estável' },
+      { id: 'r-719',  code: '719',  name: 'ZOCCAL REPRESENTACOES LTDA', region: 'São Paulo / Nova Região', sit2026: 'Ativo / Estável', sit2027: 'Em Expansão' },
+      { id: 'r-1757', code: '1757', name: 'RPM REPRESENTACOES LTDA', region: 'Centro-Oeste', sit2026: 'Atenção / Recuperação', sit2027: 'Showroom / Ação' },
+      { id: 'r-1784', code: '1784', name: 'CJ MARTINS REPRESENTACAO COMER', region: 'Capitais / Varejo', sit2026: 'Em Avaliação', sit2027: 'Showroom / Ação' }
+    ];
 
-    const INITIAL_WEEKS = [
-  {
-    "id": "S47",
-    "start": "2026-11-16",
-    "end": "2026-11-20",
-    "mes": "Novembro/26",
-    "gerenteReps": [],
-    "showroomReps": [
-      "(1773) MINAS SUL REP COMERCIAL LTDA"
-    ],
-    "fabricaReps": [],
-    "foco": "Carro showroom e catálogo em Nov/2026 (Minas Sul)"
-  },
-  {
-    "id": "S48",
-    "start": "2026-11-23",
-    "end": "2026-11-27",
-    "mes": "Novembro/26",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível (sem agenda fixa na planilha)"
-  },
-  {
-    "id": "S49",
-    "start": "2026-11-30",
-    "end": "2026-12-04",
-    "mes": "Dezembro/26",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S50",
-    "start": "2026-12-07",
-    "end": "2026-12-11",
-    "mes": "Dezembro/26",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S51",
-    "start": "2026-12-14",
-    "end": "2026-12-18",
-    "mes": "Dezembro/26",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S52",
-    "start": "2026-12-21",
-    "end": "2026-12-25",
-    "mes": "Dezembro/26",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Natal / Base"
-  },
-  {
-    "id": "S53",
-    "start": "2026-12-28",
-    "end": "2027-01-01",
-    "mes": "Dezembro/26",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Virada de Ano / Base"
-  },
-  {
-    "id": "S01",
-    "start": "2027-01-04",
-    "end": "2027-01-08",
-    "mes": "Janeiro/27",
-    "gerenteReps": [
-      "(1430) TOTTENE - REPRES. COMERCIAL LT"
-    ],
-    "showroomReps": [
-      "(65) JOSE CARLOS ROMERO"
-    ],
-    "fabricaReps": [],
-    "foco": "Visita Jan/27 (Tottene) + Carro Showroom Jan/27 (José Carlos Romero)"
-  },
-  {
-    "id": "S02",
-    "start": "2027-01-11",
-    "end": "2027-01-15",
-    "mes": "Janeiro/27",
-    "gerenteReps": [],
-    "showroomReps": [
-      "(1181) ROMERO REPRESENTACAO DE MAT CO"
-    ],
-    "fabricaReps": [],
-    "foco": "Carro Showroom Jan/27 (Romero Rep. Mat. Co.)"
-  },
-  {
-    "id": "S03",
-    "start": "2027-01-18",
-    "end": "2027-01-22",
-    "mes": "Janeiro/27",
-    "gerenteReps": [],
-    "showroomReps": [
-      "(1397) RAFAEL ROMERO"
-    ],
-    "fabricaReps": [],
-    "foco": "Carro Showroom Jan/27 (Rafael Romero)"
-  },
-  {
-    "id": "S04",
-    "start": "2027-01-25",
-    "end": "2027-01-29",
-    "mes": "Janeiro/27",
-    "gerenteReps": [],
-    "showroomReps": [
-      "(1240) CABRAL & PIROLLA REP COM LTDA"
-    ],
-    "fabricaReps": [],
-    "foco": "Carro Showroom Jan/27 (Cabral & Pirolla)"
-  },
-  {
-    "id": "S05",
-    "start": "2027-02-01",
-    "end": "2027-02-05",
-    "mes": "Fevereiro/27",
-    "gerenteReps": [],
-    "showroomReps": [
-      "(1420) MARCELO  C. ANTONIO & CIA LTDA"
-    ],
-    "fabricaReps": [],
-    "foco": "Carro Showroom Fev/27 (Marcelo C. Antonio)"
-  },
-  {
-    "id": "S06",
-    "start": "2027-02-08",
-    "end": "2027-02-12",
-    "mes": "Fevereiro/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Semana Carnaval — Base / Disponível"
-  },
-  {
-    "id": "S07",
-    "start": "2027-02-15",
-    "end": "2027-02-19",
-    "mes": "Fevereiro/27",
-    "gerenteReps": [
-      "(1701) LUISTA REPRESENTACOES COM LTDA"
-    ],
-    "showroomReps": [
-      "(1701) LUISTA REPRESENTACOES COM LTDA"
-    ],
-    "fabricaReps": [],
-    "foco": "Visita Fev/27 + Carro Showroom Fev/27 (Luista Representações)"
-  },
-  {
-    "id": "S08",
-    "start": "2027-02-22",
-    "end": "2027-02-26",
-    "mes": "Fevereiro/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S09",
-    "start": "2027-03-01",
-    "end": "2027-03-05",
-    "mes": "Março/27",
-    "gerenteReps": [
-      "(1433) S L DELLABETA & CIA LTDA - ME"
-    ],
-    "showroomReps": [
-      "(1433) S L DELLABETA & CIA LTDA - ME"
-    ],
-    "fabricaReps": [],
-    "foco": "Visita Mar/27 + Carro Showroom Mar/Abr (S L Dellabeta)"
-  },
-  {
-    "id": "S10",
-    "start": "2027-03-08",
-    "end": "2027-03-12",
-    "mes": "Março/27",
-    "gerenteReps": [
-      "(351) G DE O MATIAS"
-    ],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Visita Mar/27 (G de O Matias)"
-  },
-  {
-    "id": "S11",
-    "start": "2027-03-15",
-    "end": "2027-03-19",
-    "mes": "Março/27",
-    "gerenteReps": [
-      "(1757) RPM REPRESENTACOES LTDA"
-    ],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Visita Mar/27 (RPM Representações)"
-  },
-  {
-    "id": "S12",
-    "start": "2027-03-22",
-    "end": "2027-03-26",
-    "mes": "Março/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S13",
-    "start": "2027-03-29",
-    "end": "2027-04-02",
-    "mes": "Março/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S14",
-    "start": "2027-04-05",
-    "end": "2027-04-09",
-    "mes": "Abril/27",
-    "gerenteReps": [],
-    "showroomReps": [
-      "(1757) RPM REPRESENTACOES LTDA"
-    ],
-    "fabricaReps": [],
-    "foco": "Carro Showroom Abr/27 (RPM Representações)"
-  },
-  {
-    "id": "S15",
-    "start": "2027-04-12",
-    "end": "2027-04-16",
-    "mes": "Abril/27",
-    "gerenteReps": [],
-    "showroomReps": [
-      "(1784) CJ MARTINS REPRESENTACAO COMER"
-    ],
-    "fabricaReps": [],
-    "foco": "Carro Showroom Abr/27 (CJ Martins)"
-  },
-  {
-    "id": "S16",
-    "start": "2027-04-19",
-    "end": "2027-04-23",
-    "mes": "Abril/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Tiradentes — Base / Disponível"
-  },
-  {
-    "id": "S17",
-    "start": "2027-04-26",
-    "end": "2027-04-30",
-    "mes": "Abril/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S18",
-    "start": "2027-05-03",
-    "end": "2027-05-07",
-    "mes": "Maio/27",
-    "gerenteReps": [
-      "(1775) BARAVELLI REPRE COMERC LTDA"
-    ],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Provável visita até Maio/27 (Baravelli)"
-  },
-  {
-    "id": "S19",
-    "start": "2027-05-10",
-    "end": "2027-05-14",
-    "mes": "Maio/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S20",
-    "start": "2027-05-17",
-    "end": "2027-05-21",
-    "mes": "Maio/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S21",
-    "start": "2027-05-24",
-    "end": "2027-05-28",
-    "mes": "Maio/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Corpus Christi — Base / Disponível"
-  },
-  {
-    "id": "S22",
-    "start": "2027-05-31",
-    "end": "2027-06-04",
-    "mes": "Junho/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S23",
-    "start": "2027-06-07",
-    "end": "2027-06-11",
-    "mes": "Junho/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S24",
-    "start": "2027-06-14",
-    "end": "2027-06-18",
-    "mes": "Junho/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S25",
-    "start": "2027-06-21",
-    "end": "2027-06-25",
-    "mes": "Junho/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  },
-  {
-    "id": "S26",
-    "start": "2027-06-28",
-    "end": "2027-07-02",
-    "mes": "Junho/27",
-    "gerenteReps": [],
-    "showroomReps": [],
-    "fabricaReps": [],
-    "foco": "Base / Disponível"
-  }
-];
+    const DEFAULT_WEEKS = [
+      {
+        id: 'w-s47', sem: 'S47', startDate: '2026-11-16', endDate: '2026-11-20', month: 'Novembro/26', orderIndex: 1,
+        gerente: [],
+        showroom: [{ code: '1773', name: 'MINAS SUL REP COMERCIAL LTDA' }],
+        fabrica: [],
+        foco: 'Carro showroom e catálogo em Nov/2026 (Minas Sul)'
+      },
+      {
+        id: 'w-s01', sem: 'S01', startDate: '2027-01-04', endDate: '2027-01-08', month: 'Janeiro/27', orderIndex: 2,
+        gerente: [{ code: '1430', name: 'TOTTENE - REPRES. COMERCIAL LT' }],
+        showroom: [{ code: '65', name: 'JOSE CARLOS ROMERO' }],
+        fabrica: [],
+        foco: 'Visita Jan/27 (Tottene) + Carro Showroom Jan/27 (José Carlos Romero)'
+      },
+      {
+        id: 'w-s02', sem: 'S02', startDate: '2027-01-11', endDate: '2027-01-15', month: 'Janeiro/27', orderIndex: 3,
+        gerente: [],
+        showroom: [{ code: '1181', name: 'ROMERO REPRESENTACAO DE MAT CO' }],
+        fabrica: [],
+        foco: 'Carro Showroom Jan/27 (Romero Rep. Mat. Co.)'
+      },
+      {
+        id: 'w-s03', sem: 'S03', startDate: '2027-01-18', endDate: '2027-01-22', month: 'Janeiro/27', orderIndex: 4,
+        gerente: [],
+        showroom: [{ code: '1397', name: 'RAFAEL ROMERO' }],
+        fabrica: [],
+        foco: 'Carro Showroom Jan/27 (Rafael Romero)'
+      },
+      {
+        id: 'w-s04', sem: 'S04', startDate: '2027-01-25', endDate: '2027-01-29', month: 'Janeiro/27', orderIndex: 5,
+        gerente: [],
+        showroom: [{ code: '1240', name: 'CABRAL & PIROLLA REP COM LTDA' }],
+        fabrica: [],
+        foco: 'Carro Showroom Jan/27 (Cabral & Pirolla)'
+      },
+      {
+        id: 'w-s05', sem: 'S05', startDate: '2027-02-01', endDate: '2027-02-05', month: 'Fevereiro/27', orderIndex: 6,
+        gerente: [],
+        showroom: [{ code: '1420', name: 'MARCELO C. ANTONIO & CIA LTDA' }],
+        fabrica: [],
+        foco: 'Carro Showroom Fev/27 (Marcelo C. Antonio)'
+      },
+      {
+        id: 'w-s07', sem: 'S07', startDate: '2027-02-15', endDate: '2027-02-19', month: 'Fevereiro/27', orderIndex: 7,
+        gerente: [{ code: '1701', name: 'LUISTA REPRESENTACOES COM LTDA' }],
+        showroom: [{ code: '1701', name: 'LUISTA REPRESENTACOES COM LTDA' }],
+        fabrica: [],
+        foco: 'Visita Fev/27 + Carro Showroom Fev/27 (Luista Representações)'
+      },
+      {
+        id: 'w-s09', sem: 'S09', startDate: '2027-03-01', endDate: '2027-03-05', month: 'Março/27', orderIndex: 8,
+        gerente: [{ code: '1433', name: 'S L DELLABETA & CIA LTDA - ME' }],
+        showroom: [{ code: '1433', name: 'S L DELLABETA & CIA LTDA - ME' }],
+        fabrica: [],
+        foco: 'Visita Mar/27 + Carro Showroom Mar/Abr (S L Dellabeta)'
+      },
+      {
+        id: 'w-s10', sem: 'S10', startDate: '2027-03-08', endDate: '2027-03-12', month: 'Março/27', orderIndex: 9,
+        gerente: [{ code: '351', name: 'G DE O MATIAS' }],
+        showroom: [],
+        fabrica: [],
+        foco: 'Visita Mar/27 (G de O Matias)'
+      }
+    ];
 
-    let state = {
+    let appState = {
       weeks: [],
-      reps: [],
-      dayOverrides: {},
-      activeTab: 'mensal'
+      reps: []
     };
 
-    let dragPayload = null;
-    let editingDayISO = null;
-    let editingDayWeekId = null;
-    let editingActionId = null;
+    let activeModalContext = null; // { weekId, columnKey }
+    let draggedCardContext = null; // { weekId, columnKey, cardIndex }
+    let pieChartInstance = null;
+    let chartYearMode = '2027';
 
-    function genActionId() {
-      return 'act-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6);
-    }
-
-    function shortRepName(label) {
-      return String(label || '').trim();
-    }
-
-    function normalizeWeekObj(w) {
-      return {
-        ...w,
-        gerenteReps: Array.isArray(w.gerenteReps) ? w.gerenteReps : [],
-        showroomReps: Array.isArray(w.showroomReps) ? w.showroomReps : [],
-        fabricaReps: Array.isArray(w.fabricaReps) ? w.fabricaReps : []
-      };
-    }
-
-    function normalizeDayOverridesMap(rawMap) {
-      const out = {};
-      if (!rawMap || typeof rawMap !== 'object') return out;
-      Object.entries(rawMap).forEach(([iso, val]) => {
-        if (!val) return;
-        if (Array.isArray(val.actions)) {
-          out[iso] = {
-            actions: val.actions.map(a => ({
-              id: a.id || genActionId(),
-              type: a.type || 'CUSTOM',
-              label: a.label || 'Atividade',
-              note: a.note || ''
-            }))
-          };
-        } else if (val.type === 'EMPTY') {
-          out[iso] = { actions: [] };
-        } else {
-          out[iso] = {
-            actions: [{
-              id: genActionId(),
-              type: val.type || 'CUSTOM',
-              label: val.label || 'Atividade',
-              note: val.note || ''
-            }]
-          };
+    // Inicialização
+    function initApp() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          appState = JSON.parse(saved);
+        } catch (e) {
+          appState = { weeks: structuredClone(DEFAULT_WEEKS), reps: structuredClone(DEFAULT_REPS) };
         }
-      });
-      return out;
-    }
+      } else {
+        appState = { weeks: structuredClone(DEFAULT_WEEKS), reps: structuredClone(DEFAULT_REPS) };
+      }
 
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY) || null;
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          state.weeks = Array.isArray(parsed.weeks) && parsed.weeks.length ? parsed.weeks.map(normalizeWeekObj) : structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
-          state.reps = Array.isArray(parsed.reps) && parsed.reps.length ? parsed.reps : structuredClone(INITIAL_REPS);
-          state.dayOverrides = normalizeDayOverridesMap(parsed.dayOverrides);
-          return;
-        }
-      } catch (e) {}
-      state.weeks = structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
-      state.reps = structuredClone(INITIAL_REPS);
-      state.dayOverrides = {};
+      populateSelects();
+      renderWeeklyTable();
+      renderCarteiraTable();
+      updatePieChart();
     }
 
     function saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          weeks: state.weeks,
-          reps: state.reps,
-          dayOverrides: state.dayOverrides
-        }));
-      } catch (e) {}
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
     }
 
-    function resetAllData() {
-      if (!confirm('Deseja restaurar toda a programação oficial padrão (33 semanas e 62 representantes)?')) return;
-      localStorage.removeItem(STORAGE_KEY);
-      state.weeks = structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
-      state.reps = structuredClone(INITIAL_REPS);
-      state.dayOverrides = {};
+    function resetDefaultData() {
+      appState = { weeks: structuredClone(DEFAULT_WEEKS), reps: structuredClone(DEFAULT_REPS) };
       saveState();
-      renderAll();
-      showToast('↺ Base oficial restaurada!');
+      populateSelects();
+      renderWeeklyTable();
+      renderCarteiraTable();
+      updatePieChart();
+      showToast('Dados originais restaurados com sucesso.');
     }
 
-    function showToast(msg) {
-      const el = document.getElementById('toast');
-      if (!el) return;
-      el.textContent = msg;
-      el.classList.remove('opacity-0');
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.remove('opacity-0');
       clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(() => el.classList.add('opacity-0'), 2800);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.add('opacity-0');
+      }, 2600);
     }
 
-    function formatISO(d) {
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
+    // Alternância de Abas
+    function switchTab(tab) {
+      const semanalView = document.getElementById('view-semanal');
+      const carteiraView = document.getElementById('view-carteira');
+      const btnSemanal = document.getElementById('tab-btn-semanal');
+      const btnCarteira = document.getElementById('tab-btn-carteira');
+
+      if (tab === 'semanal') {
+        semanalView.classList.remove('hidden');
+        carteiraView.classList.add('hidden');
+        btnSemanal.className = 'px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-blue-600 text-white shadow';
+        btnCarteira.className = 'px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white';
+        renderWeeklyTable();
+      } else {
+        semanalView.classList.add('hidden');
+        carteiraView.classList.remove('hidden');
+        btnCarteira.className = 'px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-blue-600 text-white shadow';
+        btnSemanal.className = 'px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white';
+        renderCarteiraTable();
+        updatePieChart();
+      }
     }
 
-    function parseISO(iso) {
-      const [y, m, d] = iso.split('-').map(Number);
-      return new Date(y, m - 1, d);
+    function populateSelects() {
+      // Meses disponíveis
+      const monthSelect = document.getElementById('filter-month');
+      const currentMonthVal = monthSelect.value || 'ALL';
+      const uniqueMonths = [...new Set(appState.weeks.map(w => w.month))];
+      monthSelect.innerHTML = `<option value="ALL">Todos os Meses</option>` +
+        uniqueMonths.map(m => `<option value="${m}">${m}</option>`).join('');
+      if ([...monthSelect.options].some(o => o.value === currentMonthVal)) {
+        monthSelect.value = currentMonthVal;
+      }
+
+      // Filtro Situação 2027 na Carteira
+      const filter2027 = document.getElementById('carteira-filter-2027');
+      filter2027.innerHTML = `<option value="ALL">Todas as Situações 2027</option>` +
+        SITUACAO_OPTIONS.map(s => `<option value="${s.value}">${s.value}</option>`).join('');
+
+      // Selects do Modal Novo Representante
+      const s26 = document.getElementById('rep-form-sit2026');
+      const s27 = document.getElementById('rep-form-sit2027');
+      const optsHtml = SITUACAO_OPTIONS.map(s => `<option value="${s.value}">${s.value}</option>`).join('');
+      s26.innerHTML = optsHtml;
+      s27.innerHTML = optsHtml;
+      s27.value = 'Em Expansão';
     }
 
-    function formatBRDate(iso) {
+    function formatDateBR(iso) {
+      if (!iso) return '';
       const [y, m, d] = iso.split('-');
       return `${d}/${m}/${y}`;
     }
 
-    function getIsoWeekdayIdx(iso) {
-      const d = parseISO(iso);
-      const day = d.getDay();
-      return day === 0 ? 6 : day - 1;
+    function clearWeeklyFilters() {
+      document.getElementById('filter-month').value = 'ALL';
+      document.getElementById('filter-status').value = 'SCHEDULED';
+      document.getElementById('sort-order').value = 'CHRONO_ASC';
+      document.getElementById('filter-search').value = '';
+      renderWeeklyTable();
     }
 
-    function findPlannedWeekForDate(iso) {
-      return state.weeks.find(w => iso >= w.start && iso <= w.end) || null;
-    }
+    // =========================================================
+    // RENDERIZAÇÃO DA TABELA SEMANAL + DRAG & DROP
+    // =========================================================
+    function renderWeeklyTable() {
+      const tbody = document.getElementById('weekly-table-body');
+      const monthFilter = document.getElementById('filter-month').value;
+      const statusFilter = document.getElementById('filter-status').value;
+      const sortOrder = document.getElementById('sort-order').value;
+      const query = document.getElementById('filter-search').value.trim().toLowerCase();
 
-    function buildDefaultDayActions(isoDate, weekId, dayIdx) {
-      const actions = [];
-      const holiday = NATIONAL_HOLIDAYS[isoDate];
-      if (holiday) {
-        actions.push({ id: `def-hol-${isoDate}`, type: 'FERIADO', label: holiday, note: '' });
-        return actions;
-      }
-      const isWeekend = dayIdx >= 5;
-      if (isWeekend || !weekId) return actions;
+      let filtered = appState.weeks.filter(w => {
+        if (monthFilter !== 'ALL' && w.month !== monthFilter) return false;
 
-      const pw = state.weeks.find(w => w.id === weekId);
-      if (!pw) return actions;
+        const hasAction = (w.gerente.length + w.showroom.length + w.fabrica.length) > 0;
+        if (statusFilter === 'SCHEDULED' && !hasAction) return false;
+        if (statusFilter === 'EMPTY' && hasAction) return false;
 
-      const hasG = pw.gerenteReps.length > 0;
-      const hasS = pw.showroomReps.length > 0;
-      const hasF = pw.fabricaReps.length > 0;
-
-      if (hasG) {
-        pw.gerenteReps.forEach((r, idx) => {
-          const gLabel = (dayIdx === 4 ? 'Retorno: ' : '') + shortRepName(r);
-          actions.push({ id: `def-g-${isoDate}-${idx}`, type: 'GERENTE', label: gLabel, note: '' });
-        });
-      }
-      if (hasS) {
-        pw.showroomReps.forEach((r, idx) => {
-          actions.push({ id: `def-s-${isoDate}-${idx}`, type: 'SHOWROOM', label: shortRepName(r), note: '' });
-        });
-      }
-      if (hasF) {
-        pw.fabricaReps.forEach((r, idx) => {
-          actions.push({ id: `def-f-${isoDate}-${idx}`, type: 'FABRICA', label: shortRepName(r), note: '' });
-        });
-      }
-      if (!hasG && !hasS && !hasF) {
-        actions.push({ id: `def-base-${isoDate}`, type: 'BASE', label: 'Base / Disp.', note: '' });
-      }
-      return actions;
-    }
-
-    function getEffectiveDayActions(isoDate, weekId, dayIdx) {
-      const override = state.dayOverrides[isoDate];
-      if (override && Array.isArray(override.actions)) return override.actions;
-      return buildDefaultDayActions(isoDate, weekId, dayIdx);
-    }
-
-    function ensureMutableDayActions(isoDate, weekId, dayIdx) {
-      if (!state.dayOverrides[isoDate] || !Array.isArray(state.dayOverrides[isoDate].actions)) {
-        const cloned = buildDefaultDayActions(isoDate, weekId, dayIdx).map(a => ({ ...a, id: genActionId() }));
-        state.dayOverrides[isoDate] = { actions: cloned };
-      }
-      return state.dayOverrides[isoDate].actions;
-    }
-
-    function getMonthWeeksMatrix(year, month) {
-      const firstDay = new Date(year, month, 1);
-      const lastDay = new Date(year, month + 1, 0);
-      const startOffset = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
-      const cursor = new Date(year, month, 1 - startOffset);
-      const rows = [];
-
-      while (cursor <= lastDay || rows.length < 5) {
-        const days = [];
-        let plannedWeek = null;
-        for (let i = 0; i < 7; i++) {
-          const iso = formatISO(cursor);
-          const inMonth = cursor.getMonth() === month;
-          const pw = findPlannedWeekForDate(iso);
-          if (pw && i < 5) plannedWeek = pw;
-          days.push({
-            iso,
-            dayNum: String(cursor.getDate()).padStart(2, '0'),
-            inMonth,
-            isWeekend: i >= 5
-          });
-          cursor.setDate(cursor.getDate() + 1);
+        if (query) {
+          const allText = [
+            w.sem,
+            w.month,
+            formatDateBR(w.startDate),
+            formatDateBR(w.endDate),
+            w.foco,
+            ...w.gerente.map(r => `${r.code} ${r.name}`),
+            ...w.showroom.map(r => `${r.code} ${r.name}`),
+            ...w.fabrica.map(r => `${r.code} ${r.name}`)
+          ].join(' ').toLowerCase();
+          if (!allText.includes(query)) return false;
         }
-        rows.push({ days, plannedWeek });
-        if (cursor > lastDay && cursor.getDay() === 1) break;
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        if (sortOrder === 'CHRONO_ASC') return a.startDate.localeCompare(b.startDate);
+        if (sortOrder === 'CHRONO_DESC') return b.startDate.localeCompare(a.startDate);
+        if (sortOrder === 'SEM_ASC') return a.sem.localeCompare(b.sem);
+        if (sortOrder === 'MONTH') return a.month.localeCompare(b.month);
+        return 0;
+      });
+
+      document.getElementById('weekly-counter').textContent = `${filtered.length} semana(s) exibida(s)`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-10 text-center text-slate-400">
+              Nenhuma semana encontrada com os filtros atuais.
+            </td>
+          </tr>`;
+        return;
       }
-      return rows;
+
+      tbody.innerHTML = filtered.map(week => `
+        <tr class="hover:bg-slate-50/80 transition-colors align-middle">
+          <!-- Sem. -->
+          <td class="py-3.5 px-4 font-bold text-blue-600 whitespace-nowrap">${escapeHtml(week.sem)}</td>
+
+          <!-- Período -->
+          <td class="py-3.5 px-4 text-slate-700 font-medium whitespace-nowrap">
+            ${formatDateBR(week.startDate)} a ${formatDateBR(week.endDate)}
+          </td>
+
+          <!-- Mês -->
+          <td class="py-3.5 px-4 text-slate-600 whitespace-nowrap">${escapeHtml(week.month)}</td>
+
+          <!-- Viagem Gerente -->
+          ${renderActionCell(week, 'gerente', 'bg-blue-50 text-blue-700 border-blue-200')}
+
+          <!-- Carro Showroom -->
+          ${renderActionCell(week, 'showroom', 'bg-orange-50 text-orange-700 border-orange-200')}
+
+          <!-- Visita Fábrica -->
+          ${renderActionCell(week, 'fabrica', 'bg-emerald-50 text-emerald-700 border-emerald-200')}
+
+          <!-- Foco Estratégico Editável -->
+          <td class="py-2.5 px-4">
+            <div class="flex items-center gap-2">
+              <input type="text"
+                value="${escapeHtml(week.foco)}"
+                onchange="updateWeekFoco('${week.id}', this.value)"
+                placeholder="Descreva o foco estratégico..."
+                class="w-full h-9 px-3 rounded-lg border border-slate-200 bg-white text-xs sm:text-[13px] text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition" />
+              <span class="text-orange-500 text-xs shrink-0" title="Campo editável">✏️</span>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderActionCell(week, colKey, pillTheme) {
+      const items = week[colKey] || [];
+      const pillsHtml = items.map((rep, idx) => `
+        <div draggable="true"
+          ondragstart="handleDragStart(event, '${week.id}', '${colKey}', ${idx})"
+          ondragend="handleDragEnd(event)"
+          title="Arraste para mover este card para outra coluna ou semana"
+          class="rep-pill group inline-flex items-center justify-between gap-1.5 px-2.5 py-1 rounded-md border text-[11px] font-bold tracking-tight cursor-grab active:cursor-grabbing ${pillTheme}">
+          <span class="truncate max-w-[205px]">(${escapeHtml(rep.code)}) ${escapeHtml(rep.name)}</span>
+          <button type="button"
+            onclick="removeCard('${week.id}', '${colKey}', ${idx})"
+            title="Tirar card"
+            class="opacity-60 group-hover:opacity-100 hover:bg-black/10 rounded px-1 text-xs leading-none transition">
+            &times;
+          </button>
+        </div>
+      `).join('');
+
+      return `
+        <td class="py-2.5 px-3 align-middle transition-colors"
+          ondragover="handleDragOver(event)"
+          ondragleave="handleDragLeave(event)"
+          ondrop="handleDrop(event, '${week.id}', '${colKey}')">
+          <div class="flex flex-wrap items-center gap-1.5 min-h-[34px]">
+            ${items.length > 0 ? pillsHtml : '<span class="text-slate-300 select-none mr-1">—</span>'}
+            <button type="button"
+              onclick="openAddCardModal('${week.id}', '${colKey}')"
+              title="Acrescentar card de representante"
+              class="w-6 h-6 rounded-md border border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50 text-slate-400 hover:text-blue-600 flex items-center justify-center text-xs font-bold transition shrink-0">
+              +
+            </button>
+          </div>
+        </td>
+      `;
+    }
+
+    // Drag and Drop Handlers
+    function handleDragStart(event, weekId, columnKey, cardIndex) {
+      draggedCardContext = { weekId, columnKey, cardIndex };
+      event.currentTarget.classList.add('dragging');
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', JSON.stringify(draggedCardContext));
+    }
+
+    function handleDragEnd(event) {
+      event.currentTarget.classList.remove('dragging');
+      document.querySelectorAll('.drop-zone-active').forEach(el => el.classList.remove('drop-zone-active'));
+    }
+
+    function handleDragOver(event) {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+      event.currentTarget.classList.add('drop-zone-active');
+    }
+
+    function handleDragLeave(event) {
+      event.currentTarget.classList.remove('drop-zone-active');
+    }
+
+    function handleDrop(event, targetWeekId, targetColumnKey) {
+      event.preventDefault();
+      event.currentTarget.classList.remove('drop-zone-active');
+      if (!draggedCardContext) return;
+
+      const { weekId: sourceWeekId, columnKey: sourceColumnKey, cardIndex } = draggedCardContext;
+      draggedCardContext = null;
+
+      if (sourceWeekId === targetWeekId && sourceColumnKey === targetColumnKey) return;
+
+      const sourceWeek = appState.weeks.find(w => w.id === sourceWeekId);
+      const targetWeek = appState.weeks.find(w => w.id === targetWeekId);
+      if (!sourceWeek || !targetWeek) return;
+
+      const [movedRep] = sourceWeek[sourceColumnKey].splice(cardIndex, 1);
+      if (!movedRep) return;
+
+      targetWeek[targetColumnKey].push(movedRep);
+      saveState();
+      renderWeeklyTable();
+      showToast(`Card (${movedRep.code}) ${movedRep.name} movido para ${targetWeek.sem}.`);
+    }
+
+    // Acrescentar e Remover Cards
+    function openAddCardModal(weekId, columnKey) {
+      activeModalContext = { weekId, columnKey };
+      const week = appState.weeks.find(w => w.id === weekId);
+      const colLabels = {
+        gerente: '✈️ Viagem Gerente',
+        showroom: '🚐 Carro Showroom',
+        fabrica: '🏭 Visita Fábrica'
+      };
+      document.getElementById('modal-add-card-subtitle').textContent =
+        `Semana ${week.sem} (${week.month}) • Coluna: ${colLabels[columnKey]}`;
+
+      const select = document.getElementById('select-rep-for-card');
+      select.innerHTML = `<option value="">-- Escolha um representante --</option>` +
+        appState.reps.map(r => `<option value="${r.id}">(${r.code}) ${r.name}</option>`).join('');
+
+      document.getElementById('custom-rep-code').value = '';
+      document.getElementById('custom-rep-name').value = '';
+
+      const modal = document.getElementById('modal-add-card');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeAddCardModal() {
+      const modal = document.getElementById('modal-add-card');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      activeModalContext = null;
+    }
+
+    function confirmAddCard() {
+      if (!activeModalContext) return;
+      const { weekId, columnKey } = activeModalContext;
+      const week = appState.weeks.find(w => w.id === weekId);
+      if (!week) return;
+
+      const selectedRepId = document.getElementById('select-rep-for-card').value;
+      const customCode = document.getElementById('custom-rep-code').value.trim();
+      const customName = document.getElementById('custom-rep-name').value.trim().toUpperCase();
+
+      let repObj = null;
+      if (selectedRepId) {
+        const found = appState.reps.find(r => r.id === selectedRepId);
+        if (found) repObj = { code: found.code, name: found.name };
+      } else if (customCode && customName) {
+        repObj = { code: customCode, name: customName };
+        // Também cadastra na carteira se o código ainda não existir
+        if (!appState.reps.some(r => r.code === customCode)) {
+          appState.reps.push({
+            id: 'r-' + Date.now(),
+            code: customCode,
+            name: customName,
+            region: 'A definir',
+            sit2026: 'Em Avaliação',
+            sit2027: 'Em Expansão'
+          });
+          renderCarteiraTable();
+          updatePieChart();
+        }
+      }
+
+      if (!repObj) {
+        showToast('Selecione um representante ou preencha código e nome.');
+        return;
+      }
+
+      week[columnKey].push(repObj);
+      saveState();
+      renderWeeklyTable();
+      closeAddCardModal();
+      showToast(`Card (${repObj.code}) ${repObj.name} adicionado!`);
+    }
+
+    function removeCard(weekId, columnKey, cardIndex) {
+      const week = appState.weeks.find(w => w.id === weekId);
+      if (!week) return;
+      const [removed] = week[columnKey].splice(cardIndex, 1);
+      saveState();
+      renderWeeklyTable();
+      if (removed) showToast(`Card (${removed.code}) removido de ${week.sem}.`);
+    }
+
+    function updateWeekFoco(weekId, newValue) {
+      const week = appState.weeks.find(w => w.id === weekId);
+      if (!week) return;
+      week.foco = newValue.trim();
+      saveState();
+      showToast(`Foco estratégico da ${week.sem} atualizado.`);
+    }
+
+    // =========================================================
+    // ACRESCENTAR NOVA SEMANA
+    // =========================================================
+    function openNewWeekModal() {
+      const modal = document.getElementById('modal-new-week');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeNewWeekModal() {
+      const modal = document.getElementById('modal-new-week');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function submitNewWeek(event) {
+      event.preventDefault();
+      const sem = document.getElementById('new-week-sem').value.trim().toUpperCase();
+      const month = document.getElementById('new-week-month').value;
+      const startDate = document.getElementById('new-week-start').value;
+      const endDate = document.getElementById('new-week-end').value;
+      const foco = document.getElementById('new-week-foco').value.trim() || 'Base / Disponível';
+
+      if (!sem || !startDate || !endDate) return;
+
+      appState.weeks.push({
+        id: 'w-' + Date.now(),
+        sem,
+        startDate,
+        endDate,
+        month,
+        gerente: [],
+        showroom: [],
+        fabrica: [],
+        foco
+      });
+
+      // Mostra todas as semanas para o usuário visualizar imediatamente a semana recém-criada
+      document.getElementById('filter-status').value = 'ALL';
+
+      saveState();
+      populateSelects();
+      renderWeeklyTable();
+      closeNewWeekModal();
+      event.target.reset();
+      showToast(`Semana ${sem} (${month}) adicionada ao cronograma!`);
+    }
+
+    // =========================================================
+    // ABA CARTEIRA + SITUAÇÃO 2027 + GRÁFICO PIZZA TEMPO REAL
+    // =========================================================
+    function renderCarteiraTable() {
+      const tbody = document.getElementById('carteira-table-body');
+      const query = document.getElementById('carteira-search').value.trim().toLowerCase();
+      const filter2027 = document.getElementById('carteira-filter-2027').value;
+
+      document.getElementById('total-reps-count').textContent = appState.reps.length;
+
+      const filtered = appState.reps.filter(r => {
+        if (filter2027 !== 'ALL' && r.sit2027 !== filter2027) return false;
+        if (query) {
+          const text = `${r.code} ${r.name} ${r.region} ${r.sit2026} ${r.sit2027}`.toLowerCase();
+          if (!text.includes(query)) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-10 text-center text-slate-400">
+              Nenhum representante encontrado.
+            </td>
+          </tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(rep => {
+        const opt2026 = SITUACAO_OPTIONS.find(o => o.value === rep.sit2026) || SITUACAO_OPTIONS[0];
+        const opt2027 = SITUACAO_OPTIONS.find(o => o.value === rep.sit2027) || SITUACAO_OPTIONS[0];
+
+        return `
+          <tr class="hover:bg-slate-50 transition-colors">
+            <td class="py-3 px-4 font-bold text-slate-700">${escapeHtml(rep.code)}</td>
+            <td class="py-3 px-4 font-semibold text-slate-800">${escapeHtml(rep.name)}</td>
+            <td class="py-3 px-4 text-slate-600">${escapeHtml(rep.region || '—')}</td>
+
+            <!-- Coluna Situação 2026 -->
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-medium ${opt2026.badge}">
+                ${escapeHtml(rep.sit2026)}
+              </span>
+            </td>
+
+            <!-- Nova Coluna à Direita: Situação 2027 (Editável) -->
+            <td class="py-2.5 px-4 bg-blue-50/35 border-l border-slate-200">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${opt2027.color}"></span>
+                <select onchange="updateRepSituacao2027('${rep.id}', this.value)"
+                  class="w-full h-8 px-2.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                  ${SITUACAO_OPTIONS.map(o => `
+                    <option value="${o.value}" ${o.value === rep.sit2027 ? 'selected' : ''}>${o.value}</option>
+                  `).join('')}
+                </select>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 text-center">
+              <button onclick="deleteRep('${rep.id}')" title="Remover representante"
+                class="text-slate-400 hover:text-rose-600 text-xs font-semibold px-2 py-1 rounded hover:bg-rose-50 transition">
+                Excluir
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function updateRepSituacao2027(repId, newStatus) {
+      const rep = appState.reps.find(r => r.id === repId);
+      if (!rep) return;
+      rep.sit2027 = newStatus;
+      saveState();
+      renderCarteiraTable();
+      updatePieChart();
+      showToast(`Situação 2027 de (${rep.code}) atualizada para "${newStatus}".`);
+    }
+
+    function setChartMode(mode) {
+      chartYearMode = mode;
+      const b27 = document.getElementById('chart-mode-2027');
+      const b26 = document.getElementById('chart-mode-2026');
+      if (mode === '2027') {
+        b27.className = 'px-2.5 py-1 rounded-md font-semibold bg-blue-600 text-white transition';
+        b26.className = 'px-2.5 py-1 rounded-md font-semibold text-slate-600 hover:text-slate-900 transition';
+      } else {
+        b26.className = 'px-2.5 py-1 rounded-md font-semibold bg-blue-600 text-white transition';
+        b27.className = 'px-2.5 py-1 rounded-md font-semibold text-slate-600 hover:text-slate-900 transition';
+      }
+      updatePieChart();
+    }
+
+    function updatePieChart() {
+      const field = chartYearMode === '2027' ? 'sit2027' : 'sit2026';
+      const total = appState.reps.length || 1;
+
+      const counts = SITUACAO_OPTIONS.map(opt => {
+        const count = appState.reps.filter(r => r[field] === opt.value).length;
+        return {
+          label: opt.value,
+          count,
+          pct: Math.round((count / total) * 100),
+          color: opt.color,
+          badge: opt.badge
+        };
+      });
+
+      // Atualiza cards KPI ao lado do gráfico
+      const kpiGrid = document.getElementById('status-kpi-grid');
+      kpiGrid.innerHTML = counts.map(item => `
+        <div class="p-3 rounded-xl border border-slate-200 bg-slate-50/60 flex items-center justify-between">
+          <div class="min-w-0 pr-2">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${item.color}"></span>
+              <span class="text-[11px] font-semibold text-slate-600 truncate">${escapeHtml(item.label)}</span>
+            </div>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-lg font-bold text-slate-800">${item.count}</span>
+              <span class="text-[11px] font-medium text-slate-500">(${item.pct}%)</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Renderiza / Atualiza o Gráfico Pizza (Chart.js)
+      const ctx = document.getElementById('situacaoPieChart').getContext('2d');
+      if (pieChartInstance) {
+        pieChartInstance.data.labels = counts.map(c => `${c.label} (${c.count})`);
+        pieChartInstance.data.datasets[0].data = counts.map(c => c.count);
+        pieChartInstance.data.datasets[0].backgroundColor = counts.map(c => c.color);
+        pieChartInstance.update();
+      } else {
+        pieChartInstance = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: counts.map(c => `${c.label} (${c.count})`),
+            datasets: [{
+              data: counts.map(c => c.count),
+              backgroundColor: counts.map(c => c.color),
+              borderColor: '#ffffff',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'right',
+                labels: {
+                  boxWidth: 12,
+                  padding: 12,
+                  font: { family: 'Inter', size: 11, weight: '600' },
+                  color: '#334155'
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const val = context.parsed || 0;
+                    const sum = context.dataset.data.reduce((a, b) => a + b, 0) || 1;
+                    const pct = ((val / sum) * 100).toFixed(1);
+                    return ` ${val} representante(s) — ${pct}%`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // Novo Representante
+    function openNewRepModal() {
+      const modal = document.getElementById('modal-new-rep');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeNewRepModal() {
+      const modal = document.getElementById('modal-new-rep');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function submitNewRep(event) {
+      event.preventDefault();
+      const code = document.getElementById('rep-form-code').value.trim();
+      const name = document.getElementById('rep-form-name').value.trim().toUpperCase();
+      const region = document.getElementById('rep-form-region').value.trim() || 'Nacional';
+      const sit2026 = document.getElementById('rep-form-sit2026').value;
+      const sit2027 = document.getElementById('rep-form-sit2027').value;
+
+      if (!code || !name) return;
+
+      appState.reps.unshift({
+        id: 'r-' + Date.now(),
+        code,
+        name,
+        region,
+        sit2026,
+        sit2027
+      });
+
+      saveState();
+      renderCarteiraTable();
+      updatePieChart();
+      closeNewRepModal();
+      event.target.reset();
+      showToast(`Representante (${code}) ${name} adicionado à carteira!`);
+    }
+
+    function deleteRep(repId) {
+      const idx = appState.reps.findIndex(r => r.id === repId);
+      if (idx === -1) return;
+      const [removed] = appState.reps.splice(idx, 1);
+      saveState();
+      renderCarteiraTable();
+      updatePieChart();
+      showToast(`Representante (${removed.code}) removido da carteira.`);
     }
 
     function escapeHtml(str) {
-      return String(str || '')
+      return String(str ?? '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
     }
 
-    function renderDayBlockBadge(act, isoDate, weekId, dayIdx) {
-      const themes = {
-        GERENTE:  { wrap: 'bg-blue-600 text-white border-blue-700', icon: '✈️', tag: 'VIAGEM' },
-        SHOWROOM: { wrap: 'bg-orange-500 text-white border-orange-600', icon: '🚐', tag: 'SHOWROOM' },
-        FABRICA:  { wrap: 'bg-teal-600 text-white border-teal-700', icon: '🏭', tag: 'FÁBRICA' },
-        FERIADO:  { wrap: 'bg-emerald-600 text-white border-emerald-700', icon: '🎉', tag: 'FERIADO' },
-        BASE:     { wrap: 'bg-slate-100 hover:bg-slate-200/80 text-slate-600 border-slate-200', icon: '🏢', tag: 'BASE' },
-        CUSTOM:   { wrap: 'bg-indigo-600 text-white border-indigo-700', icon: '📌', tag: 'AGENDA' }
-      };
-      const st = themes[act.type] || themes.CUSTOM;
-      const weekArg = weekId ? `'${weekId}'` : 'null';
-
-      if (act.type === 'BASE') {
-        return `
-          <div draggable="true"
-               ondragstart="handleBlockDragStart(event, '${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})"
-               ondragend="handleDragEnd(event)"
-               class="group/blk relative rounded-md px-2 py-1 border ${st.wrap} text-[10px] font-semibold flex items-center justify-between gap-1 cursor-grab active:cursor-grabbing">
-            <span class="truncate">${st.icon} ${escapeHtml(act.label)}</span>
-            <div class="opacity-0 group-hover/blk:opacity-100 flex items-center gap-0.5 shrink-0">
-              <button onclick="event.stopPropagation(); duplicateDayAction('${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})" title="Duplicar ação" class="px-1 rounded bg-slate-300/70 hover:bg-slate-400/70 text-slate-800 text-[9px]">📋</button>
-              <button onclick="event.stopPropagation(); deleteSingleDayAction('${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})" title="Remover ação" class="px-1 rounded bg-rose-100 hover:bg-rose-200 text-rose-700 text-[9px]">✕</button>
-            </div>
-          </div>`;
-      }
-
-      return `
-        <div draggable="true"
-             ondragstart="handleBlockDragStart(event, '${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})"
-             ondragend="handleDragEnd(event)"
-             class="group/blk relative rounded-lg px-2 py-1.5 border shadow-xs ${st.wrap} text-[10px] leading-tight cursor-grab active:cursor-grabbing transition">
-          <div class="flex items-center justify-between gap-1 mb-0.5">
-            <span class="font-extrabold tracking-wide text-[9px] opacity-95 flex items-center gap-1">
-              <span class="text-xs">${st.icon}</span> ${st.tag}
-            </span>
-            <div class="opacity-0 group-hover/blk:opacity-100 flex items-center gap-0.5 transition">
-              <button onclick="event.stopPropagation(); duplicateDayAction('${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})" title="Duplicar esta ação" class="px-1 py-0.2 rounded bg-black/25 hover:bg-black/45 text-white text-[9px]">📋</button>
-              <button onclick="event.stopPropagation(); deleteSingleDayAction('${isoDate}', '${act.id}', ${weekArg}, ${dayIdx})" title="Excluir esta ação" class="px-1 py-0.2 rounded bg-black/25 hover:bg-rose-600 text-white text-[9px]">✕</button>
-            </div>
-          </div>
-          <div class="font-bold break-words">${escapeHtml(act.label)}</div>
-          ${act.note ? `<div class="text-[9px] opacity-90 mt-0.5 italic">${escapeHtml(act.note)}</div>` : ''}
-        </div>`;
-    }
-
-    function renderMonthlyPlanner() {
-      const selectedMonth = document.getElementById('mensal-month-select')?.value || 'ALL';
-      const monthsToRender = selectedMonth === 'ALL'
-        ? PLANNER_MONTHS
-        : PLANNER_MONTHS.filter(m => m.key === selectedMonth);
-
-      let gCount = 0, sCount = 0, fCount = 0, multiCount = 0;
-      state.weeks.forEach(w => {
-        const hasG = w.gerenteReps.length > 0;
-        const hasS = w.showroomReps.length > 0;
-        const hasF = w.fabricaReps.length > 0;
-        if (hasG) gCount++;
-        if (hasS) sCount++;
-        if (hasF) fCount++;
-        if ((hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0) > 1) multiCount++;
-      });
-
-      const summaryEl = document.getElementById('mensal-summary-pills');
-      if (summaryEl) {
-        summaryEl.innerHTML = `
-          <span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-bold">✈️ Viagem Gerente: ${gCount} sem.</span>
-          <span class="px-2.5 py-1 rounded-full bg-orange-50 text-orange-700 border border-orange-200 font-bold">🚐 Carro Showroom: ${sCount} sem.</span>
-          <span class="px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 font-bold">🏭 Visita Fábrica: ${fCount} sem.</span>
-          <span class="px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200 font-bold">🟣 Frentes Simultâneas: ${multiCount} sem.</span>
-        `;
-      }
-
-      const container = document.getElementById('mensal-calendars-container');
-      if (!container) return;
-
-      container.innerHTML = monthsToRender.map(mObj => {
-        const matrix = getMonthWeeksMatrix(mObj.year, mObj.month);
-        const rowsHtml = matrix.map(row => {
-          const pw = row.plannedWeek;
-          const hasG = pw && pw.gerenteReps.length > 0;
-          const hasS = pw && pw.showroomReps.length > 0;
-          const hasF = pw && pw.fabricaReps.length > 0;
-          const activeFronts = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
-
-          let weekBadgeCls = 'bg-slate-200 text-slate-600';
-          if (pw) {
-            if (activeFronts > 1) weekBadgeCls = 'bg-purple-600 text-white';
-            else if (hasG) weekBadgeCls = 'bg-blue-600 text-white';
-            else if (hasS) weekBadgeCls = 'bg-orange-500 text-white';
-            else if (hasF) weekBadgeCls = 'bg-teal-600 text-white';
-          }
-
-          const daysCellsHtml = row.days.map((d, dayIdx) => {
-            if (!d.inMonth) {
-              return `<div class="bg-slate-50/70 border-r border-slate-200/70 p-1.5 min-h-[104px] text-slate-300 text-[11px] font-semibold">${d.dayNum}</div>`;
-            }
-
-            const weekId = pw ? pw.id : null;
-            const weekArg = weekId ? `'${weekId}'` : 'null';
-            const actions = getEffectiveDayActions(d.iso, weekId, dayIdx);
-            const blocksHtml = actions.map(act => renderDayBlockBadge(act, d.iso, weekId, dayIdx)).join('');
-
-            return `
-              <div onclick="openDayEditorModal('${d.iso}', ${weekArg})"
-                   ondragover="handleDayDragOver(event)"
-                   ondragleave="handleDayDragLeave(event)"
-                   ondrop="handleDayDrop(event, '${d.iso}', ${weekArg}, ${dayIdx})"
-                   class="group/cell relative border-r border-slate-200 p-1.5 min-h-[108px] transition cursor-pointer ${d.isWeekend ? 'bg-slate-50/90 hover:bg-blue-50/30' : 'bg-white hover:bg-blue-50/30'} flex flex-col">
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-[11px] font-extrabold ${d.isWeekend ? 'text-slate-400' : 'text-slate-700'}">${d.dayNum}</span>
-                  <div class="opacity-0 group-hover/cell:opacity-100 flex items-center gap-0.5 transition no-print">
-                    <button onclick="event.stopPropagation(); openDayEditorModal('${d.iso}', ${weekArg})" title="Adicionar / Editar ações do dia" class="w-4 h-4 rounded bg-blue-100 hover:bg-blue-600 text-blue-700 hover:text-white font-bold text-[11px] flex items-center justify-center">+</button>
-                    ${actions.length ? `<button onclick="event.stopPropagation(); clearDayCompletely('${d.iso}')" title="Limpar dia inteiro" class="w-4 h-4 rounded bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white font-bold text-[9px] flex items-center justify-center">✕</button>` : ''}
-                  </div>
-                </div>
-                <div class="space-y-1 flex-1">${blocksHtml}</div>
-              </div>`;
-          }).join('');
-
-          const chips = [];
-          if (pw) {
-            pw.gerenteReps.forEach(r => chips.push(`<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-bold">✈️ ${escapeHtml(r)}</span>`));
-            pw.showroomReps.forEach(r => chips.push(`<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-orange-500 text-white text-[10px] font-bold">🚐 ${escapeHtml(r)}</span>`));
-            pw.fabricaReps.forEach(r => chips.push(`<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-teal-600 text-white text-[10px] font-bold">🏭 ${escapeHtml(r)}</span>`));
-          }
-
-          return `
-            <div class="grid grid-cols-[64px_repeat(7,minmax(125px,1fr))_210px] border-t border-slate-200">
-              <div class="bg-slate-50 border-r border-slate-200 p-2 flex flex-col items-center justify-start gap-1">
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${weekBadgeCls}">${pw ? pw.id : '—'}</span>
-                ${pw ? `<span class="text-[9px] text-emerald-700 font-semibold">✓ Rotina</span>` : ''}
-              </div>
-              ${daysCellsHtml}
-              <div class="bg-slate-50/70 p-2 flex flex-col justify-between gap-1.5">
-                <div class="space-y-1">
-                  ${chips.length ? chips.join('') : `<span class="text-[10px] text-slate-400 font-medium">🏢 Base / Disponível</span>`}
-                </div>
-                ${pw ? `<div class="text-[10px] text-slate-500 leading-snug border-t border-slate-200/80 pt-1">${escapeHtml(pw.foco)}</div>` : ''}
-              </div>
-            </div>`;
-        }).join('');
-
-        return `
-          <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-            <div class="bg-slate-900 text-white px-4 py-2.5 flex items-center justify-between">
-              <h3 class="text-sm font-extrabold tracking-wide">${mObj.label}</h3>
-              <span class="text-[11px] text-slate-300 font-medium">Arraste blocos ou clique no dia para gerenciar múltiplas ações</span>
-            </div>
-            <div class="overflow-x-auto custom-scroll">
-              <div class="min-w-[1150px]">
-                <div class="grid grid-cols-[64px_repeat(7,minmax(125px,1fr))_210px] bg-slate-100 text-slate-700 text-[11px] font-extrabold uppercase tracking-wider">
-                  <div class="py-2 px-2 text-center border-r border-slate-200">Sem.</div>
-                  <div class="py-2 px-2 border-r border-slate-200">Seg</div>
-                  <div class="py-2 px-2 border-r border-slate-200">Ter</div>
-                  <div class="py-2 px-2 border-r border-slate-200">Qua</div>
-                  <div class="py-2 px-2 border-r border-slate-200">Qui</div>
-                  <div class="py-2 px-2 border-r border-slate-200">Sex</div>
-                  <div class="py-2 px-2 border-r border-slate-200 text-slate-400">Sáb</div>
-                  <div class="py-2 px-2 border-r border-slate-200 text-slate-400">Dom</div>
-                  <div class="py-2 px-2">Resumo da Semana</div>
-                </div>
-                ${rowsHtml}
-              </div>
-            </div>
-          </div>`;
-      }).join('');
-    }
-
-    function handleRepDragStart(e, repLabel) {
-      dragPayload = { kind: 'REP', repLabel };
-      e.dataTransfer.effectAllowed = 'copy';
-    }
-
-    function handleBlockDragStart(e, sourceIso, actionId, weekId, dayIdx) {
-      e.stopPropagation();
-      dragPayload = { kind: 'BLOCK', sourceIso, actionId, weekId, dayIdx };
-      e.dataTransfer.effectAllowed = 'copyMove';
-    }
-
-    function handleDragEnd(e) {
-      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-    }
-
-    function handleDayDragOver(e) {
-      e.preventDefault();
-      e.currentTarget.classList.add('drag-over');
-    }
-
-    function handleDayDragLeave(e) {
-      e.currentTarget.classList.remove('drag-over');
-    }
-
-    function handleDayDrop(e, targetIso, targetWeekId, targetDayIdx) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.currentTarget.classList.remove('drag-over');
-      if (!dragPayload) return;
-
-      const isCopy = e.ctrlKey || e.altKey;
-
-      if (dragPayload.kind === 'REP') {
-        const list = ensureMutableDayActions(targetIso, targetWeekId, targetDayIdx);
-        const baseIdx = list.findIndex(a => a.type === 'BASE');
-        if (baseIdx > -1) list.splice(baseIdx, 1);
-        list.push({
-          id: genActionId(),
-          type: 'SHOWROOM',
-          label: dragPayload.repLabel,
-          note: ''
-        });
-        saveState();
-        renderMonthlyPlanner();
-        showToast(`✅ "${dragPayload.repLabel}" adicionado em ${formatBRDate(targetIso)}.`);
-      } else if (dragPayload.kind === 'BLOCK') {
-        const srcList = ensureMutableDayActions(dragPayload.sourceIso, dragPayload.weekId, dragPayload.dayIdx);
-        const srcIdx = srcList.findIndex(a => a.id === dragPayload.actionId);
-        if (srcIdx === -1) return;
-        const movingAct = { ...srcList[srcIdx], id: genActionId() };
-
-        if (!isCopy && dragPayload.sourceIso !== targetIso) {
-          srcList.splice(srcIdx, 1);
-        }
-
-        const dstList = ensureMutableDayActions(targetIso, targetWeekId, targetDayIdx);
-        const baseIdx = dstList.findIndex(a => a.type === 'BASE');
-        if (baseIdx > -1 && movingAct.type !== 'BASE') dstList.splice(baseIdx, 1);
-        dstList.push(movingAct);
-
-        saveState();
-        renderMonthlyPlanner();
-        showToast(`${isCopy ? '📋 Bloco duplicado' : '✅ Bloco movido'} para ${formatBRDate(targetIso)}.`);
-      }
-      dragPayload = null;
-    }
-
-    function duplicateDayAction(isoDate, actionId, weekId, dayIdx) {
-      const list = ensureMutableDayActions(isoDate, weekId, dayIdx);
-      const found = list.find(a => a.id === actionId);
-      if (!found) return;
-      list.push({ ...found, id: genActionId() });
-      saveState();
-      renderMonthlyPlanner();
-      if (editingDayISO === isoDate) renderDayEditorActionsList();
-      showToast(`📋 "${found.label}" duplicado no dia!`);
-    }
-
-    function deleteSingleDayAction(isoDate, actionId, weekId, dayIdx) {
-      const list = ensureMutableDayActions(isoDate, weekId, dayIdx);
-      const idx = list.findIndex(a => a.id === actionId);
-      if (idx > -1) {
-        const removed = list.splice(idx, 1)[0];
-        saveState();
-        renderMonthlyPlanner();
-        if (editingDayISO === isoDate) renderDayEditorActionsList();
-        showToast(`🗑️ "${removed.label}" removido.`);
-      }
-    }
-
-    function clearDayCompletely(isoDate) {
-      state.dayOverrides[isoDate] = { actions: [] };
-      saveState();
-      renderMonthlyPlanner();
-      if (editingDayISO === isoDate) renderDayEditorActionsList();
-      showToast(`🧹 Dia ${formatBRDate(isoDate)} limpo.`);
-    }
-
-    function openDayEditorModal(isoDate, weekId) {
-      editingDayISO = isoDate;
-      editingDayWeekId = weekId;
-      editingActionId = null;
-
-      const d = parseISO(isoDate);
-      const weekdays = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-      document.getElementById('day-editor-week-badge').textContent = weekId || 'Fora do Escopo';
-      document.getElementById('day-editor-title').textContent = `${weekdays[d.getDay()]}, ${formatBRDate(isoDate)}`;
-
-      cancelEditSingleAction();
-      renderDayEditorActionsList();
-
-      const modal = document.getElementById('day-editor-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeDayEditorModal() {
-      const modal = document.getElementById('day-editor-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      editingDayISO = null;
-      editingDayWeekId = null;
-      editingActionId = null;
-    }
-
-    function renderDayEditorActionsList() {
-      if (!editingDayISO) return;
-      const dayIdx = getIsoWeekdayIdx(editingDayISO);
-      const actions = getEffectiveDayActions(editingDayISO, editingDayWeekId, dayIdx);
-      document.getElementById('day-editor-count').textContent = actions.length;
-
-      const listEl = document.getElementById('day-editor-actions-list');
-      if (!actions.length) {
-        listEl.innerHTML = `<div class="text-xs text-slate-400 italic bg-slate-50 border border-dashed border-slate-200 rounded-lg p-3 text-center">Nenhuma ação neste dia (célula em branco).</div>`;
-        return;
-      }
-
-      const badges = {
-        GERENTE: 'bg-blue-100 text-blue-800',
-        SHOWROOM: 'bg-orange-100 text-orange-800',
-        FABRICA: 'bg-teal-100 text-teal-800',
-        FERIADO: 'bg-emerald-100 text-emerald-800',
-        BASE: 'bg-slate-200 text-slate-700',
-        CUSTOM: 'bg-indigo-100 text-indigo-800'
-      };
-
-      const weekArg = editingDayWeekId ? `'${editingDayWeekId}'` : 'null';
-
-      listEl.innerHTML = actions.map(act => `
-        <div class="flex items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
-          <div class="min-w-0">
-            <span class="inline-block text-[10px] font-extrabold px-1.5 py-0.5 rounded ${badges[act.type] || badges.CUSTOM}">${act.type}</span>
-            <span class="text-xs font-bold text-slate-800 ml-1">${escapeHtml(act.label)}</span>
-            ${act.note ? `<div class="text-[11px] text-slate-500 mt-0.5">${escapeHtml(act.note)}</div>` : ''}
-          </div>
-          <div class="flex items-center gap-1 shrink-0">
-            <button onclick="startEditSingleAction('${act.id}')" title="Editar" class="px-2 py-1 text-[11px] font-semibold bg-white hover:bg-blue-50 text-blue-700 border border-slate-200 rounded">✏️</button>
-            <button onclick="duplicateDayAction('${editingDayISO}', '${act.id}', ${weekArg}, ${dayIdx})" title="Duplicar" class="px-2 py-1 text-[11px] font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded">📋</button>
-            <button onclick="deleteSingleDayAction('${editingDayISO}', '${act.id}', ${weekArg}, ${dayIdx})" title="Excluir" class="px-2 py-1 text-[11px] font-semibold bg-white hover:bg-rose-50 text-rose-700 border border-slate-200 rounded">✕</button>
-          </div>
-        </div>`).join('');
-    }
-
-    function startEditSingleAction(actionId) {
-      if (!editingDayISO) return;
-      const dayIdx = getIsoWeekdayIdx(editingDayISO);
-      const list = ensureMutableDayActions(editingDayISO, editingDayWeekId, dayIdx);
-      const act = list.find(a => a.id === actionId);
-      if (!act) return;
-
-      editingActionId = actionId;
-      document.getElementById('day-editor-type').value = act.type;
-      document.getElementById('day-editor-label').value = act.label;
-      document.getElementById('day-editor-note').value = act.note || '';
-      document.getElementById('day-editor-form-title').textContent = '✏️ Editando Ação Selecionada';
-      document.getElementById('day-editor-save-btn').textContent = 'Salvar Alteração';
-      document.getElementById('day-editor-cancel-edit').classList.remove('hidden');
-    }
-
-    function cancelEditSingleAction() {
-      editingActionId = null;
-      document.getElementById('day-editor-label').value = '';
-      document.getElementById('day-editor-note').value = '';
-      document.getElementById('day-editor-rep-picker').value = '';
-      document.getElementById('day-editor-form-title').textContent = '+ Adicionar Nova Ação neste Dia';
-      document.getElementById('day-editor-save-btn').textContent = '+ Adicionar Ação ao Dia';
-      document.getElementById('day-editor-cancel-edit').classList.add('hidden');
-    }
-
-    function onEditorTypeChange() {
-      const type = document.getElementById('day-editor-type').value;
-      const defaults = {
-        GERENTE: 'Viagem Gerente',
-        SHOWROOM: 'Carro Showroom',
-        FABRICA: 'Visita à Fábrica CRV',
-        BASE: 'Base / Disponível',
-        FERIADO: 'Folga / Feriado',
-        CUSTOM: 'Compromisso Personalizado'
-      };
-      const labelInput = document.getElementById('day-editor-label');
-      if (defaults[type]) labelInput.placeholder = `Ex: ${defaults[type]}`;
-    }
-
-    function applyRepToDayLabel(repText) {
-      if (!repText) return;
-      document.getElementById('day-editor-label').value = repText;
-    }
-
-    function saveSingleDayAction() {
-      if (!editingDayISO) return;
-      const type = document.getElementById('day-editor-type').value;
-      const labelRaw = document.getElementById('day-editor-label').value.trim();
-      const note = document.getElementById('day-editor-note').value.trim();
-
-      const fallbackLabels = {
-        GERENTE: 'Viagem Gerente',
-        SHOWROOM: 'Carro Showroom',
-        FABRICA: 'Visita à Fábrica CRV',
-        BASE: 'Base / Disp.',
-        FERIADO: 'Feriado / Folga',
-        CUSTOM: 'Compromisso'
-      };
-
-      const label = labelRaw || fallbackLabels[type] || 'Atividade';
-      const dayIdx = getIsoWeekdayIdx(editingDayISO);
-      const list = ensureMutableDayActions(editingDayISO, editingDayWeekId, dayIdx);
-
-      if (editingActionId) {
-        const target = list.find(a => a.id === editingActionId);
-        if (target) {
-          target.type = type;
-          target.label = label;
-          target.note = note;
-        }
-        showToast('✅ Ação atualizada!');
-      } else {
-        if (type !== 'BASE') {
-          const baseIdx = list.findIndex(a => a.type === 'BASE');
-          if (baseIdx > -1) list.splice(baseIdx, 1);
-        }
-        list.push({ id: genActionId(), type, label, note });
-        showToast(`✅ "${label}" adicionada ao dia!`);
-      }
-
-      cancelEditSingleAction();
-      saveState();
-      renderMonthlyPlanner();
-      renderDayEditorActionsList();
-    }
-
-    function clearDayFromModal() {
-      if (!editingDayISO) return;
-      clearDayCompletely(editingDayISO);
-    }
-
-    function resetDayOverride() {
-      if (!editingDayISO) return;
-      delete state.dayOverrides[editingDayISO];
-      saveState();
-      renderMonthlyPlanner();
-      renderDayEditorActionsList();
-      showToast('↺ Dia restaurado ao padrão da semana.');
-    }
-
-    function renderSidebarReps() {
-      const q = (document.getElementById('sidebar-rep-search')?.value || '').toLowerCase();
-      const pilar = document.getElementById('sidebar-pilar-filter')?.value || 'ALL';
-
-      const filtered = state.reps.filter(r => {
-        const matchQ = `${r.cod} ${r.nome} ${r.uf}`.toLowerCase().includes(q);
-        const matchP = pilar === 'ALL' || r.pilar.startsWith(pilar);
-        return matchQ && matchP;
-      });
-
-      const listEl = document.getElementById('sidebar-reps-list');
-      if (!listEl) return;
-
-      listEl.innerHTML = filtered.map(r => {
-        const label = `(${r.cod}) ${r.nome}`;
-        const hasPlan = Boolean(r.acao);
-        return `
-          <div draggable="true"
-               ondragstart="handleRepDragStart(event, '${label.replace(/'/g, "\'")}')"
-               ondragend="handleDragEnd(event)"
-               class="p-2 rounded-lg border ${hasPlan ? 'border-blue-200 bg-blue-50/40' : 'border-slate-200 bg-slate-50'} hover:bg-blue-50 hover:border-blue-400 cursor-grab active:cursor-grabbing transition">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[11px] font-extrabold text-slate-800 truncate">${escapeHtml(label)}</span>
-              ${hasPlan ? `<span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-100 text-blue-800 shrink-0">Plano</span>` : ''}
-            </div>
-            <div class="text-[10px] ${hasPlan ? 'text-blue-700 font-semibold' : 'text-slate-500'} mt-0.5 truncate">${escapeHtml(r.acao || r.situacao || 'Sem ação definida')}</div>
-          </div>`;
-      }).join('');
-    }
-
-    let cronogramaSort = { field: 'cron', dir: 'asc' };
-
-    function toggleCronogramaSort(field) {
-      if (cronogramaSort.field === field) {
-        cronogramaSort.dir = cronogramaSort.dir === 'asc' ? 'desc' : 'asc';
-      } else {
-        cronogramaSort.field = field;
-        cronogramaSort.dir = 'asc';
-      }
-      const sel = document.getElementById('cronograma-sort-select');
-      if (sel) {
-        const combo = `${cronogramaSort.field}:${cronogramaSort.dir}`;
-        if ([...sel.options].some(o => o.value === combo)) sel.value = combo;
-      }
-      renderWeeklyTable();
-    }
-
-    function onCronogramaSortSelectChange(val) {
-      const [field, dir] = String(val || 'cron:asc').split(':');
-      cronogramaSort = { field, dir };
-      renderWeeklyTable();
-    }
-
-    function resetCronogramaFilters() {
-      const s = document.getElementById('cronograma-search');
-      const m = document.getElementById('week-month-filter');
-      const t = document.getElementById('week-type-filter');
-      const sortSel = document.getElementById('cronograma-sort-select');
-      if (s) s.value = '';
-      if (m) m.value = 'ALL';
-      if (t) t.value = 'ALL';
-      if (sortSel) sortSel.value = 'cron:asc';
-      cronogramaSort = { field: 'cron', dir: 'asc' };
-      renderWeeklyTable();
-    }
-
-    function updateCronogramaSortIcons() {
-      const fields = ['id', 'cron', 'mes', 'gerente', 'showroom', 'fabrica', 'foco'];
-      fields.forEach(f => {
-        const el = document.getElementById(`wsort-icon-${f}`);
-        if (!el) return;
-        if (cronogramaSort.field === f) {
-          el.textContent = cronogramaSort.dir === 'asc' ? '▲' : '▼';
-          el.className = 'text-[10px] text-amber-300 ml-0.5';
-        } else {
-          el.textContent = '↕';
-          el.className = 'text-[10px] opacity-60 ml-0.5';
-        }
-      });
-    }
-
-    function updateWeekFoco(weekId, newValue) {
-      const w = state.weeks.find(item => item.id === weekId);
-      if (!w) return;
-      const trimmed = String(newValue || '').trim();
-      if (w.foco === trimmed) return;
-      w.foco = trimmed;
-      saveState();
-      renderMonthlyPlanner();
-      showToast(`✅ Foco estratégico da semana ${weekId} atualizado!`);
-    }
-
-    function renderWeeklyTable() {
-      const filter = document.getElementById('week-type-filter')?.value || 'ALL';
-      const monthFilter = document.getElementById('week-month-filter')?.value || 'ALL';
-      const q = (document.getElementById('cronograma-search')?.value || '').toLowerCase().trim();
-      const tbody = document.getElementById('weekly-table-body');
-      if (!tbody) return;
-
-      updateCronogramaSortIcons();
-
-      const filtered = state.weeks.filter(w => {
-        const hasG = w.gerenteReps.length > 0;
-        const hasS = w.showroomReps.length > 0;
-        const hasF = w.fabricaReps.length > 0;
-        const activeCount = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
-
-        let matchType = true;
-        if (filter === 'ATIVAS') matchType = activeCount > 0;
-        else if (filter === 'GERENTE') matchType = hasG;
-        else if (filter === 'SHOWROOM') matchType = hasS;
-        else if (filter === 'FABRICA') matchType = hasF;
-        else if (filter === 'MULTI') matchType = activeCount > 1;
-        else if (filter === 'BASE') matchType = activeCount === 0;
-
-        const matchMonth = monthFilter === 'ALL' || w.mes === monthFilter;
-        const searchable = `${w.id} ${formatBRDate(w.start)} ${formatBRDate(w.end)} ${w.mes} ${w.gerenteReps.join(' ')} ${w.showroomReps.join(' ')} ${w.fabricaReps.join(' ')} ${w.foco || ''}`.toLowerCase();
-        const matchText = !q || searchable.includes(q);
-
-        return matchType && matchMonth && matchText;
-      });
-
-      const mult = cronogramaSort.dir === 'asc' ? 1 : -1;
-      filtered.sort((a, b) => {
-        const f = cronogramaSort.field;
-        if (f === 'cron') {
-          return a.start.localeCompare(b.start) * mult;
-        }
-        const getStr = (item) => {
-          if (f === 'id') return item.id || '';
-          if (f === 'mes') return item.mes || '';
-          if (f === 'gerente') return item.gerenteReps.join(', ');
-          if (f === 'showroom') return item.showroomReps.join(', ');
-          if (f === 'fabrica') return item.fabricaReps.join(', ');
-          if (f === 'foco') return item.foco || '';
-          return '';
-        };
-        const strA = getStr(a).trim();
-        const strB = getStr(b).trim();
-        if (!strA && !strB) return 0;
-        if (!strA) return 1;
-        if (!strB) return -1;
-        return strA.localeCompare(strB, 'pt-BR', { sensitivity: 'base' }) * mult;
-      });
-
-      const badge = document.getElementById('cronograma-count-badge');
-      if (badge) {
-        badge.textContent = `${filtered.length} de ${state.weeks.length} exibidas`;
-      }
-
-      if (!filtered.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 italic">Nenhuma semana encontrada com os filtros aplicados.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(w => `
-        <tr class="hover:bg-slate-50 align-top">
-          <td class="py-2.5 px-3 font-extrabold text-blue-700 whitespace-nowrap">${w.id}</td>
-          <td class="py-2.5 px-3 font-medium text-slate-700 whitespace-nowrap">${formatBRDate(w.start)} a ${formatBRDate(w.end)}</td>
-          <td class="py-2.5 px-3 text-slate-600 whitespace-nowrap">${w.mes}</td>
-          <td class="py-2.5 px-3">${w.gerenteReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[11px] mb-0.5">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
-          <td class="py-2.5 px-3">${w.showroomReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-orange-100 text-orange-800 font-bold text-[11px] mb-0.5">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
-          <td class="py-2.5 px-3">${w.fabricaReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-teal-100 text-teal-800 font-bold text-[11px] mb-0.5">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
-          <td class="py-2 px-3 min-w-[260px]">
-            <div class="flex items-center gap-1.5">
-              <input type="text"
-                     value="${escapeHtml(w.foco || '')}"
-                     onchange="updateWeekFoco('${w.id}', this.value)"
-                     onkeydown="if(event.key==='Enter'){this.blur();}"
-                     placeholder="Definir foco estratégico da semana..."
-                     class="w-full text-xs font-medium text-slate-700 bg-slate-50/80 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition" />
-              <span class="text-slate-400 text-[11px] shrink-0" title="Clique no campo para editar e pressione Enter">✏️</span>
-            </div>
-          </td>
-        </tr>`).join('');
-    }
-
-    let carteiraSort = { field: 'f2026', dir: 'desc' };
-
-    function toggleCarteiraSort(field) {
-      if (carteiraSort.field === field) {
-        carteiraSort.dir = carteiraSort.dir === 'asc' ? 'desc' : 'asc';
-      } else {
-        carteiraSort.field = field;
-        const numericDescDefault = ['f2025', 'f2026', 'diff', 'varPct'];
-        carteiraSort.dir = numericDescDefault.includes(field) ? 'desc' : 'asc';
-      }
-      const sel = document.getElementById('carteira-sort-select');
-      if (sel) {
-        const combo = `${carteiraSort.field}:${carteiraSort.dir}`;
-        if ([...sel.options].some(o => o.value === combo)) sel.value = combo;
-      }
-      renderCarteiraTable();
-    }
-
-    function onCarteiraSortSelectChange(val) {
-      const [field, dir] = String(val || 'f2026:desc').split(':');
-      carteiraSort = { field, dir };
-      renderCarteiraTable();
-    }
-
-    function resetCarteiraFilters() {
-      const s = document.getElementById('carteira-search');
-      const p = document.getElementById('carteira-pilar-filter');
-      const perf = document.getElementById('carteira-perf-filter');
-      const sortSel = document.getElementById('carteira-sort-select');
-      if (s) s.value = '';
-      if (p) p.value = 'ALL';
-      if (perf) perf.value = 'ALL';
-      if (sortSel) sortSel.value = 'f2026:desc';
-      carteiraSort = { field: 'f2026', dir: 'desc' };
-      renderCarteiraTable();
-    }
-
-    function updateCarteiraSortIcons() {
-      const fields = ['cod', 'nome', 'f2025', 'f2026', 'diff', 'varPct', 'situacao', 'acao'];
-      fields.forEach(f => {
-        const el = document.getElementById(`sort-icon-${f}`);
-        if (!el) return;
-        if (carteiraSort.field === f) {
-          el.textContent = carteiraSort.dir === 'asc' ? '▲' : '▼';
-          el.className = 'text-[10px] text-amber-300 ml-0.5';
-        } else {
-          el.textContent = '↕';
-          el.className = 'text-[10px] opacity-60 ml-0.5';
-        }
-      });
-    }
-
-    function updateRepFoco(cod, newValue) {
-      const rep = state.reps.find(item => item.cod === cod);
-      if (!rep) return;
-      const trimmed = String(newValue || '').trim();
-      if ((rep.acao || '') === trimmed) return;
-      rep.acao = trimmed;
-      saveState();
-      renderSidebarReps();
-      const repPicker = document.getElementById('day-editor-rep-picker');
-      if (repPicker) {
-        repPicker.innerHTML = '<option value="">— Selecionar representante —</option>';
-        populateStaticSelects();
-      }
-      showToast(`✅ Foco estratégico de (${rep.cod}) ${rep.nome} atualizado!`);
-    }
-
-    function renderCarteiraTable() {
-      const q = (document.getElementById('carteira-search')?.value || '').toLowerCase().trim();
-      const pilarFilter = document.getElementById('carteira-pilar-filter')?.value || 'ALL';
-      const perfFilter = document.getElementById('carteira-perf-filter')?.value || 'ALL';
-      const tbody = document.getElementById('carteira-table-body');
-      if (!tbody) return;
-
-      updateCarteiraSortIcons();
-
-      const fmtBRL = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
-
-      const enriched = state.reps.map(r => {
-        const diff = (r.f2026 || 0) - (r.f2025 || 0);
-        const varPctVal = r.varPct !== null && r.varPct !== undefined
-          ? r.varPct * 100
-          : (r.f2025 > 0 ? (diff / r.f2025) * 100 : null);
-        return { ...r, diff, varPctVal };
-      });
-
-      const filtered = enriched.filter(r => {
-        const matchText = !q || `${r.cod} ${r.nome} ${r.situacao || ''} ${r.acao || ''} ${r.pilar || ''}`.toLowerCase().includes(q);
-        const matchPilar = pilarFilter === 'ALL' || (r.pilar || '').startsWith(pilarFilter);
-
-        let matchPerf = true;
-        if (perfFilter === 'CRESCIMENTO') matchPerf = r.varPctVal !== null && r.varPctVal > 0;
-        else if (perfFilter === 'QUEDA') matchPerf = r.varPctVal !== null && r.varPctVal < 0;
-        else if (perfFilter === 'CRITICO') matchPerf = r.varPctVal !== null && r.varPctVal < -10;
-        else if (perfFilter === 'NOVO') matchPerf = r.varPctVal === null;
-        else if (perfFilter === 'COM_ACAO') matchPerf = Boolean((r.acao || '').trim());
-
-        return matchText && matchPilar && matchPerf;
-      });
-
-      const mult = carteiraSort.dir === 'asc' ? 1 : -1;
-      filtered.sort((a, b) => {
-        const f = carteiraSort.field;
-        if (f === 'cod' || f === 'f2025' || f === 'f2026' || f === 'diff') {
-          return ((a[f] || 0) - (b[f] || 0)) * mult;
-        }
-        if (f === 'varPct') {
-          if (a.varPctVal === null && b.varPctVal === null) return 0;
-          if (a.varPctVal === null) return 1;
-          if (b.varPctVal === null) return -1;
-          return (a.varPctVal - b.varPctVal) * mult;
-        }
-        const strA = String(a[f] || '').trim();
-        const strB = String(b[f] || '').trim();
-        if (!strA && !strB) return 0;
-        if (!strA) return 1;
-        if (!strB) return -1;
-        return strA.localeCompare(strB, 'pt-BR', { sensitivity: 'base' }) * mult;
-      });
-
-      const badge = document.getElementById('carteira-count-badge');
-      if (badge) {
-        badge.textContent = `${filtered.length} de ${state.reps.length} exibidos`;
-      }
-
-      if (!filtered.length) {
-        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400 italic">Nenhum representante encontrado com os filtros aplicados.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(r => {
-        const varStr = r.varPctVal !== null ? `${r.varPctVal >= 0 ? '+' : ''}${r.varPctVal.toFixed(1)}%` : 'Novo';
-        const varCls = r.varPctVal === null ? 'text-blue-700 font-bold' : (r.varPctVal >= 0 ? 'text-emerald-700 font-bold' : 'text-rose-700 font-bold');
-        return `
-          <tr class="hover:bg-slate-50 align-top">
-            <td class="py-2 px-3 font-extrabold text-slate-700">${r.cod}</td>
-            <td class="py-2 px-3 font-bold text-slate-900">${escapeHtml(r.nome)}</td>
-            <td class="py-2 px-3 text-right text-slate-600">${fmtBRL(r.f2025)}</td>
-            <td class="py-2 px-3 text-right font-semibold text-slate-800">${fmtBRL(r.f2026)}</td>
-            <td class="py-2 px-3 text-right ${r.diff >= 0 ? 'text-emerald-700' : 'text-rose-700'} font-semibold">${fmtBRL(r.diff)}</td>
-            <td class="py-2 px-3 text-right ${varCls}">${varStr}</td>
-            <td class="py-2 px-3 text-slate-600 max-w-xs">${escapeHtml(r.situacao || '—')}</td>
-            <td class="py-2 px-3 min-w-[240px]">
-              <div class="flex items-center gap-1.5">
-                <input type="text"
-                       value="${escapeHtml(r.acao || '')}"
-                       onchange="updateRepFoco(${r.cod}, this.value)"
-                       onkeydown="if(event.key==='Enter'){this.blur();}"
-                       placeholder="Definir foco estratégico / ação..."
-                       class="w-full text-xs font-semibold text-blue-800 bg-blue-50/40 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition" />
-                <span class="text-slate-400 text-[11px] shrink-0" title="Clique no campo para editar e pressione Enter">✏️</span>
-              </div>
-            </td>
-          </tr>`;
-      }).join('');
-    }
-
-    function updateKPIs() {
-      const el = document.getElementById('header-kpis');
-      if (!el) return;
-      const tot25 = state.reps.reduce((s, r) => s + (r.f2025 || 0), 0);
-      const tot26 = state.reps.reduce((s, r) => s + (r.f2026 || 0), 0);
-      el.innerHTML = `
-        <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">👥 ${state.reps.length} Reps (Planilha)</span>
-        <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">2025: R$ ${(tot25 / 1e6).toFixed(2)}M</span>
-        <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">2026: R$ ${(tot26 / 1e6).toFixed(2)}M</span>
-      `;
-    }
-
-    function switchTab(tab) {
-      state.activeTab = tab;
-      ['mensal', 'semanal', 'carteira'].forEach(t => {
-        const view = document.getElementById(`view-${t}`);
-        const btn = document.getElementById(`tab-btn-${t}`);
-        if (view) view.classList.toggle('hidden', t !== tab);
-        if (btn) {
-          btn.className = t === tab
-            ? 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition'
-            : 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition';
-        }
-      });
-      const ctrl = document.getElementById('mensal-controls');
-      if (ctrl) ctrl.classList.toggle('hidden', tab !== 'mensal');
-    }
-
-
-    function parseMonthTokenFromText(txt) {
-      const s = String(txt || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      const patterns = [
-        { key: '2026-11', re: /\b(nov|novembro)\s*\/\s*(26|2026)\b|\bem\s+nov\b/ },
-        { key: '2026-12', re: /\b(dez|dezembro)\s*\/\s*(26|2026)\b|\bem\s+dez\b/ },
-        { key: '2027-01', re: /\b(jan|janeiro)\s*\/\s*(27|2027)\b|\bem\s+jan\b/ },
-        { key: '2027-02', re: /\b(fev|fevereiro)\s*\/\s*(27|2027)\b|\bem\s+fev\b/ },
-        { key: '2027-03', re: /\b(mar|marco)\s*\/\s*(27|2027)\b|\bem\s+mar\b/ },
-        { key: '2027-04', re: /\b(abr|abril)\s*\/\s*(27|2027)\b|\bem\s+abr\b/ },
-        { key: '2027-05', re: /\b(mai|maio)\s*\/\s*(27|2027)\b|\bate\s+mai(o)?\b/ },
-        { key: '2027-06', re: /\b(jun|junho)\s*\/\s*(27|2027)\b|\bate\s+jun(ho)?\b/ }
-      ];
-      const matchedMonths = [];
-      patterns.forEach(p => {
-        if (p.re.test(s)) matchedMonths.push(p.key);
-      });
-      return matchedMonths;
-    }
-
-    function handleExcelImport(event) {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-
-      if (typeof XLSX === 'undefined') {
-        alert('Biblioteca de leitura Excel ainda carregando. Aguarde 2 segundos e tente novamente.');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const data = new Uint8Array(e.target.result);
-          const workbook = XLSX.read(data, { type: 'array' });
-          const sheetName = workbook.SheetNames.includes('Planilha1') ? 'Planilha1' : workbook.SheetNames[0];
-          const sheet = workbook.Sheets[sheetName];
-          const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
-
-          if (!rows.length) {
-            showToast('⚠️ A planilha selecionada está vazia.');
-            return;
-          }
-
-          const newReps = [];
-          const freshWeeks = structuredClone(INITIAL_WEEKS).map(w => ({
-            ...w,
-            gerenteReps: [],
-            showroomReps: [],
-            fabricaReps: [],
-            foco: 'Base / Disponível'
-          }));
-
-          const weekCursorByMonth = {};
-          freshWeeks.forEach((w, idx) => {
-            const mKey = w.start.slice(0, 7);
-            if (!weekCursorByMonth[mKey]) weekCursorByMonth[mKey] = [];
-            weekCursorByMonth[mKey].push(idx);
-          });
-          const nextSlotIdx = {};
-
-          rows.forEach((row, idx) => {
-            const keys = Object.keys(row);
-            const repKey = keys.find(k => k.toLowerCase().includes('representante')) || keys[0];
-            const rawRep = String(row[repKey] || '').trim();
-            if (!rawRep || rawRep.toLowerCase().includes('total')) return;
-
-            const m = rawRep.match(/^\((\d+)\)\s*(.+)$/);
-            const cod = m ? parseInt(m[1], 10) : (idx + 1);
-            const nome = m ? m[2].trim() : rawRep;
-            const fullLabel = m ? `(${cod}) ${nome}` : rawRep;
-
-            const k25 = keys.find(k => k.includes('2025'));
-            const k26 = keys.find(k => k.includes('2026') && !k.toLowerCase().includes('situa'));
-            const kVar = keys.find(k => k.includes('%'));
-            const kSit = keys.find(k => k.toLowerCase().includes('situa'));
-            const kAcao = keys.find(k => k.toLowerCase().includes('próxima') || k.toLowerCase().includes('proxima') || k.toLowerCase().includes('ação') || k.toLowerCase().includes('acao'));
-
-            const f2025 = k25 && row[k25] !== '' ? Number(row[k25]) || 0 : 0;
-            const f2026 = k26 && row[k26] !== '' ? Number(row[k26]) || 0 : 0;
-            const varPct = (kVar && row[kVar] !== '' && !isNaN(Number(row[kVar]))) ? Number(row[kVar]) : null;
-            const situacao = kSit ? String(row[kSit] || '').trim() : '';
-            const acao = kAcao ? String(row[kAcao] || '').trim() : '';
-
-            let pilar = 'P4 — Base / Manutenção';
-            if (f2026 >= 1500000) pilar = 'P1 — Top Curva A';
-            else if (varPct !== null && varPct < -0.10) pilar = 'P2 — Recuperação';
-            else if (f2025 === 0 || (varPct !== null && varPct >= 0.15)) pilar = 'P3 — Expansão';
-
-            newReps.push({ cod, nome, full: fullLabel, f2025, f2026, varPct, pilar, situacao, acao });
-
-            // Agendar estritamente o que tiver mês explícito em Próximas Ações (ou Situação quando mencionar showroom/visita com mês)
-            const combined = `${acao} | ${situacao}`;
-            const lowAcao = acao.toLowerCase();
-            const lowComb = combined.toLowerCase();
-            if (lowAcao.includes('acompanhar até jun')) return; // Apenas acompanhamento, não viagem
-
-            const monthsFound = parseMonthTokenFromText(acao).length ? parseMonthTokenFromText(acao) : parseMonthTokenFromText(situacao);
-            if (!monthsFound.length) return;
-
-            const wantsShowroom = lowComb.includes('showroom');
-            const wantsVisita = lowAcao.includes('visita') || lowComb.includes('irei em');
-            const wantsFabrica = lowComb.includes('fábrica') || lowComb.includes('fabrica');
-
-            monthsFound.forEach(mKey => {
-              const slots = weekCursorByMonth[mKey];
-              if (!slots || !slots.length) return;
-              const ptr = nextSlotIdx[mKey] || 0;
-              const wIdx = slots[ptr % slots.length];
-              nextSlotIdx[mKey] = ptr + 1;
-
-              const targetWeek = freshWeeks[wIdx];
-              if (wantsShowroom && !targetWeek.showroomReps.includes(fullLabel)) {
-                targetWeek.showroomReps.push(fullLabel);
-              }
-              if (wantsVisita && !targetWeek.gerenteReps.includes(fullLabel)) {
-                targetWeek.gerenteReps.push(fullLabel);
-              }
-              if (wantsFabrica && !targetWeek.fabricaReps.includes(fullLabel)) {
-                targetWeek.fabricaReps.push(fullLabel);
-              }
-              if (targetWeek.foco === 'Base / Disponível') {
-                targetWeek.foco = acao || situacao;
-              } else if (!targetWeek.foco.includes(nome)) {
-                targetWeek.foco += ` + ${acao || nome}`;
-              }
-            });
-          });
-
-          if (!newReps.length) {
-            showToast('⚠️ Não foi possível identificar a coluna Representantes.');
-            return;
-          }
-
-          state.reps = newReps;
-          state.weeks = freshWeeks;
-          state.dayOverrides = {};
-          saveState();
-
-          const repPicker = document.getElementById('day-editor-rep-picker');
-          if (repPicker) {
-            repPicker.innerHTML = '<option value="">— Selecionar representante —</option>';
-          }
-          renderAll();
-          showToast(`✅ Planilha "${file.name}" importada! (${newReps.length} reps atualizados)`);
-        } catch (err) {
-          console.error(err);
-          alert('Erro ao ler a planilha Excel. Verifique se o arquivo é .xlsx, .xls ou .csv válido.');
-        } finally {
-          event.target.value = '';
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    }
-
-    function exportCSV() {
-      const rows = [['Data', 'Semana', 'Tipo', 'Atividade', 'Observacao']];
-      PLANNER_MONTHS.forEach(mObj => {
-        const lastDay = new Date(mObj.year, mObj.month + 1, 0).getDate();
-        for (let d = 1; d <= lastDay; d++) {
-          const iso = formatISO(new Date(mObj.year, mObj.month, d));
-          const pw = findPlannedWeekForDate(iso);
-          const dayIdx = getIsoWeekdayIdx(iso);
-          const actions = getEffectiveDayActions(iso, pw ? pw.id : null, dayIdx);
-          actions.forEach(a => {
-            rows.push([formatBRDate(iso), pw ? pw.id : '', a.type, a.label, a.note || '']);
-          });
-        }
-      });
-      const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(';')).join('\n');
-      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Planner_Comercial_CRV_2026_2027.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('📥 CSV exportado com sucesso!');
-    }
-
-    function populateStaticSelects() {
-      const mSel = document.getElementById('mensal-month-select');
-      if (mSel && mSel.options.length === 1) {
-        PLANNER_MONTHS.forEach(m => {
-          const opt = document.createElement('option');
-          opt.value = m.key;
-          opt.textContent = m.label;
-          mSel.appendChild(opt);
-        });
-      }
-
-      const repPicker = document.getElementById('day-editor-rep-picker');
-      if (repPicker && repPicker.options.length === 1) {
-        state.reps.forEach(r => {
-          const opt = document.createElement('option');
-          const lbl = `(${r.cod}) ${r.nome}`;
-          opt.value = lbl;
-          opt.textContent = r.acao ? `${lbl} [${r.acao}]` : lbl;
-          repPicker.appendChild(opt);
-        });
-      }
-    }
-
-    function renderAll() {
-      populateStaticSelects();
-      updateKPIs();
-      renderSidebarReps();
-      renderMonthlyPlanner();
-      renderWeeklyTable();
-      renderCarteiraTable();
-    }
-
-    loadState();
-    renderAll();
+    window.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
