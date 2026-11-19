@@ -80,7 +80,7 @@
       <div class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap items-center gap-2.5 flex-1">
           <!-- Filtro Mês -->
-          <select id="filter-month" onchange="renderWeeklyTable()"
+          <select id="filter-month" onchange="setMonthFilter(this.value)"
             class="h-9 px-3 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="ALL">Todos os Meses</option>
           </select>
@@ -88,18 +88,18 @@
           <!-- Filtro Status / Ação -->
           <select id="filter-status" onchange="renderWeeklyTable()"
             class="h-9 px-3 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="SCHEDULED">🎯 Semanas com Ação Agendada</option>
             <option value="ALL">📋 Todas as Semanas</option>
+            <option value="SCHEDULED">🎯 Semanas com Ação Agendada</option>
             <option value="EMPTY">⚪ Semanas Livres / Disponíveis</option>
           </select>
 
           <!-- Ordenação -->
           <select id="sort-order" onchange="renderWeeklyTable()"
             class="h-9 px-3 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="CHRONO_ASC">Ordenar: Cronológico (S47 → S26)</option>
-            <option value="CHRONO_DESC">Ordenar: Inverso (S26 → S47)</option>
+            <option value="CHRONO_ASC">Ordenar: Cronológico (Agrupado por Mês)</option>
+            <option value="CHRONO_DESC">Ordenar: Inverso (Mais Recente → Antigo)</option>
             <option value="SEM_ASC">Ordenar: Código Semana (A → Z)</option>
-            <option value="MONTH">Ordenar: Mês</option>
+            <option value="MONTH">Ordenar: Mês (Alfabético)</option>
           </select>
 
           <!-- Busca -->
@@ -109,6 +109,41 @@
               class="w-full h-9 pl-3 pr-8 rounded-lg border border-slate-300 text-xs sm:text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
+
+          <!-- Limpar -->
+          <button onclick="clearWeeklyFilters()"
+            class="h-9 px-3.5 rounded-lg border border-slate-300 bg-slate-50 hover:bg-slate-100 text-xs sm:text-sm font-medium text-slate-600 transition">
+            Limpar
+          </button>
+        </div>
+
+        <!-- Botão Nova Semana -->
+        <div class="flex items-center gap-2">
+          <span id="weekly-counter" class="text-xs text-slate-500 hidden md:inline"></span>
+          <button onclick="openNewWeekModal()"
+            class="h-9 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center gap-1.5 transition">
+            <span class="text-base leading-none">+</span> Nova Semana
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Pílulas Rápidas por Mês -->
+      <div class="bg-white rounded-xl border border-slate-200 px-3.5 py-2.5 shadow-xs flex flex-wrap items-center gap-2">
+        <span class="text-xs font-semibold text-slate-500 mr-1">Filtrar por Mês:</span>
+        <div id="month-pills-bar" class="flex flex-wrap items-center gap-1.5">
+          <!-- Pílulas geradas dinamicamente via JS -->
+        </div>
+      </div>
+
+      <!-- Dica de Interatividade -->
+      <div class="flex flex-wrap items-center justify-between gap-2 px-1 text-xs text-slate-500">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Viagem Gerente</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span> Carro Showroom</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Visita Fábrica</span>
+        </div>
+        <span>💡 <strong>Arraste e solte</strong> qualquer card de representante para mover entre colunas ou semanas de qualquer mês, ou clique em <strong>+</strong> para adicionar.</span>
+      </div>
 
           <!-- Limpar -->
           <button onclick="clearWeeklyFilters()"
@@ -324,22 +359,25 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Código da Semana *</label>
-            <input id="new-week-sem" type="text" required placeholder="Ex: S06 ou S11"
+            <input id="new-week-sem" type="text" required placeholder="Ex: S06 ou S27"
               class="w-full h-9 px-3 rounded-lg border border-slate-300 text-xs uppercase focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Mês de Referência *</label>
-            <select id="new-week-month"
-              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="Novembro/26">Novembro/26</option>
-              <option value="Dezembro/26">Dezembro/26</option>
-              <option value="Janeiro/27">Janeiro/27</option>
-              <option value="Fevereiro/27" selected>Fevereiro/27</option>
-              <option value="Março/27">Março/27</option>
-              <option value="Abril/27">Abril/27</option>
-              <option value="Maio/27">Maio/27</option>
-              <option value="Junho/27">Junho/27</option>
-            </select>
+            <input id="new-week-month" list="available-months-datalist" type="text" required placeholder="Ex: Julho/27" value="Fevereiro/27"
+              class="w-full h-9 px-2.5 rounded-lg border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <datalist id="available-months-datalist">
+              <option value="Novembro/26"></option>
+              <option value="Dezembro/26"></option>
+              <option value="Janeiro/27"></option>
+              <option value="Fevereiro/27"></option>
+              <option value="Março/27"></option>
+              <option value="Abril/27"></option>
+              <option value="Maio/27"></option>
+              <option value="Junho/27"></option>
+              <option value="Julho/27"></option>
+              <option value="Agosto/27"></option>
+            </datalist>
           </div>
         </div>
 
@@ -476,60 +514,95 @@
         foco: 'Carro showroom e catálogo em Nov/2026 (Minas Sul)'
       },
       {
-        id: 'w-s01', sem: 'S01', startDate: '2027-01-04', endDate: '2027-01-08', month: 'Janeiro/27', orderIndex: 2,
+        id: 'w-s49', sem: 'S49', startDate: '2026-11-30', endDate: '2026-12-04', month: 'Dezembro/26', orderIndex: 2,
+        gerente: [],
+        showroom: [],
+        fabrica: [],
+        foco: 'Base / Planejamento de fechamento do ano'
+      },
+      {
+        id: 'w-s01', sem: 'S01', startDate: '2027-01-04', endDate: '2027-01-08', month: 'Janeiro/27', orderIndex: 3,
         gerente: [{ code: '1430', name: 'TOTTENE - REPRES. COMERCIAL LT' }],
         showroom: [{ code: '65', name: 'JOSE CARLOS ROMERO' }],
         fabrica: [],
         foco: 'Visita Jan/27 (Tottene) + Carro Showroom Jan/27 (José Carlos Romero)'
       },
       {
-        id: 'w-s02', sem: 'S02', startDate: '2027-01-11', endDate: '2027-01-15', month: 'Janeiro/27', orderIndex: 3,
+        id: 'w-s02', sem: 'S02', startDate: '2027-01-11', endDate: '2027-01-15', month: 'Janeiro/27', orderIndex: 4,
         gerente: [],
         showroom: [{ code: '1181', name: 'ROMERO REPRESENTACAO DE MAT CO' }],
         fabrica: [],
         foco: 'Carro Showroom Jan/27 (Romero Rep. Mat. Co.)'
       },
       {
-        id: 'w-s03', sem: 'S03', startDate: '2027-01-18', endDate: '2027-01-22', month: 'Janeiro/27', orderIndex: 4,
+        id: 'w-s03', sem: 'S03', startDate: '2027-01-18', endDate: '2027-01-22', month: 'Janeiro/27', orderIndex: 5,
         gerente: [],
         showroom: [{ code: '1397', name: 'RAFAEL ROMERO' }],
         fabrica: [],
         foco: 'Carro Showroom Jan/27 (Rafael Romero)'
       },
       {
-        id: 'w-s04', sem: 'S04', startDate: '2027-01-25', endDate: '2027-01-29', month: 'Janeiro/27', orderIndex: 5,
+        id: 'w-s04', sem: 'S04', startDate: '2027-01-25', endDate: '2027-01-29', month: 'Janeiro/27', orderIndex: 6,
         gerente: [],
         showroom: [{ code: '1240', name: 'CABRAL & PIROLLA REP COM LTDA' }],
         fabrica: [],
         foco: 'Carro Showroom Jan/27 (Cabral & Pirolla)'
       },
       {
-        id: 'w-s05', sem: 'S05', startDate: '2027-02-01', endDate: '2027-02-05', month: 'Fevereiro/27', orderIndex: 6,
+        id: 'w-s05', sem: 'S05', startDate: '2027-02-01', endDate: '2027-02-05', month: 'Fevereiro/27', orderIndex: 7,
         gerente: [],
         showroom: [{ code: '1420', name: 'MARCELO C. ANTONIO & CIA LTDA' }],
         fabrica: [],
         foco: 'Carro Showroom Fev/27 (Marcelo C. Antonio)'
       },
       {
-        id: 'w-s07', sem: 'S07', startDate: '2027-02-15', endDate: '2027-02-19', month: 'Fevereiro/27', orderIndex: 7,
+        id: 'w-s07', sem: 'S07', startDate: '2027-02-15', endDate: '2027-02-19', month: 'Fevereiro/27', orderIndex: 8,
         gerente: [{ code: '1701', name: 'LUISTA REPRESENTACOES COM LTDA' }],
         showroom: [{ code: '1701', name: 'LUISTA REPRESENTACOES COM LTDA' }],
         fabrica: [],
         foco: 'Visita Fev/27 + Carro Showroom Fev/27 (Luista Representações)'
       },
       {
-        id: 'w-s09', sem: 'S09', startDate: '2027-03-01', endDate: '2027-03-05', month: 'Março/27', orderIndex: 8,
+        id: 'w-s09', sem: 'S09', startDate: '2027-03-01', endDate: '2027-03-05', month: 'Março/27', orderIndex: 9,
         gerente: [{ code: '1433', name: 'S L DELLABETA & CIA LTDA - ME' }],
         showroom: [{ code: '1433', name: 'S L DELLABETA & CIA LTDA - ME' }],
         fabrica: [],
         foco: 'Visita Mar/27 + Carro Showroom Mar/Abr (S L Dellabeta)'
       },
       {
-        id: 'w-s10', sem: 'S10', startDate: '2027-03-08', endDate: '2027-03-12', month: 'Março/27', orderIndex: 9,
+        id: 'w-s10', sem: 'S10', startDate: '2027-03-08', endDate: '2027-03-12', month: 'Março/27', orderIndex: 10,
         gerente: [{ code: '351', name: 'G DE O MATIAS' }],
         showroom: [],
         fabrica: [],
         foco: 'Visita Mar/27 (G de O Matias)'
+      },
+      {
+        id: 'w-s14', sem: 'S14', startDate: '2027-04-05', endDate: '2027-04-09', month: 'Abril/27', orderIndex: 11,
+        gerente: [],
+        showroom: [{ code: '1757', name: 'RPM REPRESENTACOES LTDA' }],
+        fabrica: [],
+        foco: 'Carro Showroom Abr/27 (RPM Representações)'
+      },
+      {
+        id: 'w-s15', sem: 'S15', startDate: '2027-04-12', endDate: '2027-04-16', month: 'Abril/27', orderIndex: 12,
+        gerente: [],
+        showroom: [{ code: '1784', name: 'CJ MARTINS REPRESENTACAO COMER' }],
+        fabrica: [],
+        foco: 'Carro Showroom Abr/27 (CJ Martins)'
+      },
+      {
+        id: 'w-s18', sem: 'S18', startDate: '2027-05-03', endDate: '2027-05-07', month: 'Maio/27', orderIndex: 13,
+        gerente: [],
+        showroom: [],
+        fabrica: [],
+        foco: 'Base / Acompanhamento carteira 1º semestre'
+      },
+      {
+        id: 'w-s22', sem: 'S22', startDate: '2027-05-31', endDate: '2027-06-04', month: 'Junho/27', orderIndex: 14,
+        gerente: [],
+        showroom: [],
+        fabrica: [],
+        foco: 'Base / Fechamento 1º semestre 2027'
       }
     ];
 
@@ -763,173 +836,276 @@
           ondrop="handleDrop(event, '${week.id}', '${colKey}')">
           <div class="flex flex-wrap items-center gap-1.5 min-h-[34px]">
             ${items.length > 0 ? pillsHtml : '<span class="text-slate-300 select-none mr-1">—</span>'}
-            <button type="button"
-              onclick="openAddCardModal('${week.id}', '${colKey}')"
-              title="Acrescentar card de representante"
-              class="w-6 h-6 rounded-md border border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50 text-slate-400 hover:text-blue-600 flex items-center justify-center text-xs font-bold transition shrink-0">
-              +
-            </button>
-          </div>
-        </td>
+    function getChronologicalMonths() {
+      const monthEarliestDate = new Map();
+      appState.weeks.forEach(w => {
+        const current = monthEarliestDate.get(w.month);
+        if (!current || w.startDate < current) {
+          monthEarliestDate.set(w.month, w.startDate);
+        }
+      });
+      return [...monthEarliestDate.entries()]
+        .sort((a, b) => a[1].localeCompare(b[1]))
+        .map(entry => entry[0]);
+    }
+
+    function formatShortMonthLabel(monthLabel) {
+      const parts = String(monthLabel || '').split('/');
+      if (parts.length !== 2) return monthLabel;
+      const shortName = parts[0].slice(0, 3);
+      return `${shortName}/${parts[1]}`;
+    }
+
+    function setMonthFilter(monthValue) {
+      const monthSelect = document.getElementById('filter-month');
+      monthSelect.value = monthValue;
+      renderMonthPills();
+      renderWeeklyTable();
+    }
+
+    function renderMonthPills() {
+      const container = document.getElementById('month-pills-bar');
+      if (!container) return;
+      const currentMonthVal = document.getElementById('filter-month').value || 'ALL';
+      const uniqueMonths = getChronologicalMonths();
+
+      const allCount = appState.weeks.length;
+      const allActive = currentMonthVal === 'ALL';
+
+      let html = `
+        <button type="button" onclick="setMonthFilter('ALL')"
+          class="px-3 py-1 rounded-full text-xs font-semibold border transition ${
+            allActive
+              ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+              : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+          }">
+          Todos <span class="opacity-80">(${allCount})</span>
+        </button>
+      `;
+
+      uniqueMonths.forEach(m => {
+        const count = appState.weeks.filter(w => w.month === m).length;
+        const isActive = currentMonthVal === m;
+        html += `
+          <button type="button" onclick="setMonthFilter('${escapeHtml(m)}')"
+            class="px-3 py-1 rounded-full text-xs font-semibold border transition ${
+              isActive
+                ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                : 'bg-white text-slate-700 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
+            }">
+            ${escapeHtml(formatShortMonthLabel(m))} <span class="opacity-75">(${count})</span>
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function populateSelects() {
+      // Meses disponíveis ordenados cronologicamente
+      const monthSelect = document.getElementById('filter-month');
+      const currentMonthVal = monthSelect.value || 'ALL';
+      const uniqueMonths = getChronologicalMonths();
+      monthSelect.innerHTML = `<option value="ALL">Todos os Meses (${appState.weeks.length})</option>` +
+        uniqueMonths.map(m => {
+          const count = appState.weeks.filter(w => w.month === m).length;
+          return `<option value="${escapeHtml(m)}">${escapeHtml(m)} (${count} sem.)</option>`;
+        }).join('');
+      if ([...monthSelect.options].some(o => o.value === currentMonthVal)) {
+        monthSelect.value = currentMonthVal;
+      }
+
+      // Atualiza datalist do modal "+ Nova Semana" com meses existentes
+      const datalist = document.getElementById('available-months-datalist');
+      if (datalist) {
+        const baseMonths = ['Novembro/26', 'Dezembro/26', 'Janeiro/27', 'Fevereiro/27', 'Março/27', 'Abril/27', 'Maio/27', 'Junho/27', 'Julho/27', 'Agosto/27'];
+        const mergedMonths = [...new Set([...baseMonths, ...uniqueMonths])];
+        datalist.innerHTML = mergedMonths.map(m => `<option value="${escapeHtml(m)}"></option>`).join('');
+      }
+
+      renderMonthPills();
+
+      // Filtro Situação 2027 na Carteira
+      const filter2027 = document.getElementById('carteira-filter-2027');
+      filter2027.innerHTML = `<option value="ALL">Todas as Situações 2027</option>` +
+        SITUACAO_OPTIONS.map(s => `<option value="${s.value}">${s.value}</option>`).join('');
+
+      // Selects do Modal Novo Representante
+      const s26 = document.getElementById('rep-form-sit2026');
+      const s27 = document.getElementById('rep-form-sit2027');
+      const optsHtml = SITUACAO_OPTIONS.map(s => `<option value="${s.value}">${s.value}</option>`).join('');
+      s26.innerHTML = optsHtml;
+      s27.innerHTML = optsHtml;
+      s27.value = 'Em Expansão';
+    }
+
+    function formatDateBR(iso) {
+      if (!iso) return '';
+      const [y, m, d] = iso.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    function clearWeeklyFilters() {
+      document.getElementById('filter-month').value = 'ALL';
+      document.getElementById('filter-status').value = 'ALL';
+      document.getElementById('sort-order').value = 'CHRONO_ASC';
+      document.getElementById('filter-search').value = '';
+      renderMonthPills();
+      renderWeeklyTable();
+    }
+
+    function renderWeekRowHtml(week) {
+      return `
+        <tr class="hover:bg-slate-50/80 transition-colors align-middle">
+          <!-- Sem. -->
+          <td class="py-3.5 px-4 font-bold text-blue-600 whitespace-nowrap">${escapeHtml(week.sem)}</td>
+
+          <!-- Período -->
+          <td class="py-3.5 px-4 text-slate-700 font-medium whitespace-nowrap">
+            ${formatDateBR(week.startDate)} a ${formatDateBR(week.endDate)}
+          </td>
+
+          <!-- Mês -->
+          <td class="py-3.5 px-4 whitespace-nowrap">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-medium">
+              ${escapeHtml(week.month)}
+            </span>
+          </td>
+
+          <!-- Viagem Gerente -->
+          ${renderActionCell(week, 'gerente', 'bg-blue-50 text-blue-700 border-blue-200')}
+
+          <!-- Carro Showroom -->
+          ${renderActionCell(week, 'showroom', 'bg-orange-50 text-orange-700 border-orange-200')}
+
+          <!-- Visita Fábrica -->
+          ${renderActionCell(week, 'fabrica', 'bg-emerald-50 text-emerald-700 border-emerald-200')}
+
+          <!-- Foco Estratégico Editável -->
+          <td class="py-2.5 px-4">
+            <div class="flex items-center gap-2">
+              <input type="text"
+                value="${escapeHtml(week.foco)}"
+                onchange="updateWeekFoco('${week.id}', this.value)"
+                placeholder="Descreva o foco estratégico..."
+                class="w-full h-9 px-3 rounded-lg border border-slate-200 bg-white text-xs sm:text-[13px] text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition" />
+              <span class="text-orange-500 text-xs shrink-0" title="Campo editável">✏️</span>
+            </div>
+          </td>
+        </tr>
       `;
     }
 
-    // Drag and Drop Handlers
-    function handleDragStart(event, weekId, columnKey, cardIndex) {
-      draggedCardContext = { weekId, columnKey, cardIndex };
-      event.currentTarget.classList.add('dragging');
-      event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', JSON.stringify(draggedCardContext));
-    }
+    // =========================================================
+    // RENDERIZAÇÃO DA TABELA SEMANAL AGRUPADA POR MÊS + DRAG & DROP
+    // =========================================================
+    function renderWeeklyTable() {
+      const tbody = document.getElementById('weekly-table-body');
+      const monthFilter = document.getElementById('filter-month').value;
+      const statusFilter = document.getElementById('filter-status').value;
+      const sortOrder = document.getElementById('sort-order').value;
+      const query = document.getElementById('filter-search').value.trim().toLowerCase();
 
-    function handleDragEnd(event) {
-      event.currentTarget.classList.remove('dragging');
-      document.querySelectorAll('.drop-zone-active').forEach(el => el.classList.remove('drop-zone-active'));
-    }
+      renderMonthPills();
 
-    function handleDragOver(event) {
-      event.preventDefault();
-      event.dataTransfer.dropEffect = 'move';
-      event.currentTarget.classList.add('drop-zone-active');
-    }
+      let filtered = appState.weeks.filter(w => {
+        if (monthFilter !== 'ALL' && w.month !== monthFilter) return false;
 
-    function handleDragLeave(event) {
-      event.currentTarget.classList.remove('drop-zone-active');
-    }
+        const hasAction = (w.gerente.length + w.showroom.length + w.fabrica.length) > 0;
+        if (statusFilter === 'SCHEDULED' && !hasAction) return false;
+        if (statusFilter === 'EMPTY' && hasAction) return false;
 
-    function handleDrop(event, targetWeekId, targetColumnKey) {
-      event.preventDefault();
-      event.currentTarget.classList.remove('drop-zone-active');
-      if (!draggedCardContext) return;
-
-      const { weekId: sourceWeekId, columnKey: sourceColumnKey, cardIndex } = draggedCardContext;
-      draggedCardContext = null;
-
-      if (sourceWeekId === targetWeekId && sourceColumnKey === targetColumnKey) return;
-
-      const sourceWeek = appState.weeks.find(w => w.id === sourceWeekId);
-      const targetWeek = appState.weeks.find(w => w.id === targetWeekId);
-      if (!sourceWeek || !targetWeek) return;
-
-      const [movedRep] = sourceWeek[sourceColumnKey].splice(cardIndex, 1);
-      if (!movedRep) return;
-
-      targetWeek[targetColumnKey].push(movedRep);
-      saveState();
-      renderWeeklyTable();
-      showToast(`Card (${movedRep.code}) ${movedRep.name} movido para ${targetWeek.sem}.`);
-    }
-
-    // Acrescentar e Remover Cards
-    function openAddCardModal(weekId, columnKey) {
-      activeModalContext = { weekId, columnKey };
-      const week = appState.weeks.find(w => w.id === weekId);
-      const colLabels = {
-        gerente: '✈️ Viagem Gerente',
-        showroom: '🚐 Carro Showroom',
-        fabrica: '🏭 Visita Fábrica'
-      };
-      document.getElementById('modal-add-card-subtitle').textContent =
-        `Semana ${week.sem} (${week.month}) • Coluna: ${colLabels[columnKey]}`;
-
-      const select = document.getElementById('select-rep-for-card');
-      select.innerHTML = `<option value="">-- Escolha um representante --</option>` +
-        appState.reps.map(r => `<option value="${r.id}">(${r.code}) ${r.name}</option>`).join('');
-
-      document.getElementById('custom-rep-code').value = '';
-      document.getElementById('custom-rep-name').value = '';
-
-      const modal = document.getElementById('modal-add-card');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeAddCardModal() {
-      const modal = document.getElementById('modal-add-card');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      activeModalContext = null;
-    }
-
-    function confirmAddCard() {
-      if (!activeModalContext) return;
-      const { weekId, columnKey } = activeModalContext;
-      const week = appState.weeks.find(w => w.id === weekId);
-      if (!week) return;
-
-      const selectedRepId = document.getElementById('select-rep-for-card').value;
-      const customCode = document.getElementById('custom-rep-code').value.trim();
-      const customName = document.getElementById('custom-rep-name').value.trim().toUpperCase();
-
-      let repObj = null;
-      if (selectedRepId) {
-        const found = appState.reps.find(r => r.id === selectedRepId);
-        if (found) repObj = { code: found.code, name: found.name };
-      } else if (customCode && customName) {
-        repObj = { code: customCode, name: customName };
-        // Também cadastra na carteira se o código ainda não existir
-        if (!appState.reps.some(r => r.code === customCode)) {
-          appState.reps.push({
-            id: 'r-' + Date.now(),
-            code: customCode,
-            name: customName,
-            region: 'A definir',
-            sit2026: 'Em Avaliação',
-            sit2027: 'Em Expansão'
-          });
-          renderCarteiraTable();
-          updatePieChart();
+        if (query) {
+          const allText = [
+            w.sem,
+            w.month,
+            formatDateBR(w.startDate),
+            formatDateBR(w.endDate),
+            w.foco,
+            ...w.gerente.map(r => `${r.code} ${r.name}`),
+            ...w.showroom.map(r => `${r.code} ${r.name}`),
+            ...w.fabrica.map(r => `${r.code} ${r.name}`)
+          ].join(' ').toLowerCase();
+          if (!allText.includes(query)) return false;
         }
-      }
+        return true;
+      });
 
-      if (!repObj) {
-        showToast('Selecione um representante ou preencha código e nome.');
+      filtered.sort((a, b) => {
+        if (sortOrder === 'CHRONO_ASC') return a.startDate.localeCompare(b.startDate);
+        if (sortOrder === 'CHRONO_DESC') return b.startDate.localeCompare(a.startDate);
+        if (sortOrder === 'SEM_ASC') return a.sem.localeCompare(b.sem);
+        if (sortOrder === 'MONTH') return a.month.localeCompare(b.month) || a.startDate.localeCompare(b.startDate);
+        return 0;
+      });
+
+      document.getElementById('weekly-counter').textContent = `${filtered.length} semana(s) exibida(s)`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-10 text-center text-slate-400">
+              Nenhuma semana encontrada com os filtros atuais.
+            </td>
+          </tr>`;
         return;
       }
 
-      week[columnKey].push(repObj);
-      saveState();
-      renderWeeklyTable();
-      closeAddCardModal();
-      showToast(`Card (${repObj.code}) ${repObj.name} adicionado!`);
-    }
+      // Agrupa por Mês quando em ordenação cronológica ou por mês
+      const shouldGroupByMonth = sortOrder === 'CHRONO_ASC' || sortOrder === 'CHRONO_DESC' || sortOrder === 'MONTH';
 
-    function removeCard(weekId, columnKey, cardIndex) {
-      const week = appState.weeks.find(w => w.id === weekId);
-      if (!week) return;
-      const [removed] = week[columnKey].splice(cardIndex, 1);
-      saveState();
-      renderWeeklyTable();
-      if (removed) showToast(`Card (${removed.code}) removido de ${week.sem}.`);
-    }
+      if (!shouldGroupByMonth) {
+        tbody.innerHTML = filtered.map(week => renderWeekRowHtml(week)).join('');
+        return;
+      }
 
-    function updateWeekFoco(weekId, newValue) {
-      const week = appState.weeks.find(w => w.id === weekId);
-      if (!week) return;
-      week.foco = newValue.trim();
-      saveState();
-      showToast(`Foco estratégico da ${week.sem} atualizado.`);
-    }
+      const monthGroups = [];
+      const groupMap = new Map();
 
-    // =========================================================
-    // ACRESCENTAR NOVA SEMANA
-    // =========================================================
-    function openNewWeekModal() {
-      const modal = document.getElementById('modal-new-week');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
+      filtered.forEach(week => {
+        if (!groupMap.has(week.month)) {
+          const group = { month: week.month, weeks: [] };
+          groupMap.set(week.month, group);
+          monthGroups.push(group);
+        }
+        groupMap.get(week.month).weeks.push(week);
+      });
 
-    function closeNewWeekModal() {
-      const modal = document.getElementById('modal-new-week');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
+      tbody.innerHTML = monthGroups.map(group => {
+        const totalGerente = group.weeks.reduce((acc, w) => acc + w.gerente.length, 0);
+        const totalShowroom = group.weeks.reduce((acc, w) => acc + w.showroom.length, 0);
+        const totalFabrica = group.weeks.reduce((acc, w) => acc + w.fabrica.length, 0);
+        const totalActions = totalGerente + totalShowroom + totalFabrica;
 
+        const headerRow = `
+          <tr class="bg-slate-100/95 border-y-2 border-slate-300/80">
+            <td colspan="7" class="py-2.5 px-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="text-sm font-bold text-slate-800">📅 ${escapeHtml(group.month)}</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-200/80 text-slate-700">
+                    ${group.weeks.length} ${group.weeks.length === 1 ? 'semana' : 'semanas'}
+                  </span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold">
+                  <span class="px-2 py-0.5 rounded-md bg-blue-100/80 text-blue-800">✈️ Gerente: ${totalGerente}</span>
+                  <span class="px-2 py-0.5 rounded-md bg-orange-100/80 text-orange-800">🚐 Showroom: ${totalShowroom}</span>
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-100/80 text-emerald-800">🏭 Fábrica: ${totalFabrica}</span>
+                  <span class="px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">Total: ${totalActions} ${totalActions === 1 ? 'ação' : 'ações'}</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+
+        return headerRow + group.weeks.map(week => renderWeekRowHtml(week)).join('');
+      }).join('');
+    }
     function submitNewWeek(event) {
       event.preventDefault();
       const sem = document.getElementById('new-week-sem').value.trim().toUpperCase();
-      const month = document.getElementById('new-week-month').value;
+      const rawMonth = document.getElementById('new-week-month').value.trim();
+      const month = rawMonth ? rawMonth.charAt(0).toUpperCase() + rawMonth.slice(1) : 'Sem Mês';
       const startDate = document.getElementById('new-week-start').value;
       const endDate = document.getElementById('new-week-end').value;
       const foco = document.getElementById('new-week-foco').value.trim() || 'Base / Disponível';
@@ -948,8 +1124,9 @@
         foco
       });
 
-      // Mostra todas as semanas para o usuário visualizar imediatamente a semana recém-criada
+      // Garante que a nova semana e seu mês fiquem visíveis
       document.getElementById('filter-status').value = 'ALL';
+      document.getElementById('filter-month').value = 'ALL';
 
       saveState();
       populateSelects();
@@ -957,86 +1134,6 @@
       closeNewWeekModal();
       event.target.reset();
       showToast(`Semana ${sem} (${month}) adicionada ao cronograma!`);
-    }
-
-    // =========================================================
-    // ABA CARTEIRA + SITUAÇÃO 2027 + GRÁFICO PIZZA TEMPO REAL
-    // =========================================================
-    function renderCarteiraTable() {
-      const tbody = document.getElementById('carteira-table-body');
-      const query = document.getElementById('carteira-search').value.trim().toLowerCase();
-      const filter2027 = document.getElementById('carteira-filter-2027').value;
-
-      document.getElementById('total-reps-count').textContent = appState.reps.length;
-
-      const filtered = appState.reps.filter(r => {
-        if (filter2027 !== 'ALL' && r.sit2027 !== filter2027) return false;
-        if (query) {
-          const text = `${r.code} ${r.name} ${r.region} ${r.sit2026} ${r.sit2027}`.toLowerCase();
-          if (!text.includes(query)) return false;
-        }
-        return true;
-      });
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="6" class="py-10 text-center text-slate-400">
-              Nenhum representante encontrado.
-            </td>
-          </tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(rep => {
-        const opt2026 = SITUACAO_OPTIONS.find(o => o.value === rep.sit2026) || SITUACAO_OPTIONS[0];
-        const opt2027 = SITUACAO_OPTIONS.find(o => o.value === rep.sit2027) || SITUACAO_OPTIONS[0];
-
-        return `
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="py-3 px-4 font-bold text-slate-700">${escapeHtml(rep.code)}</td>
-            <td class="py-3 px-4 font-semibold text-slate-800">${escapeHtml(rep.name)}</td>
-            <td class="py-3 px-4 text-slate-600">${escapeHtml(rep.region || '—')}</td>
-
-            <!-- Coluna Situação 2026 -->
-            <td class="py-3 px-4">
-              <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-medium ${opt2026.badge}">
-                ${escapeHtml(rep.sit2026)}
-              </span>
-            </td>
-
-            <!-- Nova Coluna à Direita: Situação 2027 (Editável) -->
-            <td class="py-2.5 px-4 bg-blue-50/35 border-l border-slate-200">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${opt2027.color}"></span>
-                <select onchange="updateRepSituacao2027('${rep.id}', this.value)"
-                  class="w-full h-8 px-2.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                  ${SITUACAO_OPTIONS.map(o => `
-                    <option value="${o.value}" ${o.value === rep.sit2027 ? 'selected' : ''}>${o.value}</option>
-                  `).join('')}
-                </select>
-              </div>
-            </td>
-
-            <td class="py-3 px-4 text-center">
-              <button onclick="deleteRep('${rep.id}')" title="Remover representante"
-                class="text-slate-400 hover:text-rose-600 text-xs font-semibold px-2 py-1 rounded hover:bg-rose-50 transition">
-                Excluir
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function updateRepSituacao2027(repId, newStatus) {
-      const rep = appState.reps.find(r => r.id === repId);
-      if (!rep) return;
-      rep.sit2027 = newStatus;
-      saveState();
-      renderCarteiraTable();
-      updatePieChart();
-      showToast(`Situação 2027 de (${rep.code}) atualizada para "${newStatus}".`);
     }
 
     function setChartMode(mode) {
