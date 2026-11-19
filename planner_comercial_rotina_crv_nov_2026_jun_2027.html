@@ -519,7 +519,7 @@
   <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 z-50"></div>
 
   <script>
-    const STORAGE_KEY = 'crv_planner_rotina_v12';
+    const STORAGE_KEY = 'crv_planner_rotina_v13';
 
     const NATIONAL_HOLIDAYS = {
       '2026-11-15': 'PROCLAMAÇÃO DA REPÚBLICA',
@@ -601,4 +601,113 @@
   { "cod": 1744, "nome": "MILTON SALVADOR MOREIRA & CIA", "full": "(1744) MILTON SALVADOR MOREIRA & CIA", "f2025": 32290.72, "f2026": 83511.93, "varPct": 1.5862517156631986, "pilar": "P3 — Expansão", "situacao": "Rep sente muita dificuldade com a concorrencia de aluminio da BA e o primer de marcas sem NF (ST 28%) e/ou baixa qualidade.", "acao": "" },
   { "cod": 1798, "nome": "G DORNELAS NASCIMENTO REP.LTDA", "full": "(1798) G DORNELAS NASCIMENTO REP.LTDA", "f2025": 317865.7, "f2026": 73077.0, "varPct": -0.7701010206511744, "pilar": "P2 — Recuperação", "situacao": "Inicio de trabalho com dificuldade sem catalogo e amostra. Estamos providenciando o envio.", "acao": "" },
   { "cod": 1743, "nome": "J. A. HOTT REPRESENTACOES LTDA", "full": "(1743) J. A. HOTT REPRESENTACOES LTDA", "f2025": 14364.58, "f2026": 47847.77, "varPct": 2.3309550296632406, "pilar": "P3 — Expansão", "situacao": "Acompanhar trabalho", "acao": "" },
-  { "cod": 1
+  { "cod": 1760, "nome": "DGO REPRESENTACOES LTDA", "full": "(1760) DGO REPRESENTACOES LTDA", "f2025": 76930.07, "f2026": 38971.08, "varPct": -0.49342201300479765, "pilar": "P2 — Recuperação", "situacao": "Região de BH voltada somente a preço", "acao": "" },
+  { "cod": 1652, "nome": "HENRIQUE & BARBOSA REPRESENTAC", "full": "(1652) HENRIQUE & BARBOSA REPRESENTAC", "f2025": 75560.14, "f2026": 33746.49, "varPct": -0.5533823785927341, "pilar": "P2 — Recuperação", "situacao": "Retomada de trabalho com a Unicca, ultima chance 1º semestre", "acao": "acompanhar até Jun/2027" },
+  { "cod": 1788, "nome": "FERDI REPRESENTACOES LTDA", "full": "(1788) FERDI REPRESENTACOES LTDA", "f2025": 0.0, "f2026": 14117.08, "varPct": null, "pilar": "P3 — Expansão", "situacao": "Sul de RO abertura de regiao", "acao": "" },
+  { "cod": 1797, "nome": "FARIAS RIBEIRO REPRE. COM LTDA", "full": "(1797) FARIAS RIBEIRO REPRE. COM LTDA", "f2025": 21208.8, "f2026": 11418.18, "varPct": -0.4616300780807967, "pilar": "P2 — Recuperação", "situacao": "Inicio de trabalho chegaram as amostras há 15 dias. Quebra de paradigma da regiao voltada a preço", "acao": "acompanhar" },
+  { "cod": 1784, "nome": "CJ MARTINS REPRESENTACAO COMER", "full": "(1784) CJ MARTINS REPRESENTACAO COMER", "f2025": 0.0, "f2026": 7055.35, "varPct": null, "pilar": "P3 — Expansão", "situacao": "Mercado de pequeno varejo está com dificuldade de combater os grandes players em capitais. Vamos tentar maior penetração com o carro showroom na regiao", "acao": "Agendar carro showroom Abr/2027" },
+  { "cod": 1794, "nome": "DANTAS REPRESENTANÇÕES LTDA", "full": "(1794) DANTAS REPRESENTANÇÕES LTDA", "f2025": 0.0, "f2026": 368.3, "varPct": null, "pilar": "P3 — Expansão", "situacao": "Estado AC abertura de regiao, atuação em parceria com rep RO", "acao": "" },
+  { "cod": 1796, "nome": "RIBEIRO FERNANDES & REPRESENT", "full": "(1796) RIBEIRO FERNANDES & REPRESENT", "f2025": 0.0, "f2026": 368.3, "varPct": null, "pilar": "P3 — Expansão", "situacao": "Norte de RO abertura de regiao", "acao": "" },
+  { "cod": 1518, "nome": "L & R REPRESEN COMERCIAIS LTDA", "full": "(1518) L & R REPRESEN COMERCIAIS LTDA", "f2025": 16742.53, "f2026": 0.0, "varPct": -1.0, "pilar": "P2 — Recuperação", "situacao": "Não atua mais varejo", "acao": "" }
+];
+
+    const INITIAL_WEEKS = [
+  { "id": "S47", "start": "2026-11-16", "end": "2026-11-20", "mes": "Novembro/26", "gerenteReps": [], "showroomReps": ["(1773) MINAS SUL REP COMERCIAL LTDA"], "fabricaReps": [], "foco": "Carro showroom e catálogo em Nov/2026 (Minas Sul)" },
+  { "id": "S48", "start": "2026-11-23", "end": "2026-11-27", "mes": "Novembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível (sem agenda fixa na planilha)" },
+  { "id": "S49", "start": "2026-11-30", "end": "2026-12-04", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S50", "start": "2026-12-07", "end": "2026-12-11", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S51", "start": "2026-12-14", "end": "2026-12-18", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S52", "start": "2026-12-21", "end": "2026-12-25", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Natal / Base" },
+  { "id": "S53", "start": "2026-12-28", "end": "2027-01-01", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Virada de Ano / Base" },
+  { "id": "S01", "start": "2027-01-04", "end": "2027-01-08", "mes": "Janeiro/27", "gerenteReps": ["(1430) TOTTENE - REPRES. COMERCIAL LT"], "showroomReps": ["(65) JOSE CARLOS ROMERO"], "fabricaReps": [], "foco": "Visita Jan/27 (Tottene) + Carro Showroom Jan/27 (José Carlos Romero)" },
+  { "id": "S02", "start": "2027-01-11", "end": "2027-01-15", "mes": "Janeiro/27", "gerenteReps": [], "showroomReps": ["(1181) ROMERO REPRESENTACAO DE MAT CO"], "fabricaReps": [], "foco": "Carro Showroom Jan/27 (Romero Rep. Mat. Co.)" },
+  { "id": "S03", "start": "2027-01-18", "end": "2027-01-22", "mes": "Janeiro/27", "gerenteReps": [], "showroomReps": ["(1397) RAFAEL ROMERO"], "fabricaReps": [], "foco": "Carro Showroom Jan/27 (Rafael Romero)" },
+  { "id": "S04", "start": "2027-01-25", "end": "2027-01-29", "mes": "Janeiro/27", "gerenteReps": [], "showroomReps": ["(1240) CABRAL & PIROLLA REP COM LTDA"], "fabricaReps": [], "foco": "Carro Showroom Jan/27 (Cabral & Pirolla)" },
+  { "id": "S05", "start": "2027-02-01", "end": "2027-02-05", "mes": "Fevereiro/27", "gerenteReps": [], "showroomReps": ["(1420) MARCELO  C. ANTONIO & CIA LTDA"], "fabricaReps": [], "foco": "Carro Showroom Fev/27 (Marcelo C. Antonio)" },
+  { "id": "S06", "start": "2027-02-08", "end": "2027-02-12", "mes": "Fevereiro/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Semana Carnaval — Base / Disponível" },
+  { "id": "S07", "start": "2027-02-15", "end": "2027-02-19", "mes": "Fevereiro/27", "gerenteReps": ["(1701) LUISTA REPRESENTACOES COM LTDA"], "showroomReps": ["(1701) LUISTA REPRESENTACOES COM LTDA"], "fabricaReps": [], "foco": "Visita Fev/27 + Carro Showroom Fev/27 (Luista Representações)" },
+  { "id": "S08", "start": "2027-02-22", "end": "2027-02-26", "mes": "Fevereiro/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S09", "start": "2027-03-01", "end": "2027-03-05", "mes": "Março/27", "gerenteReps": ["(1433) S L DELLABETA & CIA LTDA - ME"], "showroomReps": ["(1433) S L DELLABETA & CIA LTDA - ME"], "fabricaReps": [], "foco": "Visita Mar/27 + Carro Showroom Mar/Abr (S L Dellabeta)" },
+  { "id": "S10", "start": "2027-03-08", "end": "2027-03-12", "mes": "Março/27", "gerenteReps": ["(351) G DE O MATIAS"], "showroomReps": [], "fabricaReps": [], "foco": "Visita Mar/27 (G de O Matias)" },
+  { "id": "S11", "start": "2027-03-15", "end": "2027-03-19", "mes": "Março/27", "gerenteReps": ["(1757) RPM REPRESENTACOES LTDA"], "showroomReps": [], "fabricaReps": [], "foco": "Visita Mar/27 (RPM Representações)" },
+  { "id": "S12", "start": "2027-03-22", "end": "2027-03-26", "mes": "Março/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S13", "start": "2027-03-29", "end": "2027-04-02", "mes": "Março/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S14", "start": "2027-04-05", "end": "2027-04-09", "mes": "Abril/27", "gerenteReps": [], "showroomReps": ["(1757) RPM REPRESENTACOES LTDA"], "fabricaReps": [], "foco": "Carro Showroom Abr/27 (RPM Representações)" },
+  { "id": "S15", "start": "2027-04-12", "end": "2027-04-16", "mes": "Abril/27", "gerenteReps": [], "showroomReps": ["(1784) CJ MARTINS REPRESENTACAO COMER"], "fabricaReps": [], "foco": "Carro Showroom Abr/27 (CJ Martins)" },
+  { "id": "S16", "start": "2027-04-19", "end": "2027-04-23", "mes": "Abril/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Tiradentes — Base / Disponível" },
+  { "id": "S17", "start": "2027-04-26", "end": "2027-04-30", "mes": "Abril/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S18", "start": "2027-05-03", "end": "2027-05-07", "mes": "Maio/27", "gerenteReps": ["(1775) BARAVELLI REPRE COMERC LTDA"], "showroomReps": [], "fabricaReps": [], "foco": "Provável visita até Maio/27 (Baravelli)" },
+  { "id": "S19", "start": "2027-05-10", "end": "2027-05-14", "mes": "Maio/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S20", "start": "2027-05-17", "end": "2027-05-21", "mes": "Maio/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S21", "start": "2027-05-24", "end": "2027-05-28", "mes": "Maio/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Corpus Christi — Base / Disponível" },
+  { "id": "S22", "start": "2027-05-31", "end": "2027-06-04", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S23", "start": "2027-06-07", "end": "2027-06-11", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S24", "start": "2027-06-14", "end": "2027-06-18", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S25", "start": "2027-06-21", "end": "2027-06-25", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
+  { "id": "S26", "start": "2027-06-28", "end": "2027-07-02", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" }
+];
+
+    let state = {
+      weeks: [],
+      reps: [],
+      dayOverrides: {},
+      activeTab: 'mensal'
+    };
+
+    let dragPayload = null;
+    let editingDayISO = null;
+    let editingDayWeekId = null;
+    let editingActionId = null;
+
+    function genActionId() {
+      return 'act-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6);
+    }
+
+    function shortRepName(label) {
+      return String(label || '').trim();
+    }
+
+    function normalizeWeekObj(w) {
+      return {
+        ...w,
+        gerenteReps: Array.isArray(w.gerenteReps) ? w.gerenteReps : [],
+        showroomReps: Array.isArray(w.showroomReps) ? w.showroomReps : [],
+        fabricaReps: Array.isArray(w.fabricaReps) ? w.fabricaReps : []
+      };
+    }
+
+    function normalizeDayOverridesMap(rawMap) {
+      const out = {};
+      if (!rawMap || typeof rawMap !== 'object') return out;
+      Object.entries(rawMap).forEach(([iso, val]) => {
+        if (!val) return;
+        if (Array.isArray(val.actions)) {
+          out[iso] = {
+            actions: val.actions.map(a => ({
+              id: a.id || genActionId(),
+              type: a.type || 'CUSTOM',
+              label: a.label || 'Atividade',
+              note: a.note || ''
+            }))
+          };
+        } else if (val.type === 'EMPTY') {
+          out[iso] = { actions: [] };
+        } else {
+          out[iso] = {
+            actions: [{
+              id: genActionId(),
+              type: val.type || 'CUSTOM',
+              label: val.label || 'Atividade',
+              note: val.note || ''
+            }]
+          };
+        }
+      });
+      return out;
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('crv_planner_rotina_v12') || null;
+        if (raw) {
+          const
