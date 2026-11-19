@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Planner Comercial & Rotina — CRV Portas e Janelas</title>
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=dKc-r2Wk8XI5-rj3g2Syt53obgGRklpHmwKkw9C00TFjE_EhAkq3QpIv0mkXmtrr50K7vKmjj7Q81s-ukyXBHrUbTWldztqRiJdr5ie-PCoPTzpvCmPMBJp3Hd7F7ToP25bF1nA7qb92kJZaSHqn8RrG8HV34WKmUsydUE2ega6zLvQc3OSVaWbHOuwKLK27Y-tw5ZVKMeZhTS3td3mAR0yFB3fh9DTevO9meTqCs5s1hEDaZJlqlZUuo1KEXA3l8P2H4kCUQ2m8yAstvTkQJL16kghhItLyGaaMSONgP418LuSBlVldctL06P_6Mh1K" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=fUvxd34oyzHq7lvLuHORcQPSnoZ6feSQnX5H4NJ3QfSxIjAOpiNB9HDn-9kH14ZtjGDHTZQatT4-9ir-86X6VUKLpiTF_SNqGfoXPVKmeZRth8ZS1Ad-YGFNrDZgzQYteZYkLIqyzaF30DIE8H1hw2IKSGvMFZXWFJLBFuDIrSNf9zHJUv_vRqcU3O_rSCS6waC_Uibi9PiyWf7VEghhlkEsbdliZ1MAgWHJBvOm_RuQ279nC52Yosh04XvIuttUC5KyfqgR6Aa8cb-cMFQhWJz-KE45A3WT04XTcPJhyD56iV4mSLtt31rzyziHg2PX" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -156,9 +156,9 @@
               <option value="gerente:asc">Ordenar: Viagem Gerente (A → Z)</option>
               <option value="showroom:asc">Ordenar: Carro Showroom (A → Z)</option>
               <option value="fabrica:asc">Ordenar: Visita Fábrica (A → Z)</option>
-              <option value="foco:asc">Ordenar: Foco Estratégico (A → Z)</option>
+              <option value="foco:asc">Ordenar: Tática (A → Z)</option>
             </select>
-            <input id="cronograma-search" type="text" oninput="renderWeeklyTable()" placeholder="Filtrar semana, rep ou foco..." class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 w-56 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input id="cronograma-search" type="text" oninput="renderWeeklyTable()" placeholder="Filtrar semana, rep ou tática..." class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 w-56 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <button onclick="resetCronogramaFilters()" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 transition" title="Limpar filtros e voltar à ordem padrão">
               Limpar
             </button>
@@ -184,7 +184,7 @@
               <th onclick="toggleCronogramaSort('gerente')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">✈️ Viagem Gerente <span id="wsort-icon-gerente" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
               <th onclick="toggleCronogramaSort('showroom')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">🚐 Carro Showroom <span id="wsort-icon-showroom" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
               <th onclick="toggleCronogramaSort('fabrica')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">🏭 Visita Fábrica <span id="wsort-icon-fabrica" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
-              <th onclick="toggleCronogramaSort('foco')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Foco Estratégico (Editável) <span id="wsort-icon-foco" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
+              <th onclick="toggleCronogramaSort('foco')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Tática <span id="wsort-icon-foco" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
             </tr>
           </thead>
           <tbody id="weekly-table-body" class="divide-y divide-slate-200"></tbody>
@@ -202,7 +202,7 @@
               <h2 class="text-sm font-extrabold text-slate-800">Carteira de Representantes Comerciais CRV</h2>
               <span id="carteira-count-badge" class="text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">62 exibidos</span>
             </div>
-            <p class="text-xs text-slate-500 mt-0.5">Dados de Jan–Out 2025 x 2026, Situação 2026, <b>Situação 2027 (editável)</b> e Foco Estratégico. Clique nos cabeçalhos para ordenar.</p>
+            <p class="text-xs text-slate-500 mt-0.5">Dados de Jan–Out 2025 x 2026, Situação 2026, <b>Estratégia 2027 (editável)</b> e Próximas ações. Clique nos cabeçalhos para ordenar.</p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
             <select id="carteira-pilar-filter" onchange="renderCarteiraTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -221,7 +221,7 @@
               <option value="COM_ACAO">🎯 Com Próxima Ação</option>
             </select>
             <select id="carteira-sit2027-filter" onchange="renderCarteiraTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="ALL">Todas Situações 2027</option>
+              <option value="ALL">Todas Estratégias 2027</option>
               <option value="Crescimento">🟢 Crescimento</option>
               <option value="Estável">🔵 Estável</option>
               <option value="Recuperação">🟡 Recuperação</option>
@@ -238,7 +238,7 @@
               <option value="diff:asc">Ordenar: Δ Abs (Maior Queda)</option>
               <option value="varPct:desc">Ordenar: % Var. (Maior → Menor)</option>
               <option value="varPct:asc">Ordenar: % Var. (Menor → Maior)</option>
-              <option value="situacao2027:asc">Ordenar: Situação 2027 (A → Z)</option>
+              <option value="situacao2027:asc">Ordenar: Estratégia 2027 (A → Z)</option>
               <option value="nome:asc">Ordenar: Nome (A → Z)</option>
               <option value="nome:desc">Ordenar: Nome (Z → A)</option>
               <option value="cod:asc">Ordenar: Código (Crescente)</option>
@@ -255,8 +255,8 @@
         <div class="xl:col-span-5 bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between gap-2 mb-2">
             <div>
-              <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">📊 Distribuição — Situação 2027</h3>
-              <p class="text-[11px] text-slate-500">Atualiza automaticamente ao editar a coluna Situação 2027</p>
+              <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">📊 Distribuição — Estratégia 2027</h3>
+              <p class="text-[11px] text-slate-500">Atualiza automaticamente ao editar a coluna Estratégia 2027</p>
             </div>
             <span id="sit2027-pie-total" class="text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">62 reps</span>
           </div>
@@ -275,8 +275,8 @@
               <th onclick="toggleCarteiraSort('diff')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Δ Abs (R$) <span id="sort-icon-diff" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
               <th onclick="toggleCarteiraSort('varPct')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">% Var. <span id="sort-icon-varPct" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
               <th onclick="toggleCarteiraSort('situacao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Situação 2026 <span id="sort-icon-situacao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('situacao2027')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap bg-slate-900/80">Situação 2027 <span id="sort-icon-situacao2027" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('acao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Foco Estratégico / Próximas Ações <span id="sort-icon-acao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('situacao2027')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap bg-slate-900/80">Estratégia 2027 <span id="sort-icon-situacao2027" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('acao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Próximas ações <span id="sort-icon-acao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
             </tr>
           </thead>
           <tbody id="carteira-table-body" class="divide-y divide-slate-200"></tbody>
@@ -2337,7 +2337,7 @@
       w.foco = trimmed;
       saveState();
       renderMonthlyPlanner();
-      showToast(`✅ Foco estratégico da semana ${weekId} atualizado!`);
+      showToast(`✅ Tática da semana ${weekId} atualizada!`);
     }
 
     function getWeekColField(colType) {
@@ -2653,7 +2653,7 @@
                        value="${escapeHtml(w.foco || '')}"
                        onchange="updateWeekFoco('${w.id}', this.value)"
                        onkeydown="if(event.key==='Enter'){this.blur();}"
-                       placeholder="Definir foco estratégico da semana..."
+                       placeholder="Definir tática da semana..."
                        class="w-full text-xs font-medium text-slate-700 bg-slate-50/80 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition" />
                 <span class="text-slate-400 text-[11px] shrink-0" title="Clique no campo para editar e pressione Enter">✏️</span>
               </div>
@@ -2725,7 +2725,7 @@
       rep.situacao2027 = newValue;
       saveState();
       renderCarteiraTable();
-      showToast(`📊 Situação 2027 de (${rep.cod}) ${rep.nome} atualizada para "${newValue}"!`);
+      showToast(`📊 Estratégia 2027 de (${rep.cod}) ${rep.nome} atualizada para "${newValue}"!`);
     }
 
     function renderSituacao2027PieChart(repsList) {
@@ -2799,7 +2799,7 @@
         repPicker.innerHTML = '<option value="">— Selecionar representante —</option>';
         populateStaticSelects();
       }
-      showToast(`✅ Foco estratégico de (${rep.cod}) ${rep.nome} atualizado!`);
+      showToast(`✅ Próximas ações de (${rep.cod}) ${rep.nome} atualizadas!`);
     }
 
     function renderCarteiraTable() {
@@ -2899,7 +2899,7 @@
                        value="${escapeHtml(r.acao || '')}"
                        onchange="updateRepFoco(${r.cod}, this.value)"
                        onkeydown="if(event.key==='Enter'){this.blur();}"
-                       placeholder="Definir foco estratégico / ação..."
+                       placeholder="Definir próxima ação..."
                        class="w-full text-xs font-semibold text-blue-800 bg-blue-50/40 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition" />
                 <span class="text-slate-400 text-[11px] shrink-0" title="Clique no campo para editar e pressione Enter">✏️</span>
               </div>
