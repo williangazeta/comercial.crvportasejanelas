@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Planner Comercial & Rotina — CRV Portas e Janelas</title>
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=3GNQiXMHCT4dov3ODjMfehPfpQ7lDOHRFTdbAtr10eWsFlvcde9xEtVxvAowN-shbINJ9GFzohtVO4i11iWLKK0HJmIhqT50JvXbhWlngnSRg2Ywcf4fva5TAI5ZgauQ8LsBOzGM-wUxly0u4QHZ0SrIqUEeaBhnJNnY7Ezi_eJUb9OeMogU4AMP1AArXEJyoOlLMNUYygW8wuO3t89g-vxJ-EVjlLLVw59Q36vWlHCw22NPNTK8ZBUc0UPMKliPhVUG43rbWuQHN0IdjvaeeLe3Vjy9_0B1b7ze9AmM6IV1QHYP7osTbfbJoxo56EtVkqx_sgCBaYPvpvzfO1P70w" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -150,23 +150,60 @@
     <section id="view-carteira" class="hidden space-y-4">
       <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 class="text-sm font-extrabold text-slate-800">Base Completa — 62 Representantes Comerciais CRV</h2>
-          <p class="text-xs text-slate-500">Dados exatos da planilha: Jan–Out 2025 x 2026, Situação 2026 e Próximas Ações.</p>
+          <div class="flex items-center gap-2">
+            <h2 class="text-sm font-extrabold text-slate-800">Base Completa — 62 Representantes Comerciais CRV</h2>
+            <span id="carteira-count-badge" class="text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">62 exibidos</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">Dados exatos da planilha: Jan–Out 2025 x 2026, Situação 2026 e Próximas Ações. Clique nos cabeçalhos para ordenar.</p>
         </div>
-        <input id="carteira-search" type="text" oninput="renderCarteiraTable()" placeholder="Filtrar representante, situação ou ação..." class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 w-64" />
+        <div class="flex flex-wrap items-center gap-2">
+          <select id="carteira-pilar-filter" onchange="renderCarteiraTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="ALL">Todos os Pilares</option>
+            <option value="P1">P1 — Top Curva A</option>
+            <option value="P2">P2 — Recuperação</option>
+            <option value="P3">P3 — Expansão</option>
+            <option value="P4">P4 — Base / Manutenção</option>
+          </select>
+          <select id="carteira-perf-filter" onchange="renderCarteiraTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="ALL">Todas as Performances</option>
+            <option value="CRESCIMENTO">📈 Em Crescimento (+)</option>
+            <option value="QUEDA">📉 Em Queda (-)</option>
+            <option value="CRITICO">🚨 Queda Crítica (&lt; -10%)</option>
+            <option value="NOVO">🆕 Novos (Sem Base 2025)</option>
+            <option value="COM_ACAO">🎯 Com Próxima Ação</option>
+          </select>
+          <select id="carteira-sort-select" onchange="onCarteiraSortSelectChange(this.value)" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-slate-50 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500" title="Ordenação rápida">
+            <option value="f2026:desc">Ordenar: 2026 (Maior → Menor)</option>
+            <option value="f2026:asc">Ordenar: 2026 (Menor → Maior)</option>
+            <option value="f2025:desc">Ordenar: 2025 (Maior → Menor)</option>
+            <option value="f2025:asc">Ordenar: 2025 (Menor → Maior)</option>
+            <option value="diff:desc">Ordenar: Δ Abs (Maior Ganho)</option>
+            <option value="diff:asc">Ordenar: Δ Abs (Maior Queda)</option>
+            <option value="varPct:desc">Ordenar: % Var. (Maior → Menor)</option>
+            <option value="varPct:asc">Ordenar: % Var. (Menor → Maior)</option>
+            <option value="nome:asc">Ordenar: Nome (A → Z)</option>
+            <option value="nome:desc">Ordenar: Nome (Z → A)</option>
+            <option value="cod:asc">Ordenar: Código (Crescente)</option>
+            <option value="cod:desc">Ordenar: Código (Decrescente)</option>
+          </select>
+          <input id="carteira-search" type="text" oninput="renderCarteiraTable()" placeholder="Filtrar representante, situação ou ação..." class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 w-60 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <button onclick="resetCarteiraFilters()" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 transition" title="Limpar filtros e voltar à ordem padrão">
+            Limpar
+          </button>
+        </div>
       </div>
       <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
         <table class="w-full text-left border-collapse text-xs">
           <thead>
-            <tr class="bg-slate-800 text-white">
-              <th class="py-2.5 px-3 font-bold">Cód.</th>
-              <th class="py-2.5 px-3 font-bold">Representante</th>
-              <th class="py-2.5 px-3 font-bold text-right">Jan–Out 2025</th>
-              <th class="py-2.5 px-3 font-bold text-right">Jan–Out 2026</th>
-              <th class="py-2.5 px-3 font-bold text-right">Δ Abs (R$)</th>
-              <th class="py-2.5 px-3 font-bold text-right">% Var.</th>
-              <th class="py-2.5 px-3 font-bold">Situação 2026</th>
-              <th class="py-2.5 px-3 font-bold">Próximas Ações (Planilha)</th>
+            <tr class="bg-slate-800 text-white select-none">
+              <th onclick="toggleCarteiraSort('cod')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Cód. <span id="sort-icon-cod" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('nome')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Representante <span id="sort-icon-nome" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('f2025')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Jan–Out 2025 <span id="sort-icon-f2025" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('f2026')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Jan–Out 2026 <span id="sort-icon-f2026" class="text-[10px] text-amber-300 ml-0.5">▼</span></th>
+              <th onclick="toggleCarteiraSort('diff')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Δ Abs (R$) <span id="sort-icon-diff" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('varPct')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">% Var. <span id="sort-icon-varPct" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('situacao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Situação 2026 <span id="sort-icon-situacao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('acao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Próximas Ações (Planilha) <span id="sort-icon-acao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
             </tr>
           </thead>
           <tbody id="carteira-table-body" class="divide-y divide-slate-200"></tbody>
@@ -2040,26 +2077,131 @@
         </tr>`).join('');
     }
 
+    let carteiraSort = { field: 'f2026', dir: 'desc' };
+
+    function toggleCarteiraSort(field) {
+      if (carteiraSort.field === field) {
+        carteiraSort.dir = carteiraSort.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        carteiraSort.field = field;
+        const numericDescDefault = ['f2025', 'f2026', 'diff', 'varPct'];
+        carteiraSort.dir = numericDescDefault.includes(field) ? 'desc' : 'asc';
+      }
+      const sel = document.getElementById('carteira-sort-select');
+      if (sel) {
+        const combo = `${carteiraSort.field}:${carteiraSort.dir}`;
+        if ([...sel.options].some(o => o.value === combo)) sel.value = combo;
+      }
+      renderCarteiraTable();
+    }
+
+    function onCarteiraSortSelectChange(val) {
+      const [field, dir] = String(val || 'f2026:desc').split(':');
+      carteiraSort = { field, dir };
+      renderCarteiraTable();
+    }
+
+    function resetCarteiraFilters() {
+      const s = document.getElementById('carteira-search');
+      const p = document.getElementById('carteira-pilar-filter');
+      const perf = document.getElementById('carteira-perf-filter');
+      const sortSel = document.getElementById('carteira-sort-select');
+      if (s) s.value = '';
+      if (p) p.value = 'ALL';
+      if (perf) perf.value = 'ALL';
+      if (sortSel) sortSel.value = 'f2026:desc';
+      carteiraSort = { field: 'f2026', dir: 'desc' };
+      renderCarteiraTable();
+    }
+
+    function updateCarteiraSortIcons() {
+      const fields = ['cod', 'nome', 'f2025', 'f2026', 'diff', 'varPct', 'situacao', 'acao'];
+      fields.forEach(f => {
+        const el = document.getElementById(`sort-icon-${f}`);
+        if (!el) return;
+        if (carteiraSort.field === f) {
+          el.textContent = carteiraSort.dir === 'asc' ? '▲' : '▼';
+          el.className = 'text-[10px] text-amber-300 ml-0.5';
+        } else {
+          el.textContent = '↕';
+          el.className = 'text-[10px] opacity-60 ml-0.5';
+        }
+      });
+    }
+
     function renderCarteiraTable() {
-      const q = (document.getElementById('carteira-search')?.value || '').toLowerCase();
+      const q = (document.getElementById('carteira-search')?.value || '').toLowerCase().trim();
+      const pilarFilter = document.getElementById('carteira-pilar-filter')?.value || 'ALL';
+      const perfFilter = document.getElementById('carteira-perf-filter')?.value || 'ALL';
       const tbody = document.getElementById('carteira-table-body');
       if (!tbody) return;
 
+      updateCarteiraSortIcons();
+
       const fmtBRL = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
-      const filtered = state.reps.filter(r => `${r.cod} ${r.nome} ${r.situacao || ''} ${r.acao || ''}`.toLowerCase().includes(q));
+
+      const enriched = state.reps.map(r => {
+        const diff = (r.f2026 || 0) - (r.f2025 || 0);
+        const varPctVal = r.varPct !== null && r.varPct !== undefined
+          ? r.varPct * 100
+          : (r.f2025 > 0 ? (diff / r.f2025) * 100 : null);
+        return { ...r, diff, varPctVal };
+      });
+
+      const filtered = enriched.filter(r => {
+        const matchText = !q || `${r.cod} ${r.nome} ${r.situacao || ''} ${r.acao || ''} ${r.pilar || ''}`.toLowerCase().includes(q);
+        const matchPilar = pilarFilter === 'ALL' || (r.pilar || '').startsWith(pilarFilter);
+
+        let matchPerf = true;
+        if (perfFilter === 'CRESCIMENTO') matchPerf = r.varPctVal !== null && r.varPctVal > 0;
+        else if (perfFilter === 'QUEDA') matchPerf = r.varPctVal !== null && r.varPctVal < 0;
+        else if (perfFilter === 'CRITICO') matchPerf = r.varPctVal !== null && r.varPctVal < -10;
+        else if (perfFilter === 'NOVO') matchPerf = r.varPctVal === null;
+        else if (perfFilter === 'COM_ACAO') matchPerf = Boolean((r.acao || '').trim());
+
+        return matchText && matchPilar && matchPerf;
+      });
+
+      const mult = carteiraSort.dir === 'asc' ? 1 : -1;
+      filtered.sort((a, b) => {
+        const f = carteiraSort.field;
+        if (f === 'cod' || f === 'f2025' || f === 'f2026' || f === 'diff') {
+          return ((a[f] || 0) - (b[f] || 0)) * mult;
+        }
+        if (f === 'varPct') {
+          if (a.varPctVal === null && b.varPctVal === null) return 0;
+          if (a.varPctVal === null) return 1;
+          if (b.varPctVal === null) return -1;
+          return (a.varPctVal - b.varPctVal) * mult;
+        }
+        const strA = String(a[f] || '').trim();
+        const strB = String(b[f] || '').trim();
+        if (!strA && !strB) return 0;
+        if (!strA) return 1;
+        if (!strB) return -1;
+        return strA.localeCompare(strB, 'pt-BR', { sensitivity: 'base' }) * mult;
+      });
+
+      const badge = document.getElementById('carteira-count-badge');
+      if (badge) {
+        badge.textContent = `${filtered.length} de ${state.reps.length} exibidos`;
+      }
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400 italic">Nenhum representante encontrado com os filtros aplicados.</td></tr>`;
+        return;
+      }
 
       tbody.innerHTML = filtered.map(r => {
-        const diff = r.f2026 - r.f2025;
-        const varPct = r.varPct !== null && r.varPct !== undefined ? r.varPct * 100 : (r.f2025 > 0 ? (diff / r.f2025) * 100 : null);
-        const varStr = varPct !== null ? `${varPct >= 0 ? '+' : ''}${varPct.toFixed(1)}%` : 'Novo';
-        const varCls = varPct === null ? 'text-blue-700 font-bold' : (varPct >= 0 ? 'text-emerald-700 font-bold' : 'text-rose-700 font-bold');
+        const varStr = r.varPctVal !== null ? `${r.varPctVal >= 0 ? '+' : ''}${r.varPctVal.toFixed(1)}%` : 'Novo';
+        const varCls = r.varPctVal === null ? 'text-blue-700 font-bold' : (r.varPctVal >= 0 ? 'text-emerald-700 font-bold' : 'text-rose-700 font-bold');
         return `
           <tr class="hover:bg-slate-50 align-top">
             <td class="py-2 px-3 font-extrabold text-slate-700">${r.cod}</td>
             <td class="py-2 px-3 font-bold text-slate-900">${escapeHtml(r.nome)}</td>
             <td class="py-2 px-3 text-right text-slate-600">${fmtBRL(r.f2025)}</td>
             <td class="py-2 px-3 text-right font-semibold text-slate-800">${fmtBRL(r.f2026)}</td>
-            <td class="py-2 px-3 text-right ${diff >= 0 ? 'text-emerald-700' : 'text-rose-700'} font-semibold">${fmtBRL(diff)}</td>
+            <td class="py-2 px-3 text-right ${r.diff >= 0 ? 'text-emerald-700' : 'text-rose-700'} font-semibold">${fmtBRL(r.diff)}</td>
             <td class="py-2 px-3 text-right ${varCls}">${varStr}</td>
             <td class="py-2 px-3 text-slate-600 max-w-xs">${escapeHtml(r.situacao || '—')}</td>
             <td class="py-2 px-3 font-semibold text-blue-800 max-w-xs">${escapeHtml(r.acao || '—')}</td>
