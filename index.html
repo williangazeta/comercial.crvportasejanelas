@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Planner Comercial & Rotina — CRV Portas e Janelas</title>
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=fUvxd34oyzHq7lvLuHORcQPSnoZ6feSQnX5H4NJ3QfSxIjAOpiNB9HDn-9kH14ZtjGDHTZQatT4-9ir-86X6VUKLpiTF_SNqGfoXPVKmeZRth8ZS1Ad-YGFNrDZgzQYteZYkLIqyzaF30DIE8H1hw2IKSGvMFZXWFJLBFuDIrSNf9zHJUv_vRqcU3O_rSCS6waC_Uibi9PiyWf7VEghhlkEsbdliZ1MAgWHJBvOm_RuQ279nC52Yosh04XvIuttUC5KyfqgR6Aa8cb-cMFQhWJz-KE45A3WT04XTcPJhyD56iV4mSLtt31rzyziHg2PX" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=voEe2f0ljmd4WwiYPqbiu_6cXulZT9oglW32fdz8_8VhAjeXmQWiCkeiqB2MyXKzwMV-jsJ9v7eB5tfl0D44Q3o1LMJtPIQ98bv5SWC-J29S1YMv4Auk1IZW-l7ww268IQ4DMuXtc36TGrnKFa3Uc0zyhNRD10NMCuEbR9int1KgeMpDIU8ScyKjqWvzi_4ldqamVwBmkCsysBS_XPnFSZXvlxCP9MfR_vHyYWjFelN6YC3xa4B9Yy8ZS5Ni14ByjYyLp3Fa9cyZpNvkZq6kgixaTtQnCzR2GbeS016JsOB1L9k-ZZPlje05O_-IoQ9e" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -435,6 +435,75 @@
         <div class="flex justify-end gap-2 pt-2">
           <button onclick="closeNewWeekModal()" class="px-3.5 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Cancelar</button>
           <button onclick="confirmAddNewWeek()" class="px-4 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm">+ Criar Semana</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL SINCRONIZAÇÃO INTELIGENTE DE PRÓXIMAS AÇÕES -->
+  <div id="action-sync-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-xl w-full overflow-hidden">
+      <div class="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider bg-blue-600 px-2 py-0.5 rounded">Sincronização Inteligente</span>
+          <h3 id="asm-rep-title" class="text-sm font-extrabold mt-1">Representante</h3>
+        </div>
+        <button onclick="closeActionSyncModal()" class="text-slate-300 hover:text-white text-lg font-bold px-2">✕</button>
+      </div>
+      <div class="p-5 space-y-4 max-h-[82vh] overflow-y-auto custom-scroll">
+        <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-3">
+          <div class="text-[10px] font-extrabold uppercase tracking-wider text-blue-700 mb-0.5">Texto digitado em "Próximas ações":</div>
+          <div id="asm-raw-text" class="text-xs font-bold text-slate-800"></div>
+          <div id="asm-status-msg" class="text-[11px] text-blue-800 mt-1.5 font-medium"></div>
+        </div>
+
+        <div id="asm-options-box" class="space-y-2">
+          <label class="block text-xs font-extrabold text-slate-700">1. O que você entendeu / Como deseja lançar no Planner e Cronograma?</label>
+          <div id="asm-options-list" class="space-y-1.5"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 border-t border-slate-100">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">2. Tipo de Ação no Planner / Cronograma</label>
+            <select id="asm-type" onchange="onAsmTypeOrDateChange()" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-2 bg-white font-semibold">
+              <option value="GERENTE">✈️ Viagem Gerente (Visita)</option>
+              <option value="SHOWROOM">🚐 Carro Showroom</option>
+              <option value="FABRICA">🏭 Visita à Fábrica CRV</option>
+              <option value="CUSTOM">📌 Compromisso / Ação Pontual</option>
+              <option value="NONE">🚫 Apenas manter texto na Carteira (não agendar)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">3. Data Exata (para o Planner Mensal)</label>
+            <input id="asm-date" type="date" onchange="onAsmDatePicked()" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">4. Semana no Cronograma</label>
+            <select id="asm-week" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-2 bg-white font-semibold"></select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">5. Aplicar no Planner Mensal como:</label>
+            <select id="asm-scope" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-2 bg-white font-semibold">
+              <option value="DAY">Somente no dia específico selecionado</option>
+              <option value="WEEK">Semana inteira (Seg a Sex)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1.5">
+          <label class="block text-[11px] font-extrabold text-slate-700">💬 Ou explique o que você vai fazer (reinterpretar / detalhar):</label>
+          <div class="flex gap-2">
+            <input id="asm-explain-input" type="text" placeholder="Ex: Vou visitar dia 01/12 de manhã e levar catálogo..." onkeydown="if(event.key==='Enter'){reparseAsmExplanation();}" class="flex-1 text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white" />
+            <button type="button" onclick="reparseAsmExplanation()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg transition shrink-0">Interpretar</button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-200">
+          <button type="button" onclick="closeActionSyncModal()" class="px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Manter só na Carteira</button>
+          <button type="button" onclick="confirmActionSyncModal()" class="px-4 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm">✅ Confirmar e Atualizar Tudo</button>
         </div>
       </div>
     </div>
@@ -2786,11 +2855,341 @@
       `;
     }
 
+    let asmState = null;
+
+    function inferYearForMonth(monthNum) {
+      if (monthNum === 11 || monthNum === 12) return 2026;
+      return 2027;
+    }
+
+    function parseSmartActionIntent(rawText) {
+      const text = String(rawText || '').trim();
+      const norm = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      const hasShowroom = /showroom|carro/.test(norm);
+      const hasFabrica = /fabrica|matriz/.test(norm);
+      const hasVisita = /visita|visitar|irei|ir\s+em|viagem|rota|atendimento/.test(norm);
+      const isOnlyMonitor = /^(acompanhar|analisar|aguardar|manter|observar)\b/.test(norm) && !hasShowroom && !hasVisita && !hasFabrica;
+
+      let detectedType = 'CUSTOM';
+      if (hasShowroom) detectedType = 'SHOWROOM';
+      else if (hasFabrica) detectedType = 'FABRICA';
+      else if (hasVisita) detectedType = 'GERENTE';
+      else if (isOnlyMonitor) detectedType = 'NONE';
+
+      // Aceita DD/MM, DD//MM (erro de digitação) e DD/MM/AAAA
+      let exactDateISO = null;
+      const dateMatch = norm.match(/(?:^|\D)(\d{1,2})\s*\/+\s*(\d{1,2})(?:\s*\/+\s*(\d{2,4}))?(?:\D|$)/);
+      if (dateMatch) {
+        const day = parseInt(dateMatch[1], 10);
+        const month = parseInt(dateMatch[2], 10);
+        let year = dateMatch[3] ? parseInt(dateMatch[3], 10) : inferYearForMonth(month);
+        if (year < 100) year += 2000;
+        if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+          const dt = new Date(year, month - 1, day);
+          if (dt.getMonth() === month - 1 && dt.getDate() === day) {
+            exactDateISO = formatISO(dt);
+          }
+        }
+      }
+
+      const monthPatterns = [
+        { month: 11, year: 2026, mesLabel: 'Novembro/26', re: /\b(nov|novembro)\b/ },
+        { month: 12, year: 2026, mesLabel: 'Dezembro/26', re: /\b(dez|dezembro)\b/ },
+        { month: 1,  year: 2027, mesLabel: 'Janeiro/27',  re: /\b(jan|janeiro)\b/ },
+        { month: 2,  year: 2027, mesLabel: 'Fevereiro/27',re: /\b(fev|fevereiro)\b/ },
+        { month: 3,  year: 2027, mesLabel: 'Março/27',    re: /\b(mar|marco)\b/ },
+        { month: 4,  year: 2027, mesLabel: 'Abril/27',    re: /\b(abr|abril)\b/ },
+        { month: 5,  year: 2027, mesLabel: 'Maio/27',     re: /\b(mai|maio)\b/ },
+        { month: 6,  year: 2027, mesLabel: 'Junho/27',    re: /\b(jun|junho)\b/ }
+      ];
+      let detectedMonth = null;
+      if (exactDateISO) {
+        const pw = findPlannedWeekForDate(exactDateISO);
+        const mNum = parseInt(exactDateISO.slice(5, 7), 10);
+        const foundMP = monthPatterns.find(p => p.month === mNum);
+        detectedMonth = pw ? { mesLabel: pw.mes, weekId: pw.id } : (foundMP ? { mesLabel: foundMP.mesLabel, weekId: null } : null);
+      } else {
+        for (const mp of monthPatterns) {
+          if (mp.re.test(norm)) {
+            const firstWeek = state.weeks.find(w => w.mes === mp.mesLabel);
+            detectedMonth = { mesLabel: mp.mesLabel, weekId: firstWeek ? firstWeek.id : null };
+            break;
+          }
+        }
+      }
+
+      const weekObj = exactDateISO
+        ? findPlannedWeekForDate(exactDateISO)
+        : (detectedMonth && detectedMonth.weekId ? state.weeks.find(w => w.id === detectedMonth.weekId) : null);
+
+      const isClearAction = text.length > 0 && detectedType !== 'NONE' && (Boolean(exactDateISO) || Boolean(weekObj));
+      const isAmbiguous = text.length > 0 && !isOnlyMonitor && ((!exactDateISO && !weekObj) || detectedType === 'CUSTOM');
+
+      return {
+        text,
+        detectedType,
+        exactDateISO,
+        weekId: weekObj ? weekObj.id : (state.weeks[0] ? state.weeks[0].id : 'S47'),
+        scope: exactDateISO ? 'DAY' : 'WEEK',
+        isOnlyMonitor,
+        isClearAction,
+        isAmbiguous
+      };
+    }
+
+    function applyActionSyncToAllViews(rep, cfg) {
+      const repLabel = `(${rep.cod}) ${rep.nome}`;
+      if (!cfg || cfg.type === 'NONE') return [];
+
+      const updatedPlaces = [];
+      const targetWeek = state.weeks.find(w => w.id === cfg.weekId);
+
+      // 1. Atualizar Cronograma (semanal)
+      if (targetWeek) {
+        const colField = cfg.type === 'SHOWROOM' ? 'showroomReps' : (cfg.type === 'FABRICA' ? 'fabricaReps' : 'gerenteReps');
+        if (!targetWeek[colField].includes(repLabel)) {
+          targetWeek[colField].push(repLabel);
+        }
+        const summaryNote = `${cfg.noteText || rep.acao} (${rep.nome})`;
+        if (!targetWeek.foco || targetWeek.foco.startsWith('Base / Disponível')) {
+          targetWeek.foco = summaryNote;
+        } else if (!targetWeek.foco.includes(rep.nome)) {
+          targetWeek.foco += ` + ${summaryNote}`;
+        }
+        updatedPlaces.push(`Cronograma (${targetWeek.id})`);
+      }
+
+      // 2. Atualizar Planner Mensal (dia exato ou semana inteira)
+      if (cfg.scope === 'DAY' && cfg.dateISO) {
+        const pw = findPlannedWeekForDate(cfg.dateISO);
+        const wId = pw ? pw.id : (targetWeek ? targetWeek.id : null);
+        const dayIdx = getIsoWeekdayIdx(cfg.dateISO);
+        const list = ensureMutableDayActions(cfg.dateISO, wId, dayIdx);
+        const baseIdx = list.findIndex(a => a.type === 'BASE');
+        if (baseIdx > -1) list.splice(baseIdx, 1);
+
+        const alreadyExists = list.some(a => a.label === repLabel && a.type === cfg.type);
+        if (!alreadyExists) {
+          list.push({
+            id: genActionId(),
+            type: cfg.type,
+            label: repLabel,
+            note: cfg.noteText || rep.acao || ''
+          });
+        }
+        updatedPlaces.push(`Planner Mensal (${formatBRDate(cfg.dateISO)})`);
+      } else if (cfg.scope === 'WEEK' && targetWeek) {
+        const cur = parseISO(targetWeek.start);
+        const endD = parseISO(targetWeek.end);
+        while (cur <= endD) {
+          const iso = formatISO(cur);
+          if (state.dayOverrides[iso]) {
+            const dIdx = getIsoWeekdayIdx(iso);
+            const list = ensureMutableDayActions(iso, targetWeek.id, dIdx);
+            const baseIdx = list.findIndex(a => a.type === 'BASE');
+            if (baseIdx > -1) list.splice(baseIdx, 1);
+            if (!list.some(a => a.label === repLabel && a.type === cfg.type)) {
+              list.push({ id: genActionId(), type: cfg.type, label: repLabel, note: cfg.noteText || rep.acao || '' });
+            }
+          }
+          cur.setDate(cur.getDate() + 1);
+        }
+        updatedPlaces.push(`Planner Mensal (${targetWeek.id})`);
+      }
+
+      return updatedPlaces;
+    }
+
+    function openActionSyncModal(rep, rawText, parsed) {
+      asmState = {
+        cod: rep.cod,
+        rawText,
+        parsed
+      };
+
+      document.getElementById('asm-rep-title').textContent = `(${rep.cod}) ${rep.nome}`;
+      document.getElementById('asm-raw-text').textContent = `"${rawText}"`;
+      document.getElementById('asm-explain-input').value = '';
+
+      const typeSel = document.getElementById('asm-type');
+      typeSel.value = parsed.detectedType === 'NONE' ? 'GERENTE' : parsed.detectedType;
+
+      const dateInput = document.getElementById('asm-date');
+      dateInput.value = parsed.exactDateISO || '';
+
+      const weekSel = document.getElementById('asm-week');
+      weekSel.innerHTML = state.weeks.map(w =>
+        `<option value="${w.id}" ${w.id === parsed.weekId ? 'selected' : ''}>${w.id} — ${formatBRDate(w.start)} a ${formatBRDate(w.end)} (${w.mes})</option>`
+      ).join('');
+
+      const scopeSel = document.getElementById('asm-scope');
+      scopeSel.value = parsed.exactDateISO ? 'DAY' : 'WEEK';
+
+      const statusMsg = document.getElementById('asm-status-msg');
+      const optionsList = document.getElementById('asm-options-list');
+      const repLabel = `(${rep.cod}) ${rep.nome}`;
+
+      const candidateOptions = [];
+      if (parsed.exactDateISO) {
+        const w = findPlannedWeekForDate(parsed.exactDateISO);
+        candidateOptions.push({
+          title: `Agendar ${typeSel.value === 'SHOWROOM' ? 'Carro Showroom' : 'Viagem Gerente'} no dia exato ${formatBRDate(parsed.exactDateISO)}`,
+          desc: `Lança no Planner Mensal em ${formatBRDate(parsed.exactDateISO)}${w ? ` e inclui na semana ${w.id} do Cronograma` : ''}.`,
+          type: typeSel.value,
+          dateISO: parsed.exactDateISO,
+          weekId: w ? w.id : parsed.weekId,
+          scope: 'DAY'
+        });
+      }
+      if (parsed.weekId) {
+        const w = state.weeks.find(item => item.id === parsed.weekId);
+        if (w) {
+          candidateOptions.push({
+            title: `Agendar na semana inteira ${w.id} (${formatBRDate(w.start)} a ${formatBRDate(w.end)})`,
+            desc: `Inclui ${repLabel} no Cronograma (${w.id}) e preenche os dias úteis da semana no Planner Mensal.`,
+            type: typeSel.value === 'NONE' ? 'GERENTE' : typeSel.value,
+            dateISO: w.start,
+            weekId: w.id,
+            scope: 'WEEK'
+          });
+        }
+      }
+      candidateOptions.push({
+        title: `Agendar Carro Showroom para ${repLabel}`,
+        desc: `Reserva o Carro Showroom na semana/data selecionada abaixo.`,
+        type: 'SHOWROOM',
+        dateISO: parsed.exactDateISO || '',
+        weekId: parsed.weekId,
+        scope: parsed.exactDateISO ? 'DAY' : 'WEEK'
+      });
+      candidateOptions.push({
+        title: `Agendar Visita à Fábrica CRV para ${repLabel}`,
+        desc: `Registra vinda do representante à fábrica na semana/data selecionada abaixo.`,
+        type: 'FABRICA',
+        dateISO: parsed.exactDateISO || '',
+        weekId: parsed.weekId,
+        scope: parsed.exactDateISO ? 'DAY' : 'WEEK'
+      });
+      candidateOptions.push({
+        title: `Apenas manter anotação na Carteira (não lançar no calendário)`,
+        desc: `Salva o texto "${rawText}" somente na aba Carteira sem alterar Planner ou Cronograma.`,
+        type: 'NONE',
+        dateISO: '',
+        weekId: parsed.weekId,
+        scope: 'DAY'
+      });
+
+      statusMsg.textContent = parsed.exactDateISO
+        ? `Identifiquei uma possível data (${formatBRDate(parsed.exactDateISO)}), mas faltou confirmar os detalhes. Escolha uma opção abaixo ou explique:`
+        : `Não identifiquei uma data exata nesse texto. Escolha abaixo como deseja refletir no Planner e Cronograma ou explique o que vai fazer:`;
+
+      optionsList.innerHTML = candidateOptions.map((opt, idx) => `
+        <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 cursor-pointer transition">
+          <input type="radio" name="asm-radio-opt" value="${idx}" ${idx === 0 ? 'checked' : ''} onchange="applyAsmPresetOption(${idx})" class="mt-0.5 accent-blue-600" />
+          <div class="text-xs">
+            <div class="font-bold text-slate-800">${escapeHtml(opt.title)}</div>
+            <div class="text-[11px] text-slate-500">${escapeHtml(opt.desc)}</div>
+          </div>
+        </label>
+      `).join('');
+
+      asmState.options = candidateOptions;
+
+      const modal = document.getElementById('action-sync-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function applyAsmPresetOption(idx) {
+      if (!asmState || !asmState.options || !asmState.options[idx]) return;
+      const opt = asmState.options[idx];
+      document.getElementById('asm-type').value = opt.type;
+      if (opt.dateISO) document.getElementById('asm-date').value = opt.dateISO;
+      if (opt.weekId) document.getElementById('asm-week').value = opt.weekId;
+      document.getElementById('asm-scope').value = opt.scope;
+    }
+
+    function onAsmDatePicked() {
+      const dVal = document.getElementById('asm-date').value;
+      if (!dVal) return;
+      const pw = findPlannedWeekForDate(dVal);
+      if (pw) document.getElementById('asm-week').value = pw.id;
+      document.getElementById('asm-scope').value = 'DAY';
+    }
+
+    function onAsmTypeOrDateChange() {}
+
+    function reparseAsmExplanation() {
+      if (!asmState) return;
+      const extra = document.getElementById('asm-explain-input').value.trim();
+      if (!extra) return;
+      const rep = state.reps.find(r => r.cod === asmState.cod);
+      if (!rep) return;
+
+      const combined = `${asmState.rawText} — ${extra}`;
+      rep.acao = combined;
+      saveState();
+      renderCarteiraTable();
+      renderSidebarReps();
+
+      const reParsed = parseSmartActionIntent(combined);
+      openActionSyncModal(rep, combined, reParsed);
+      showToast('🔄 Explicação interpretada! Revise e clique em Confirmar.');
+    }
+
+    function closeActionSyncModal() {
+      const modal = document.getElementById('action-sync-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      asmState = null;
+    }
+
+    function confirmActionSyncModal() {
+      if (!asmState) return;
+      const rep = state.reps.find(r => r.cod === asmState.cod);
+      if (!rep) return;
+
+      const extraExplain = document.getElementById('asm-explain-input').value.trim();
+      if (extraExplain && !rep.acao.includes(extraExplain)) {
+        rep.acao = `${rep.acao} (${extraExplain})`;
+      }
+
+      const type = document.getElementById('asm-type').value;
+      const dateISO = document.getElementById('asm-date').value;
+      const weekId = document.getElementById('asm-week').value;
+      const scope = document.getElementById('asm-scope').value;
+
+      if (type !== 'NONE' && scope === 'DAY' && !dateISO) {
+        showToast('⚠️ Selecione a data exata ou mude para "Semana inteira".');
+        return;
+      }
+
+      const places = applyActionSyncToAllViews(rep, {
+        type,
+        dateISO,
+        weekId,
+        scope,
+        noteText: rep.acao
+      });
+
+      saveState();
+      closeActionSyncModal();
+      renderAll();
+
+      if (places.length) {
+        showToast(`✅ Atualizado em: Carteira, ${places.join(' e ')}!`);
+      } else {
+        showToast(`✅ Ação salva apenas na Carteira para (${rep.cod}) ${rep.nome}.`);
+      }
+    }
+
     function updateRepFoco(cod, newValue) {
       const rep = state.reps.find(item => item.cod === cod);
       if (!rep) return;
       const trimmed = String(newValue || '').trim();
       if ((rep.acao || '') === trimmed) return;
+
       rep.acao = trimmed;
       saveState();
       renderSidebarReps();
@@ -2799,7 +3198,37 @@
         repPicker.innerHTML = '<option value="">— Selecionar representante —</option>';
         populateStaticSelects();
       }
-      showToast(`✅ Próximas ações de (${rep.cod}) ${rep.nome} atualizadas!`);
+
+      if (!trimmed) {
+        showToast(`🗑️ Próxima ação de (${rep.cod}) ${rep.nome} limpa.`);
+        return;
+      }
+
+      const parsed = parseSmartActionIntent(trimmed);
+
+      // Caso 1: Texto claro com tipo e data/mês definidos -> atualiza tudo automaticamente na hora
+      if (parsed.isClearAction && !parsed.isAmbiguous) {
+        const places = applyActionSyncToAllViews(rep, {
+          type: parsed.detectedType,
+          dateISO: parsed.exactDateISO,
+          weekId: parsed.weekId,
+          scope: parsed.scope,
+          noteText: trimmed
+        });
+        saveState();
+        renderAll();
+        showToast(`✅ Atualizado automaticamente em: Carteira, ${places.join(' e ')}!`);
+        return;
+      }
+
+      // Caso 2: Apenas monitoramento ("acompanhar") -> salva direto sem incomodar
+      if (parsed.isOnlyMonitor) {
+        showToast(`✅ Acompanhamento salvo na Carteira para (${rep.cod}) ${rep.nome}.`);
+        return;
+      }
+
+      // Caso 3: Na dúvida (sem data exata, mês ambíguo ou tipo genérico) -> abre quadro com opções e campo de explicação
+      openActionSyncModal(rep, trimmed, parsed);
     }
 
     function renderCarteiraTable() {
