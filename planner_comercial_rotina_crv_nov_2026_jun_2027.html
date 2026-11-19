@@ -12,7 +12,7 @@
     .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
     .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #94a3b8; }
     .drag-over { outline: 2px dashed #2563eb !important; background-color: #eff6ff !important; }
     @media print {
       .no-print { display: none !important; }
@@ -502,7 +502,7 @@
         <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1.5">
           <label class="block text-[11px] font-extrabold text-slate-700">💬 Ou explique o que você vai fazer (reinterpretar / detalhar):</label>
           <div class="flex gap-2">
-            <input id="asm-explain-input" type="text" placeholder="Ex: Visita dias 08/12 a 10/12..." onkeydown="if(event.key==='Enter'){reparseAsmExplanation();}" class="flex-1 text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white" />
+            <input id="asm-explain-input" type="text" placeholder="Ex: Visita dias 04/12 a 10/12..." onkeydown="if(event.key==='Enter'){reparseAsmExplanation();}" class="flex-1 text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white" />
             <button type="button" onclick="reparseAsmExplanation()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg transition shrink-0">Interpretar</button>
           </div>
         </div>
@@ -519,7 +519,7 @@
   <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 z-50"></div>
 
   <script>
-    const STORAGE_KEY = 'crv_planner_rotina_v11';
+    const STORAGE_KEY = 'crv_planner_rotina_v12';
 
     const NATIONAL_HOLIDAYS = {
       '2026-11-15': 'PROCLAMAÇÃO DA REPÚBLICA',
@@ -601,251 +601,4 @@
   { "cod": 1744, "nome": "MILTON SALVADOR MOREIRA & CIA", "full": "(1744) MILTON SALVADOR MOREIRA & CIA", "f2025": 32290.72, "f2026": 83511.93, "varPct": 1.5862517156631986, "pilar": "P3 — Expansão", "situacao": "Rep sente muita dificuldade com a concorrencia de aluminio da BA e o primer de marcas sem NF (ST 28%) e/ou baixa qualidade.", "acao": "" },
   { "cod": 1798, "nome": "G DORNELAS NASCIMENTO REP.LTDA", "full": "(1798) G DORNELAS NASCIMENTO REP.LTDA", "f2025": 317865.7, "f2026": 73077.0, "varPct": -0.7701010206511744, "pilar": "P2 — Recuperação", "situacao": "Inicio de trabalho com dificuldade sem catalogo e amostra. Estamos providenciando o envio.", "acao": "" },
   { "cod": 1743, "nome": "J. A. HOTT REPRESENTACOES LTDA", "full": "(1743) J. A. HOTT REPRESENTACOES LTDA", "f2025": 14364.58, "f2026": 47847.77, "varPct": 2.3309550296632406, "pilar": "P3 — Expansão", "situacao": "Acompanhar trabalho", "acao": "" },
-  { "cod": 1760, "nome": "DGO REPRESENTACOES LTDA", "full": "(1760) DGO REPRESENTACOES LTDA", "f2025": 76930.07, "f2026": 38971.08, "varPct": -0.49342201300479765, "pilar": "P2 — Recuperação", "situacao": "Região de BH voltada somente a preço", "acao": "" },
-  { "cod": 1652, "nome": "HENRIQUE & BARBOSA REPRESENTAC", "full": "(1652) HENRIQUE & BARBOSA REPRESENTAC", "f2025": 75560.14, "f2026": 33746.49, "varPct": -0.5533823785927341, "pilar": "P2 — Recuperação", "situacao": "Retomada de trabalho com a Unicca, ultima chance 1º semestre", "acao": "acompanhar até Jun/2027" },
-  { "cod": 1788, "nome": "FERDI REPRESENTACOES LTDA", "full": "(1788) FERDI REPRESENTACOES LTDA", "f2025": 0.0, "f2026": 14117.08, "varPct": null, "pilar": "P3 — Expansão", "situacao": "Sul de RO abertura de regiao", "acao": "" },
-  { "cod": 1797, "nome": "FARIAS RIBEIRO REPRE. COM LTDA", "full": "(1797) FARIAS RIBEIRO REPRE. COM LTDA", "f2025": 21208.8, "f2026": 11418.18, "varPct": -0.4616300780807967, "pilar": "P2 — Recuperação", "situacao": "Inicio de trabalho chegaram as amostras há 15 dias. Quebra de paradigma da regiao voltada a preço", "acao": "acompanhar" },
-  { "cod": 1784, "nome": "CJ MARTINS REPRESENTACAO COMER", "full": "(1784) CJ MARTINS REPRESENTACAO COMER", "f2025": 0.0, "f2026": 7055.35, "varPct": null, "pilar": "P3 — Expansão", "situacao": "Mercado de pequeno varejo está com dificuldade de combater os grandes players em capitais. Vamos tentar maior penetração com o carro showroom na regiao", "acao": "Agendar carro showroom Abr/2027" },
-  { "cod": 1794, "nome": "DANTAS REPRESENTANÇÕES LTDA", "full": "(1794) DANTAS REPRESENTANÇÕES LTDA", "f2025": 0.0, "f2026": 368.3, "varPct": null, "pilar": "P3 — Expansão", "situacao": "Estado AC abertura de regiao, atuação em parceria com rep RO", "acao": "" },
-  { "cod": 1796, "nome": "RIBEIRO FERNANDES & REPRESENT", "full": "(1796) RIBEIRO FERNANDES & REPRESENT", "f2025": 0.0, "f2026": 368.3, "varPct": null, "pilar": "P3 — Expansão", "situacao": "Norte de RO abertura de regiao", "acao": "" },
-  { "cod": 1518, "nome": "L & R REPRESEN COMERCIAIS LTDA", "full": "(1518) L & R REPRESEN COMERCIAIS LTDA", "f2025": 16742.53, "f2026": 0.0, "varPct": -1.0, "pilar": "P2 — Recuperação", "situacao": "Não atua mais varejo", "acao": "" }
-];
-
-    const INITIAL_WEEKS = [
-  { "id": "S47", "start": "2026-11-16", "end": "2026-11-20", "mes": "Novembro/26", "gerenteReps": [], "showroomReps": ["(1773) MINAS SUL REP COMERCIAL LTDA"], "fabricaReps": [], "foco": "Carro showroom e catálogo em Nov/2026 (Minas Sul)" },
-  { "id": "S48", "start": "2026-11-23", "end": "2026-11-27", "mes": "Novembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível (sem agenda fixa na planilha)" },
-  { "id": "S49", "start": "2026-11-30", "end": "2026-12-04", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S50", "start": "2026-12-07", "end": "2026-12-11", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S51", "start": "2026-12-14", "end": "2026-12-18", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S52", "start": "2026-12-21", "end": "2026-12-25", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Natal / Base" },
-  { "id": "S53", "start": "2026-12-28", "end": "2027-01-01", "mes": "Dezembro/26", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Virada de Ano / Base" },
-  { "id": "S01", "start": "2027-01-04", "end": "2027-01-08", "mes": "Janeiro/27", "gerenteReps": ["(1430) TOTTENE - REPRES. COMERCIAL LT"], "showroomReps": ["(65) JOSE CARLOS ROMERO"], "fabricaReps": [], "foco": "Visita Jan/27 (Tottene) + Carro Showroom Jan/27 (José Carlos Romero)" },
-  { "id": "S02", "start": "2027-01-11", "end": "2027-01-15", "mes": "Janeiro/27", "gerenteReps": [], "showroomReps": ["(1181) ROMERO REPRESENTACAO DE MAT CO"], "fabricaReps": [], "foco": "Carro Showroom Jan/27 (Romero Rep. Mat. Co.)" },
-  { "id": "S03", "start": "2027-01-18", "end": "2027-01-22", "mes": "Janeiro/27", "gerenteReps": [], "showroomReps": ["(1397) RAFAEL ROMERO"], "fabricaReps": [], "foco": "Carro Showroom Jan/27 (Rafael Romero)" },
-  { "id": "S04", "start": "2027-01-25", "end": "2027-01-29", "mes": "Janeiro/27", "gerenteReps": [], "showroomReps": ["(1240) CABRAL & PIROLLA REP COM LTDA"], "fabricaReps": [], "foco": "Carro Showroom Jan/27 (Cabral & Pirolla)" },
-  { "id": "S05", "start": "2027-02-01", "end": "2027-02-05", "mes": "Fevereiro/27", "gerenteReps": [], "showroomReps": ["(1420) MARCELO  C. ANTONIO & CIA LTDA"], "fabricaReps": [], "foco": "Carro Showroom Fev/27 (Marcelo C. Antonio)" },
-  { "id": "S06", "start": "2027-02-08", "end": "2027-02-12", "mes": "Fevereiro/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Semana Carnaval — Base / Disponível" },
-  { "id": "S07", "start": "2027-02-15", "end": "2027-02-19", "mes": "Fevereiro/27", "gerenteReps": ["(1701) LUISTA REPRESENTACOES COM LTDA"], "showroomReps": ["(1701) LUISTA REPRESENTACOES COM LTDA"], "fabricaReps": [], "foco": "Visita Fev/27 + Carro Showroom Fev/27 (Luista Representações)" },
-  { "id": "S08", "start": "2027-02-22", "end": "2027-02-26", "mes": "Fevereiro/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S09", "start": "2027-03-01", "end": "2027-03-05", "mes": "Março/27", "gerenteReps": ["(1433) S L DELLABETA & CIA LTDA - ME"], "showroomReps": ["(1433) S L DELLABETA & CIA LTDA - ME"], "fabricaReps": [], "foco": "Visita Mar/27 + Carro Showroom Mar/Abr (S L Dellabeta)" },
-  { "id": "S10", "start": "2027-03-08", "end": "2027-03-12", "mes": "Março/27", "gerenteReps": ["(351) G DE O MATIAS"], "showroomReps": [], "fabricaReps": [], "foco": "Visita Mar/27 (G de O Matias)" },
-  { "id": "S11", "start": "2027-03-15", "end": "2027-03-19", "mes": "Março/27", "gerenteReps": ["(1757) RPM REPRESENTACOES LTDA"], "showroomReps": [], "fabricaReps": [], "foco": "Visita Mar/27 (RPM Representações)" },
-  { "id": "S12", "start": "2027-03-22", "end": "2027-03-26", "mes": "Março/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S13", "start": "2027-03-29", "end": "2027-04-02", "mes": "Março/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S14", "start": "2027-04-05", "end": "2027-04-09", "mes": "Abril/27", "gerenteReps": [], "showroomReps": ["(1757) RPM REPRESENTACOES LTDA"], "fabricaReps": [], "foco": "Carro Showroom Abr/27 (RPM Representações)" },
-  { "id": "S15", "start": "2027-04-12", "end": "2027-04-16", "mes": "Abril/27", "gerenteReps": [], "showroomReps": ["(1784) CJ MARTINS REPRESENTACAO COMER"], "fabricaReps": [], "foco": "Carro Showroom Abr/27 (CJ Martins)" },
-  { "id": "S16", "start": "2027-04-19", "end": "2027-04-23", "mes": "Abril/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Tiradentes — Base / Disponível" },
-  { "id": "S17", "start": "2027-04-26", "end": "2027-04-30", "mes": "Abril/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S18", "start": "2027-05-03", "end": "2027-05-07", "mes": "Maio/27", "gerenteReps": ["(1775) BARAVELLI REPRE COMERC LTDA"], "showroomReps": [], "fabricaReps": [], "foco": "Provável visita até Maio/27 (Baravelli)" },
-  { "id": "S19", "start": "2027-05-10", "end": "2027-05-14", "mes": "Maio/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S20", "start": "2027-05-17", "end": "2027-05-21", "mes": "Maio/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S21", "start": "2027-05-24", "end": "2027-05-28", "mes": "Maio/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Corpus Christi — Base / Disponível" },
-  { "id": "S22", "start": "2027-05-31", "end": "2027-06-04", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S23", "start": "2027-06-07", "end": "2027-06-11", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S24", "start": "2027-06-14", "end": "2027-06-18", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S25", "start": "2027-06-21", "end": "2027-06-25", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" },
-  { "id": "S26", "start": "2027-06-28", "end": "2027-07-02", "mes": "Junho/27", "gerenteReps": [], "showroomReps": [], "fabricaReps": [], "foco": "Base / Disponível" }
-];
-
-    let state = {
-      weeks: [],
-      reps: [],
-      dayOverrides: {},
-      activeTab: 'mensal'
-    };
-
-    let dragPayload = null;
-    let editingDayISO = null;
-    let editingDayWeekId = null;
-    let editingActionId = null;
-
-    function genActionId() {
-      return 'act-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6);
-    }
-
-    function shortRepName(label) {
-      return String(label || '').trim();
-    }
-
-    function normalizeWeekObj(w) {
-      return {
-        ...w,
-        gerenteReps: Array.isArray(w.gerenteReps) ? w.gerenteReps : [],
-        showroomReps: Array.isArray(w.showroomReps) ? w.showroomReps : [],
-        fabricaReps: Array.isArray(w.fabricaReps) ? w.fabricaReps : []
-      };
-    }
-
-    function normalizeDayOverridesMap(rawMap) {
-      const out = {};
-      if (!rawMap || typeof rawMap !== 'object') return out;
-      Object.entries(rawMap).forEach(([iso, val]) => {
-        if (!val) return;
-        if (Array.isArray(val.actions)) {
-          out[iso] = {
-            actions: val.actions.map(a => ({
-              id: a.id || genActionId(),
-              type: a.type || 'CUSTOM',
-              label: a.label || 'Atividade',
-              note: a.note || ''
-            }))
-          };
-        } else if (val.type === 'EMPTY') {
-          out[iso] = { actions: [] };
-        } else {
-          out[iso] = {
-            actions: [{
-              id: genActionId(),
-              type: val.type || 'CUSTOM',
-              label: val.label || 'Atividade',
-              note: val.note || ''
-            }]
-          };
-        }
-      });
-      return out;
-    }
-
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY) || null;
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          state.weeks = Array.isArray(parsed.weeks) && parsed.weeks.length ? parsed.weeks.map(normalizeWeekObj) : structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
-          state.reps = (Array.isArray(parsed.reps) && parsed.reps.length ? parsed.reps : structuredClone(INITIAL_REPS)).map(normalizeRepObj);
-          state.dayOverrides = normalizeDayOverridesMap(parsed.dayOverrides);
-          return;
-        }
-      } catch (e) {}
-      state.weeks = structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
-      state.reps = structuredClone(INITIAL_REPS).map(normalizeRepObj);
-      state.dayOverrides = {};
-    }
-
-    function saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          weeks: state.weeks,
-          reps: state.reps,
-          dayOverrides: state.dayOverrides
-        }));
-      } catch (e) {}
-    }
-
-    function resetAllData() {
-      if (!confirm('Deseja restaurar toda a programação oficial padrão (33 semanas e 62 representantes)?')) return;
-      localStorage.removeItem(STORAGE_KEY);
-      state.weeks = structuredClone(INITIAL_WEEKS).map(normalizeWeekObj);
-      state.reps = structuredClone(INITIAL_REPS).map(normalizeRepObj);
-      state.dayOverrides = {};
-      saveState();
-      renderAll();
-      showToast('↺ Base oficial restaurada!');
-    }
-
-    function showToast(msg) {
-      const el = document.getElementById('toast');
-      if (!el) return;
-      el.textContent = msg;
-      el.classList.remove('opacity-0');
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(() => el.classList.add('opacity-0'), 3200);
-    }
-
-    function formatISO(d) {
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
-    }
-
-    function parseISO(iso) {
-      const [y, m, d] = iso.split('-').map(Number);
-      return new Date(y, m - 1, d);
-    }
-
-    function formatBRDate(iso) {
-      const [y, m, d] = iso.split('-');
-      return `${d}/${m}/${y}`;
-    }
-
-    function getIsoWeekdayIdx(iso) {
-      const d = parseISO(iso);
-      const day = d.getDay();
-      return day === 0 ? 6 : day - 1;
-    }
-
-    function findPlannedWeekForDate(iso) {
-      return state.weeks.find(w => iso >= w.start && iso <= w.end) || null;
-    }
-
-    function buildDefaultDayActions(isoDate, weekId, dayIdx) {
-      const actions = [];
-      const holiday = NATIONAL_HOLIDAYS[isoDate];
-      if (holiday) {
-        actions.push({ id: `def-hol-${isoDate}`, type: 'FERIADO', label: holiday, note: '' });
-        return actions;
-      }
-      const isWeekend = dayIdx >= 5;
-      if (isWeekend || !weekId) return actions;
-
-      const pw = state.weeks.find(w => w.id === weekId);
-      if (!pw) return actions;
-
-      // Se a semana foi alocada apenas para dias pontuais (partialWeek), os outros dias ficam Base/Disp.
-      if (pw.partialDaysOnly) {
-        actions.push({ id: `def-base-${isoDate}`, type: 'BASE', label: 'Base / Disp.', note: '' });
-        return actions;
-      }
-
-      const hasG = pw.gerenteReps.length > 0;
-      const hasS = pw.showroomReps.length > 0;
-      const hasF = pw.fabricaReps.length > 0;
-
-      if (hasG) {
-        pw.gerenteReps.forEach((r, idx) => {
-          const gLabel = (dayIdx === 4 ? 'Retorno: ' : '') + shortRepName(r);
-          actions.push({ id: `def-g-${isoDate}-${idx}`, type: 'GERENTE', label: gLabel, note: '' });
-        });
-      }
-      if (hasS) {
-        pw.showroomReps.forEach((r, idx) => {
-          actions.push({ id: `def-s-${isoDate}-${idx}`, type: 'SHOWROOM', label: shortRepName(r), note: '' });
-        });
-      }
-      if (hasF) {
-        pw.fabricaReps.forEach((r, idx) => {
-          actions.push({ id: `def-f-${isoDate}-${idx}`, type: 'FABRICA', label: shortRepName(r), note: '' });
-        });
-      }
-      if (!hasG && !hasS && !hasF) {
-        actions.push({ id: `def-base-${isoDate}`, type: 'BASE', label: 'Base / Disp.', note: '' });
-      }
-      return actions;
-    }
-
-    function getEffectiveDayActions(isoDate, weekId, dayIdx) {
-      const override = state.dayOverrides[isoDate];
-      if (override && Array.isArray(override.actions)) return override.actions;
-      return buildDefaultDayActions(isoDate, weekId, dayIdx);
-    }
-
-    function ensureMutableDayActions(isoDate, weekId, dayIdx) {
-      if (!state.dayOverrides[isoDate] || !Array.isArray(state.dayOverrides[isoDate].actions)) {
-        const cloned = buildDefaultDayActions(isoDate, weekId, dayIdx).map(a => ({ ...a, id: genActionId() }));
-        state.dayOverrides[isoDate] = { actions: cloned };
-      }
-      return state.dayOverrides[isoDate].actions;
-    }
-
-    function getMonthWeeksMatrix(year, month) {
-      const firstDay = new Date(year, month, 1);
-      const lastDay = new Date(year, month + 1, 0);
-      const startOffset = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
-      const cursor = new Date(year, month, 1 - startOffset);
-      const rows = [];
-
-      while (cursor <= lastDay || rows.length < 5) {
-        const days = [];
-        let plannedWeek = null;
-        for (let i = 0;
+  { "cod": 1
