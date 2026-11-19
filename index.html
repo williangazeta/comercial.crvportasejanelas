@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Planner Comercial & Rotina — CRV Portas e Janelas</title>
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=3GNQiXMHCT4dov3ODjMfehPfpQ7lDOHRFTdbAtr10eWsFlvcde9xEtVxvAowN-shbINJ9GFzohtVO4i11iWLKK0HJmIhqT50JvXbhWlngnSRg2Ywcf4fva5TAI5ZgauQ8LsBOzGM-wUxly0u4QHZ0SrIqUEeaBhnJNnY7Ezi_eJUb9OeMogU4AMP1AArXEJyoOlLMNUYygW8wuO3t89g-vxJ-EVjlLLVw59Q36vWlHCw22NPNTK8ZBUc0UPMKliPhVUG43rbWuQHN0IdjvaeeLe3Vjy9_0B1b7ze9AmM6IV1QHYP7osTbfbJoxo56EtVkqx_sgCBaYPvpvzfO1P70w" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=-xezgScFngYWq6LIb9Dj9bb9IbWI14NikMKzx_NKnFjFuzqy7fTcfNTI0EAE3cIcPvqxU0Qb8m2Af2_ePIZz8gXrEDIz2swtEQ2RyzyUMVgYBA2HcjsDZGp8e0dJnqcSqoLvRufBvL5r7AKn4_TTH7uGPzJJcicPwIi0Um-73oRRrX_WdMMU667EHhXUYYWR5CDqMKVj6XNkdqhVthcnLDHq-VZkybiEU3dQizS5tIVaYhp3-NlDtBLUKfCeD-ZwW81VbW60vm7XOevi6q91V4-r3bfdkEIA3sJNpQ_A7NPXF9UqX8kHvat_MTcppz3s" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QoBUhAKd5Gtes38Q7qhc51U_NUrC1ZNnpKLm8lju8Y81eZvRFwB7PLcKbmjD1LcAz1amZ1BwZNalTJe9e8kVCn9gH0gocf1KWNUK6xx5Cu5fVqBSa0lH-cwkWeYOBtQkCWid-QxF2ILYC-eYF2uekAg-uT6ah9LBDFVmsiBnX7zBeYpOrpeniuiYLPQm-gJtJuDYNnXjkrwzl-W3x65QCZPefYl4cwU1CLIiPHhjFNbN_n9Z1skeEpkgt7ZN6M8BhjBc4PIuLajneynJNA-WqixqArl7-SH2n75FWtL8bLiYEXgPa58J01nV1Rt1FmFG" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -60,13 +60,13 @@
       <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-1.5">
           <button id="tab-btn-mensal" onclick="switchTab('mensal')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition">
-            📅 Planner Mensal (Nov/26–Jun/27)
+            📅 Planner mensal
           </button>
           <button id="tab-btn-semanal" onclick="switchTab('semanal')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
-            📋 Cronograma 33 Semanas
+            📋 Cronograma
           </button>
           <button id="tab-btn-carteira" onclick="switchTab('carteira')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
-            👥 Carteira 62 Reps
+            👥 Carteira
           </button>
         </div>
 
@@ -111,34 +111,66 @@
       </div>
     </section>
 
-    <!-- ABA 2: CRONOGRAMA 33 SEMANAS -->
+    <!-- ABA 2: CRONOGRAMA -->
     <section id="view-semanal" class="hidden space-y-4">
       <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 class="text-sm font-extrabold text-slate-800">Cronograma Executivo das 33 Semanas (Nov/2026 – Jun/2027)</h2>
-          <p class="text-xs text-slate-500">Visão consolidada por semana comercial com alocações de Viagem Gerente, Carro Showroom e Visita à Fábrica.</p>
+          <div class="flex items-center gap-2">
+            <h2 class="text-sm font-extrabold text-slate-800">Cronograma Executivo (Nov/2026 – Jun/2027)</h2>
+            <span id="cronograma-count-badge" class="text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">33 de 33 exibidas</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">Visão consolidada por semana comercial. Clique nos cabeçalhos para ordenar ou edite o Foco Estratégico diretamente na linha.</p>
         </div>
-        <div class="flex items-center gap-2">
-          <select id="week-type-filter" onchange="renderWeeklyTable()" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white">
-            <option value="ALL">Todas as Semanas (33)</option>
-            <option value="GERENTE">Com Viagem Gerente</option>
-            <option value="SHOWROOM">Com Carro Showroom</option>
-            <option value="FABRICA">Com Visita à Fábrica</option>
-            <option value="MULTI">Frentes Simultâneas</option>
+        <div class="flex flex-wrap items-center gap-2">
+          <select id="week-month-filter" onchange="renderWeeklyTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="ALL">Todos os Meses</option>
+            <option value="Novembro/26">Novembro/26</option>
+            <option value="Dezembro/26">Dezembro/26</option>
+            <option value="Janeiro/27">Janeiro/27</option>
+            <option value="Fevereiro/27">Fevereiro/27</option>
+            <option value="Março/27">Março/27</option>
+            <option value="Abril/27">Abril/27</option>
+            <option value="Maio/27">Maio/27</option>
+            <option value="Junho/27">Junho/27</option>
           </select>
+          <select id="week-type-filter" onchange="renderWeeklyTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="ALL">Todas as Frentes (33)</option>
+            <option value="ATIVAS">🎯 Semanas com Ação Agendada</option>
+            <option value="GERENTE">✈️ Com Viagem Gerente</option>
+            <option value="SHOWROOM">🚐 Com Carro Showroom</option>
+            <option value="FABRICA">🏭 Com Visita à Fábrica</option>
+            <option value="MULTI">🟣 Frentes Simultâneas</option>
+            <option value="BASE">🏢 Base / Disponível</option>
+          </select>
+          <select id="cronograma-sort-select" onchange="onCronogramaSortSelectChange(this.value)" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-slate-50 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500" title="Ordenação rápida">
+            <option value="cron:asc">Ordenar: Cronológico (S47 → S26)</option>
+            <option value="cron:desc">Ordenar: Cronológico (S26 → S47)</option>
+            <option value="id:asc">Ordenar: Semana (A → Z)</option>
+            <option value="id:desc">Ordenar: Semana (Z → A)</option>
+            <option value="mes:asc">Ordenar: Mês (A → Z)</option>
+            <option value="mes:desc">Ordenar: Mês (Z → A)</option>
+            <option value="gerente:asc">Ordenar: Viagem Gerente (A → Z)</option>
+            <option value="showroom:asc">Ordenar: Carro Showroom (A → Z)</option>
+            <option value="fabrica:asc">Ordenar: Visita Fábrica (A → Z)</option>
+            <option value="foco:asc">Ordenar: Foco Estratégico (A → Z)</option>
+          </select>
+          <input id="cronograma-search" type="text" oninput="renderWeeklyTable()" placeholder="Filtrar semana, rep ou foco..." class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 w-60 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <button onclick="resetCronogramaFilters()" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 transition" title="Limpar filtros e voltar à ordem padrão">
+            Limpar
+          </button>
         </div>
       </div>
       <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
         <table class="w-full text-left border-collapse text-xs">
           <thead>
-            <tr class="bg-slate-800 text-white">
-              <th class="py-2.5 px-3 font-bold">Sem.</th>
-              <th class="py-2.5 px-3 font-bold">Período (Seg–Sex)</th>
-              <th class="py-2.5 px-3 font-bold">Mês</th>
-              <th class="py-2.5 px-3 font-bold">✈️ Viagem Gerente</th>
-              <th class="py-2.5 px-3 font-bold">🚐 Carro Showroom</th>
-              <th class="py-2.5 px-3 font-bold">🏭 Visita Fábrica</th>
-              <th class="py-2.5 px-3 font-bold">Foco Estratégico</th>
+            <tr class="bg-slate-800 text-white select-none">
+              <th onclick="toggleCronogramaSort('id')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Sem. <span id="wsort-icon-id" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
+              <th onclick="toggleCronogramaSort('cron')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Período (Seg–Sex) <span id="wsort-icon-cron" class="text-[10px] text-amber-300 ml-0.5">▲</span></th>
+              <th onclick="toggleCronogramaSort('mes')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Mês <span id="wsort-icon-mes" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
+              <th onclick="toggleCronogramaSort('gerente')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">✈️ Viagem Gerente <span id="wsort-icon-gerente" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
+              <th onclick="toggleCronogramaSort('showroom')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">🚐 Carro Showroom <span id="wsort-icon-showroom" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
+              <th onclick="toggleCronogramaSort('fabrica')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">🏭 Visita Fábrica <span id="wsort-icon-fabrica" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
+              <th onclick="toggleCronogramaSort('foco')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Foco Estratégico (Editável) <span id="wsort-icon-foco" class="text-[10px] opacity-60 ml-0.5">↕</span></th>
             </tr>
           </thead>
           <tbody id="weekly-table-body" class="divide-y divide-slate-200"></tbody>
@@ -151,10 +183,10 @@
       <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
         <div>
           <div class="flex items-center gap-2">
-            <h2 class="text-sm font-extrabold text-slate-800">Base Completa — 62 Representantes Comerciais CRV</h2>
+            <h2 class="text-sm font-extrabold text-slate-800">Carteira de Representantes Comerciais CRV</h2>
             <span id="carteira-count-badge" class="text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">62 exibidos</span>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Dados exatos da planilha: Jan–Out 2025 x 2026, Situação 2026 e Próximas Ações. Clique nos cabeçalhos para ordenar.</p>
+          <p class="text-xs text-slate-500 mt-0.5">Dados de Jan–Out 2025 x 2026, Situação 2026 e Foco Estratégico / Próximas Ações. Clique nos cabeçalhos para ordenar ou edite o foco diretamente na linha.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
           <select id="carteira-pilar-filter" onchange="renderCarteiraTable()" class="text-xs font-semibold border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -203,7 +235,7 @@
               <th onclick="toggleCarteiraSort('diff')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Δ Abs (R$) <span id="sort-icon-diff" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
               <th onclick="toggleCarteiraSort('varPct')" class="py-2.5 px-3 font-bold text-right cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">% Var. <span id="sort-icon-varPct" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
               <th onclick="toggleCarteiraSort('situacao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Situação 2026 <span id="sort-icon-situacao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
-              <th onclick="toggleCarteiraSort('acao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Próximas Ações (Planilha) <span id="sort-icon-acao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
+              <th onclick="toggleCarteiraSort('acao')" class="py-2.5 px-3 font-bold cursor-pointer hover:bg-slate-700 transition whitespace-nowrap">Foco Estratégico / Próximas Ações <span id="sort-icon-acao" class="text-[10px] opacity-75 ml-0.5">↕</span></th>
             </tr>
           </thead>
           <tbody id="carteira-table-body" class="divide-y divide-slate-200"></tbody>
@@ -2049,31 +2081,150 @@
       }).join('');
     }
 
+    let cronogramaSort = { field: 'cron', dir: 'asc' };
+
+    function toggleCronogramaSort(field) {
+      if (cronogramaSort.field === field) {
+        cronogramaSort.dir = cronogramaSort.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        cronogramaSort.field = field;
+        cronogramaSort.dir = 'asc';
+      }
+      const sel = document.getElementById('cronograma-sort-select');
+      if (sel) {
+        const combo = `${cronogramaSort.field}:${cronogramaSort.dir}`;
+        if ([...sel.options].some(o => o.value === combo)) sel.value = combo;
+      }
+      renderWeeklyTable();
+    }
+
+    function onCronogramaSortSelectChange(val) {
+      const [field, dir] = String(val || 'cron:asc').split(':');
+      cronogramaSort = { field, dir };
+      renderWeeklyTable();
+    }
+
+    function resetCronogramaFilters() {
+      const s = document.getElementById('cronograma-search');
+      const m = document.getElementById('week-month-filter');
+      const t = document.getElementById('week-type-filter');
+      const sortSel = document.getElementById('cronograma-sort-select');
+      if (s) s.value = '';
+      if (m) m.value = 'ALL';
+      if (t) t.value = 'ALL';
+      if (sortSel) sortSel.value = 'cron:asc';
+      cronogramaSort = { field: 'cron', dir: 'asc' };
+      renderWeeklyTable();
+    }
+
+    function updateCronogramaSortIcons() {
+      const fields = ['id', 'cron', 'mes', 'gerente', 'showroom', 'fabrica', 'foco'];
+      fields.forEach(f => {
+        const el = document.getElementById(`wsort-icon-${f}`);
+        if (!el) return;
+        if (cronogramaSort.field === f) {
+          el.textContent = cronogramaSort.dir === 'asc' ? '▲' : '▼';
+          el.className = 'text-[10px] text-amber-300 ml-0.5';
+        } else {
+          el.textContent = '↕';
+          el.className = 'text-[10px] opacity-60 ml-0.5';
+        }
+      });
+    }
+
+    function updateWeekFoco(weekId, newValue) {
+      const w = state.weeks.find(item => item.id === weekId);
+      if (!w) return;
+      const trimmed = String(newValue || '').trim();
+      if (w.foco === trimmed) return;
+      w.foco = trimmed;
+      saveState();
+      renderMonthlyPlanner();
+      showToast(`✅ Foco estratégico da semana ${weekId} atualizado!`);
+    }
+
     function renderWeeklyTable() {
       const filter = document.getElementById('week-type-filter')?.value || 'ALL';
+      const monthFilter = document.getElementById('week-month-filter')?.value || 'ALL';
+      const q = (document.getElementById('cronograma-search')?.value || '').toLowerCase().trim();
       const tbody = document.getElementById('weekly-table-body');
       if (!tbody) return;
+
+      updateCronogramaSortIcons();
 
       const filtered = state.weeks.filter(w => {
         const hasG = w.gerenteReps.length > 0;
         const hasS = w.showroomReps.length > 0;
         const hasF = w.fabricaReps.length > 0;
-        if (filter === 'GERENTE') return hasG;
-        if (filter === 'SHOWROOM') return hasS;
-        if (filter === 'FABRICA') return hasF;
-        if (filter === 'MULTI') return (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0) > 1;
-        return true;
+        const activeCount = (hasG ? 1 : 0) + (hasS ? 1 : 0) + (hasF ? 1 : 0);
+
+        let matchType = true;
+        if (filter === 'ATIVAS') matchType = activeCount > 0;
+        else if (filter === 'GERENTE') matchType = hasG;
+        else if (filter === 'SHOWROOM') matchType = hasS;
+        else if (filter === 'FABRICA') matchType = hasF;
+        else if (filter === 'MULTI') matchType = activeCount > 1;
+        else if (filter === 'BASE') matchType = activeCount === 0;
+
+        const matchMonth = monthFilter === 'ALL' || w.mes === monthFilter;
+        const searchable = `${w.id} ${formatBRDate(w.start)} ${formatBRDate(w.end)} ${w.mes} ${w.gerenteReps.join(' ')} ${w.showroomReps.join(' ')} ${w.fabricaReps.join(' ')} ${w.foco || ''}`.toLowerCase();
+        const matchText = !q || searchable.includes(q);
+
+        return matchType && matchMonth && matchText;
       });
 
+      const mult = cronogramaSort.dir === 'asc' ? 1 : -1;
+      filtered.sort((a, b) => {
+        const f = cronogramaSort.field;
+        if (f === 'cron') {
+          return a.start.localeCompare(b.start) * mult;
+        }
+        const getStr = (item) => {
+          if (f === 'id') return item.id || '';
+          if (f === 'mes') return item.mes || '';
+          if (f === 'gerente') return item.gerenteReps.join(', ');
+          if (f === 'showroom') return item.showroomReps.join(', ');
+          if (f === 'fabrica') return item.fabricaReps.join(', ');
+          if (f === 'foco') return item.foco || '';
+          return '';
+        };
+        const strA = getStr(a).trim();
+        const strB = getStr(b).trim();
+        if (!strA && !strB) return 0;
+        if (!strA) return 1;
+        if (!strB) return -1;
+        return strA.localeCompare(strB, 'pt-BR', { sensitivity: 'base' }) * mult;
+      });
+
+      const badge = document.getElementById('cronograma-count-badge');
+      if (badge) {
+        badge.textContent = `${filtered.length} de ${state.weeks.length} exibidas`;
+      }
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 italic">Nenhuma semana encontrada com os filtros aplicados.</td></tr>`;
+        return;
+      }
+
       tbody.innerHTML = filtered.map(w => `
-        <tr class="hover:bg-slate-50">
-          <td class="py-2.5 px-3 font-extrabold text-blue-700">${w.id}</td>
-          <td class="py-2.5 px-3 font-medium text-slate-700">${formatBRDate(w.start)} a ${formatBRDate(w.end)}</td>
-          <td class="py-2.5 px-3 text-slate-600">${w.mes}</td>
-          <td class="py-2.5 px-3">${w.gerenteReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[11px]">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
-          <td class="py-2.5 px-3">${w.showroomReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-orange-100 text-orange-800 font-bold text-[11px]">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
-          <td class="py-2.5 px-3">${w.fabricaReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-teal-100 text-teal-800 font-bold text-[11px]">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
-          <td class="py-2.5 px-3 text-slate-600">${escapeHtml(w.foco)}</td>
+        <tr class="hover:bg-slate-50 align-top">
+          <td class="py-2.5 px-3 font-extrabold text-blue-700 whitespace-nowrap">${w.id}</td>
+          <td class="py-2.5 px-3 font-medium text-slate-700 whitespace-nowrap">${formatBRDate(w.start)} a ${formatBRDate(w.end)}</td>
+          <td class="py-2.5 px-3 text-slate-600 whitespace-nowrap">${w.mes}</td>
+          <td class="py-2.5 px-3">${w.gerenteReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[11px] mb-0.5">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
+          <td class="py-2.5 px-3">${w.showroomReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-orange-100 text-orange-800 font-bold text-[11px] mb-0.5">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
+          <td class="py-2.5 px-3">${w.fabricaReps.map(r => `<span class="inline-block px-2 py-0.5 rounded bg-teal-100 text-teal-800 font-bold text-[11px] mb-0.5">${escapeHtml(r)}</span>`).join(' ') || '<span class="text-slate-400">—</span>'}</td>
+          <td class="py-2 px-3 min-w-[260px]">
+            <div class="flex items-center gap-1.5">
+              <input type="text"
+                     value="${escapeHtml(w.foco || '')}"
+                     onchange="updateWeekFoco('${w.id}', this.value)"
+                     onkeydown="if(event.key==='Enter'){this.blur();}"
+                     placeholder="Definir foco estratégico da semana..."
+                     class="w-full text-xs font-medium text-slate-700 bg-slate-50/80 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition" />
+              <span class="text-slate-400 text-[11px] shrink-0" title="Clique no campo para editar e pressione Enter">✏️</span>
+            </div>
+          </td>
         </tr>`).join('');
     }
 
@@ -2127,6 +2278,22 @@
           el.className = 'text-[10px] opacity-60 ml-0.5';
         }
       });
+    }
+
+    function updateRepFoco(cod, newValue) {
+      const rep = state.reps.find(item => item.cod === cod);
+      if (!rep) return;
+      const trimmed = String(newValue || '').trim();
+      if ((rep.acao || '') === trimmed) return;
+      rep.acao = trimmed;
+      saveState();
+      renderSidebarReps();
+      const repPicker = document.getElementById('day-editor-rep-picker');
+      if (repPicker) {
+        repPicker.innerHTML = '<option value="">— Selecionar representante —</option>';
+        populateStaticSelects();
+      }
+      showToast(`✅ Foco estratégico de (${rep.cod}) ${rep.nome} atualizado!`);
     }
 
     function renderCarteiraTable() {
@@ -2204,7 +2371,17 @@
             <td class="py-2 px-3 text-right ${r.diff >= 0 ? 'text-emerald-700' : 'text-rose-700'} font-semibold">${fmtBRL(r.diff)}</td>
             <td class="py-2 px-3 text-right ${varCls}">${varStr}</td>
             <td class="py-2 px-3 text-slate-600 max-w-xs">${escapeHtml(r.situacao || '—')}</td>
-            <td class="py-2 px-3 font-semibold text-blue-800 max-w-xs">${escapeHtml(r.acao || '—')}</td>
+            <td class="py-2 px-3 min-w-[240px]">
+              <div class="flex items-center gap-1.5">
+                <input type="text"
+                       value="${escapeHtml(r.acao || '')}"
+                       onchange="updateRepFoco(${r.cod}, this.value)"
+                       onkeydown="if(event.key==='Enter'){this.blur();}"
+                       placeholder="Definir foco estratégico / ação..."
+                       class="w-full text-xs font-semibold text-blue-800 bg-blue-50/40 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition" />
+                <span class="text-slate-400 text-[11px] shrink-0" title="Clique no campo para editar e pressione Enter">✏️</span>
+              </div>
+            </td>
           </tr>`;
       }).join('');
     }
